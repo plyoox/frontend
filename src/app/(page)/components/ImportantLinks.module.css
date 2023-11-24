@@ -1,0 +1,16 @@
+.importantLink {
+    font-weight: 500;
+    cursor: pointer;
+    background-position-y: -0%;
+    background-image: linear-gradient(180deg, transparent 50%, black 50%) !important;
+    transition: all .1s ease;
+    background-size: auto 190%;
+    padding: 3px 0;
+}
+
+.importantLink:hover {
+    background-position-y: 5%;
+    background-image: linear-gradient(180deg, transparent 50%, black 50%) !important;
+    transition: all .1s ease;
+    padding: 3px 0;
+}

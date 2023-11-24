@@ -1,0 +1,66 @@
+import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+
+export interface ModerationConfig {
+  active: boolean;
+  moderation_roles: string[];
+  ignored_roles: string[];
+  log_channel: string | null;
+  notify_user: boolean;
+  point_actions: Punishment[];
+
+  invite_active: boolean;
+  invite_whitelisted_channels: string[];
+  invite_whitelisted_roles: string[];
+  invite_allowed_guilds: string[];
+  invite_actions: Punishment[];
+
+  link_active: boolean;
+  link_whitelisted_channels: string[];
+  link_whitelisted_roles: string[];
+  link_allow_list: string[];
+  link_actions: Punishment[];
+  link_is_whitelist: boolean;
+
+  caps_active: boolean;
+  caps_whitelisted_channels: string[];
+  caps_whitelisted_roles: string[];
+  caps_actions: Punishment[];
+}
+
+export interface Punishment {
+  punishment: PunishmentAction;
+  check: PunishmentCheck;
+}
+
+export interface ModerationRule {
+  guild_id: string;
+  rule_id: string;
+  reason: string | null;
+  actions: Punishment[];
+}
+
+export interface TempActionValue {
+  duration: number;
+}
+
+export interface PointAction {
+  [ActionPunishmentKind.Point]: { points: number; expires_in: number | null };
+}
+
+export interface AccountAgeCheck {
+  [ActionCheckKind.AccountAge]: { time: number };
+}
+
+export interface JoinDateCheck {
+  [ActionCheckKind.JoinDate]: { time: number };
+}
+
+type PunishmentAction =
+  | { [ActionPunishmentKind.TempBan]: TempActionValue }
+  | { [ActionPunishmentKind.TempMute]: TempActionValue }
+  | PointAction
+  | ActionPunishmentKind.Ban
+  | ActionPunishmentKind.Kick
+  | ActionPunishmentKind.Delete;
+
+type PunishmentCheck = AccountAgeCheck | JoinDateCheck | ActionCheckKind.NoAvatar | ActionCheckKind.NoRole | null;

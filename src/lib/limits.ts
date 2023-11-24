@@ -1,0 +1,11 @@
+export const DEFAULT_LIMITS = {
+  LEVELING_ROLES: 10,
+  MAX_AUTOMOD_RULES: 3,
+};
+
+export const PREMIUM_LIMITS = {
+  LEVELING_ROLES: 20,
+  MAX_AUTOMOD_RULES: 5,
+};
+
+export const DISCORD_KEYWORD_RULE_LIMIT = 6;

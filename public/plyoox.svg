@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <ellipse style="stroke: rgb(0, 0, 0); fill: rgb(36, 198, 137); stroke-width: 0px; stroke-opacity: 0; pointer-events: none;" cx="250" cy="250" rx="250" ry="250"/>
+  <ellipse style="stroke: rgb(0, 0, 0); fill: rgba(0, 0, 0, 0); stroke-width: 8px; stroke-linejoin: round;" cx="385" cy="250" rx="50" ry="50"/>
+  <path style="stroke-width: 0px; stroke-linecap: round; stroke-miterlimit: 1; paint-order: stroke; stroke-opacity: 0;" transform="matrix(0.565611, 0, 0, 0.565611, 125.384659, 33.654453)" d="M 458 299.404 A 83.096 83.096 0 1 1 374.904 382.5 L 458 382.5 Z"/>
+  <path style="stroke-width: 0px; stroke-opacity: 0; stroke: rgb(0, 0, 0);" transform="matrix(0.565611, 0, 0, 0.565611, -144.61499, 33.653454)" d="M 458 299.404 A 83.096 83.096 0 1 1 374.904 382.5 L 458 382.5 Z"/>
+  <ellipse style="fill: rgba(0, 0, 0, 0); stroke-width: 8px; paint-order: fill; stroke: rgb(0, 0, 0);" cx="115" cy="250" rx="50" ry="50"/>
+  <path d="M 306.753 245.049 C 306.753 245.049 306.728 243.075 306.679 242.116 C 306.631 241.158 306.559 240.219 306.463 239.273 C 306.271 237.382 305.989 235.544 305.614 233.713 C 304.865 230.05 303.775 226.568 302.352 223.203 C 299.503 216.469 295.439 210.491 290.35 205.402 C 280.161 195.213 266.288 189 250.752 189 C 235.216 189 221.343 195.213 211.154 205.402 C 200.965 215.591 194.752 229.464 194.752 245 C 194.752 260.536 200.965 274.409 211.154 284.598 C 221.343 294.787 235.216 301 250.752 301 C 266.288 301 280.161 294.787 290.35 284.598 C 300.537 274.411 306.796 260.536 306.752 244.994 L 306.753 245.049 Z" style="stroke: rgb(0, 0, 0); stroke-width: 10px; fill: rgb(36, 198, 137);"/>
+  <rect x="188.083" y="182.075" width="131.425" height="68.341" style="stroke-width: 0px; fill: rgb(36, 198, 137); stroke-miterlimit: 1;"/>
+</svg>
