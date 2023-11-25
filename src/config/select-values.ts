@@ -50,3 +50,17 @@ export const TIME_MARKS = [
   { label: "2w", seconds: 1209600, value: 10 },
   { label: "28d", seconds: 2419200, value: 11 },
 ];
+
+export const POINT_EXPIRATION_ITEMS: ComboboxItem[] = [
+  { label: "Never", value: "never" },
+  { label: "6 hours", value: "3600" },
+  { label: "12 hours", value: "7200" },
+  { label: "1 days", value: "86400" },
+  { label: "3 days", value: "259200" },
+  { label: "1 weeks", value: "604800" },
+  { label: "2 weeks", value: "1209600" },
+  { label: "1 month", value: "2419200" },
+  { label: "3 months", value: "7889400" },
+  { label: "6 months", value: "14515200" },
+  { label: "1 year", value: "29030400" },
+];

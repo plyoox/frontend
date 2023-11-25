@@ -1,6 +1,6 @@
 import { UseRef } from "@/types/react";
 
-export function handleChangeHelper<T>(config: T, data: Partial<T>, oldConfig: UseRef<T>): Partial<T> {
+export function handleChangeHelper<T>(config: T, data: Partial<T>, oldConfig: UseRef<T>): Partial<T> | null {
   const conf = { ...config!, ...data };
 
   for (const [key, value] of Object.entries(conf) as [keyof Partial<T>, any][]) {
@@ -13,5 +13,5 @@ export function handleChangeHelper<T>(config: T, data: Partial<T>, oldConfig: Us
     }
   }
 
-  return conf;
+  return Object.keys(conf).length === 0 ? null : conf;
 }

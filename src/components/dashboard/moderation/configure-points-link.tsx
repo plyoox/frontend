@@ -30,15 +30,15 @@ function ConfigurePointsButton({ config }: { config: ModerationConfig }) {
   return (
     <Link
       className="flex items-center justify-between bg-mt-dark-7 rounded-md p-4 w-full my-2.5 h-16 hover:bg-mt-dark-6"
-      href={`configure-points`}
+      href={`moderation/edit-points`}
     >
       <span className={"font-semibold text-xl text-pl-text"}>Point Actions</span>
 
-      <div>
+      <div className={"flex"}>
         {showPointsWarning && (
           <Tooltip label="There are no points handlers. It is recommended to add some">
-            <ActionIcon>
-              <IconAlertTriangle color="#fcc603" />
+            <ActionIcon color={"yellow"} variant={"light"}>
+              <IconAlertTriangle />
             </ActionIcon>
           </Tooltip>
         )}

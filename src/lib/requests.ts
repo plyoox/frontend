@@ -1,6 +1,7 @@
 import { API_URL } from "@/environment";
 import { DiscordModerationRule } from "@/discord/types";
 import { GuildDataResponse, ModerationResponse } from "@/types/responses";
+import { ModerationConfig } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
 
@@ -58,4 +59,11 @@ export async function fetchAutoModerationRules(id: String): Promise<DiscordModer
   const response = await axios.get(`${API_URL}/guild/${id}/data/automod`);
 
   return response.data;
+}
+
+export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<any> {
+  await axios.patch(`${API_URL}/guild/${id}/moderation`, data, {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" },
+  });
 }

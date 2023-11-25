@@ -41,7 +41,7 @@ function DiscordRuleOverview() {
         )}
       </div>
 
-      <div>
+      <div className="flex justify-end">
         <Button
           color="violet"
           component={Link}

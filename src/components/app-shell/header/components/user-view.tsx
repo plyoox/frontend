@@ -22,7 +22,7 @@ function UserView() {
       {({ open }) => (
         <>
           <Menu.Button
-            className={`flex items-center duration-200 hover:bg-pl-card hover:shadow-pl-button p-1.5 px-2 rounded-lg justify-center ${
+            className={`flex items-center duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button p-1.5 px-2 rounded-lg justify-center bg-none outline-none custom-button ${
               open ? "shadow-pl-button" : ""
             }`}
             ref={buttonRef}
@@ -41,12 +41,12 @@ function UserView() {
           </Menu.Button>
 
           <Menu.Items
-            className="bg-pl-card absolute right-0 w-44 mt-2 p-2 rounded-md z-20 shadow-pl-accent-light drop-shadow-2xl text-gray-200 text-sm"
+            className="bg-mt-dark-7 absolute right-0 w-44 mt-2 p-2 rounded-md z-20 shadow-pl-accent-light drop-shadow-2xl text-gray-200 text-sm"
             style={{ width: buttonRef.current?.clientWidth }}
           >
             <Menu.Item
               as={Link}
-              className="flex p-2 cursor-pointer hover:bg-dark-4 rounded-md hover:text-white"
+              className="flex p-2 cursor-pointer hover:bg-mt-dark-6 rounded-md hover:text-white"
               href="/dashboard"
             >
               <IconListSearch className="mr-2" size={18} />

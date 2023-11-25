@@ -1,4 +1,5 @@
 import { AppShell } from "@mantine/core";
+import { ILink } from "@/types/utils";
 import {
   IconArrowUpCircle,
   IconBrandTwitch,
@@ -7,9 +8,7 @@ import {
   IconShieldChevron,
   IconUserPlus,
 } from "@tabler/icons-react";
-import { FC } from "react";
 import Link from "./components/link";
-import { ILink } from "@/types/utils";
 
 interface SidenavProps {
   open: boolean;

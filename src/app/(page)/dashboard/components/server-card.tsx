@@ -1,5 +1,5 @@
 import { Avatar } from "@mantine/core";
-import { Guild } from "@/types/discord";
+import { Guild } from "@/discord/types";
 import { IconLayoutDashboard, IconUserPlus } from "@tabler/icons-react";
 import Link from "next/link";
 

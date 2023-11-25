@@ -1,5 +1,5 @@
 import "./Scrollbar.css";
-import { Guild } from "@/types/discord";
+import { Guild } from "@/discord/types";
 import { Suspense } from "react";
 import ServerList from "./components/server-list";
 import ServerLoading from "./components/server-loading";

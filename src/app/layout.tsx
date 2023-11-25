@@ -1,11 +1,12 @@
+import "./globals.css";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+
 import { MantineProvider } from "@mantine/core";
 import { Poppins } from "next/font/google";
 import { Provider } from "@/app/_provider";
 import React from "react";
 import type { Metadata } from "next";
-
-import "./globals.css";
-import "@mantine/core/styles.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>Plyoox.net - Discord Bot</title>
       </head>
       <body className={`${poppins.className} bg-mt-dark-9 text-pl-text`}>
-        <MantineProvider defaultColorScheme="dark" forceColorScheme="dark">
+        <MantineProvider forceColorScheme="dark" withCssVariables={false}>
           <Provider>{children}</Provider>
         </MantineProvider>
       </body>

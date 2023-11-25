@@ -3,6 +3,7 @@
 import { useDiscordRules, useModerationData } from "@/lib/hooks";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
+import EditPunishments from "@/components/dashboard/punishments/edit-punishments";
 import RequestError from "@/components/dashboard/request-error";
 
 export function EditRuleContainer() {
@@ -20,6 +21,8 @@ export function EditRuleContainer() {
     return <>Loading...</>;
   }
   if (rules.error || config.error) return <RequestError errors={[rules.error, config.error]} />;
+
+  return <EditPunishments rule={rule} />;
 }
 
 export default EditRuleContainer;

@@ -1,4 +1,4 @@
-import EditRuleContainer from "@/components/dashboard/edit-rule/EditRuleContainer";
+import EditRuleContainer from "@/components/dashboard/rules/edit-rule-container";
 
 function Page() {
   return (

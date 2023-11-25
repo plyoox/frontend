@@ -1,4 +1,4 @@
-import { AccountAgeCheck, PointAction, Punishment, TempActionValue } from "@/types/moderation";
+import { AccountAgeCheck, JoinDateCheck, PointAction, Punishment, TempActionValue } from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
 import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/config/select-values";
 
@@ -63,29 +63,29 @@ export function actionToText(punishment: Punishment): string {
     case ActionCheckKind.AccountAge:
       const account_data = (check as AccountAgeCheck)[ActionCheckKind.AccountAge];
 
-      str += ` users with an account younger than ${formatSeconds(account_data.time)}`;
+      str += ` users with an account younger than ${formatSeconds(account_data.time, true)}`;
       break;
     case ActionCheckKind.JoinDate:
-      const join_data = (check as AccountAgeCheck)[ActionCheckKind.AccountAge];
+      const join_data = (check as JoinDateCheck)[ActionCheckKind.JoinDate];
 
-      str += ` users who joined the server before ${formatSeconds(join_data.time)}`;
+      str += ` users who joined the server before ${formatSeconds(join_data.time, true)}`;
       break;
   }
 
-  if (action === ActionPunishmentKind.Point) {
+  if (punishmentKind === ActionPunishmentKind.Point) {
     const data = (action as PointAction)[ActionPunishmentKind.Point];
 
     if (data.expires_in == null) {
       str += " that will expire never";
     } else {
-      str += ` that will expire after ${formatSeconds(data.expires_in)}`;
+      str += ` that will expire ${formatSeconds(data.expires_in)}`;
     }
   }
 
   if (DURATION_PUNISHMENTS.includes(punishmentKind)) {
     const data = action[punishmentKind] as TempActionValue;
 
-    str += ` for ${formatSeconds(data.duration)}.`;
+    str += ` ${formatSeconds(data.duration)}.`;
   } else {
     str += ".";
   }
@@ -93,18 +93,27 @@ export function actionToText(punishment: Punishment): string {
   return str;
 }
 
-function formatSeconds(seconds: number): string {
-  const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+function formatSeconds(seconds: number, cutPrefix: boolean = false): string {
+  const formatter = new Intl.RelativeTimeFormat("en", { numeric: "always" });
+
+  let str;
 
   if (seconds < 60) {
-    return formatter.format(-seconds, "second");
+    str = formatter.format(seconds, "second");
   } else if (seconds < 3600) {
-    return formatter.format(-Math.floor(seconds / 60), "minute");
+    str = formatter.format(Math.floor(seconds / 60), "minute");
   } else if (seconds < 86400) {
-    return formatter.format(-Math.floor(seconds / 3600), "hour");
+    str = formatter.format(Math.floor(seconds / 3600), "hour");
   } else {
-    return formatter.format(-Math.floor(seconds / 86400), "day");
+    str = formatter.format(Math.floor(seconds / 86400), "day");
   }
+
+  // remove first word
+  if (cutPrefix) {
+    return str.split(" ").slice(1).join(" ");
+  }
+
+  return str;
 }
 
 export function amountToColor(amount: number, max: number): { from: string; to: string; deg?: number } {
@@ -113,4 +122,10 @@ export function amountToColor(amount: number, max: number): { from: string; to: 
   if (ratio <= 0.334 || amount === 0) return { from: "green", to: "yellow" };
   if (ratio <= 0.667) return { from: "#ec8c69", to: "#ed6ea0" };
   return { from: "orange", to: "red" };
+}
+
+export function parseNumberInput(value: string | number): number {
+  if (typeof value === "number") return value;
+
+  return parseInt(value);
 }

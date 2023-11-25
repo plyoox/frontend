@@ -1,6 +1,6 @@
 "use client";
 
-import { Guild } from "@/types/discord";
+import { Guild } from "@/discord/types";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ServerCard from "./server-card";

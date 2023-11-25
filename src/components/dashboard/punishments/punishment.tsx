@@ -14,9 +14,12 @@ interface Props {
 function ActionView({ punishment, index, setPunishments, count }: Props) {
   const showWarning = !punishment.check && index !== count - 1;
 
+  const upDisabled = index === 0;
+  const downDisabled = index === count - 1;
+
   return (
     <div className="flex items-center justify-between rounded-md h-[60px] bg-mt-dark-7 p-2 pl-2.5 my-1">
-      <div className={"flex justify-between items-center"}>
+      <div className={"flex justify-between items-center gap-2"}>
         <span>{actionToText(punishment)}</span>
         {showWarning && (
           <Tooltip withArrow label="This is a global action and should be last. Click to resolve">
@@ -45,7 +48,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
             color="red"
             onClick={() =>
               setPunishments((actions) => {
-                actions = actions.filter((val, itemIndex) => itemIndex !== index);
+                actions = actions.filter((_, itemIndex) => itemIndex !== index);
 
                 return actions;
               })
@@ -57,10 +60,10 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
         </Tooltip>
 
         <div className={"flex flex-col gap-1.5"}>
-          <Tooltip withArrow disabled={index === 0} label="Move action up">
+          <Tooltip withArrow disabled={upDisabled} label="Move action up">
             <ActionIcon
-              c={`gray${index === 0 ? "" : ".5"}}`}
-              disabled={index === 0}
+              color={"gray"}
+              disabled={upDisabled}
               onClick={() => {
                 setPunishments((actions) => {
                   actions[index] = actions.splice(index - 1, 1, actions[index])[0];
@@ -74,13 +77,13 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
               <IconChevronUp />
             </ActionIcon>
           </Tooltip>
-          <Tooltip withArrow disabled={index === count - 1} label="Move action down">
+          <Tooltip withArrow disabled={downDisabled} label="Move action down">
             <ActionIcon
-              c={`gray${index === count - 1 ? "" : ".5"}`}
-              disabled={index === count - 1}
+              color={"gray"}
+              disabled={downDisabled}
               onClick={() => {
                 setPunishments((actions) => {
-                  actions[index] = actions.splice(index + 1, 1, actions[index])[0];
+                  actions[index] = actions.splice(index - 1, 1, actions[index])[0];
 
                   return [...actions];
                 });

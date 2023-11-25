@@ -1,30 +1,26 @@
 import { API_URL } from "@/environment";
 import { Button, Tooltip } from "@mantine/core";
 import { DiscordModerationRule } from "@/discord/types";
-import { FC, useContext, useMemo, useState } from "react";
 import { IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
-import { Punishment } from "@/types/moderation";
+import { ModerationRule, Punishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite";
 import { removeModerationRule } from "@/lib/requests";
+import { useContext, useMemo, useState } from "react";
 import AddPunishment from "@/components/dashboard/punishments/add-punishment";
 import Link from "next/link";
 import ListPunishments from "@/components/dashboard/punishments/list-punishments";
 import axios from "axios";
 
-interface Props {
-  rule: DiscordModerationRule;
-}
-
-const EditActions: FC<Props> = observer(({ rule: discordRule }) => {
+function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
   const guildStore = useContext(RuleStoreContext);
 
-  const currentRule = useMemo(() => {
+  const currentRule: ModerationRule = useMemo(() => {
     const hasConfig = guildStore.moderationRules.has(discordRule.id);
 
     return hasConfig
-      ? structuredClone(guildStore.moderationRules.get(discordRule.id)!)
+      ? structuredClone(JSON.parse(JSON.stringify(guildStore.moderationRules.get(discordRule.id)!)))
       : {
           rule_id: discordRule.id,
           guild_id: discordRule.guild_id,
@@ -38,9 +34,9 @@ const EditActions: FC<Props> = observer(({ rule: discordRule }) => {
   return (
     <>
       <ListPunishments punishments={punishments} setPunishments={setPunishments} />
-      <AddPunishment actions={punishments} className="mt-2.5" setActions={setPunishments} />
+      <AddPunishment className="mt-2.5" punishments={punishments} setPunishments={setPunishments} />
 
-      <div className={"flex justify-end mt-2.5"}>
+      <div className={"flex justify-end mt-2.5 gap-2.5"}>
         {
           <Tooltip withArrow label="This will delete the rule from the server">
             <Button
@@ -61,7 +57,7 @@ const EditActions: FC<Props> = observer(({ rule: discordRule }) => {
                     });
                   })
               }
-              variant="light"
+              variant="subtle"
             >
               Delete
             </Button>
@@ -94,12 +90,12 @@ const EditActions: FC<Props> = observer(({ rule: discordRule }) => {
       </div>
     </>
   );
-});
+}
 
-export default EditActions;
+export default observer(EditActions);
 
 async function saveModerationRule(guildId: string, ruleId: string, rule: SetModerationRuleDto) {
-  const res = await axios.patch(`${API_URL}/guild/${guildId}/moderation/rules/${ruleId}`, rule, {
+  const res = await axios.put(`${API_URL}/guild/${guildId}/moderation/rules/${ruleId}`, rule, {
     withCredentials: true,
   });
 

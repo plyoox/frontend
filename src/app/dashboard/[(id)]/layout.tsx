@@ -22,7 +22,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <div className={"p-5"}>{children}</div>
+        <div className={"p-5 max-w-4xl"}>{children}</div>
       </AppShell.Main>
     </AppShell>
   );

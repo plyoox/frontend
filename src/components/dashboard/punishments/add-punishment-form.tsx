@@ -1,70 +1,66 @@
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
-import { Button, Group, NumberInput, Select, Slider } from "@mantine/core";
+import { Button, NumberInput, Select, Slider } from "@mantine/core";
 import {
   DURATION_PUNISHMENTS,
   DiscordRulePunishmentItems,
   PointPunishmentItems,
+  PunishmentCheckItems,
   TIME_CHECKS,
   TIME_MARKS,
 } from "@/config/select-values";
 import { IconDatabasePlus } from "@tabler/icons-react";
 import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
-import React, { FC, useState } from "react";
+import { useForm } from "@mantine/form";
+import DurationPicker from "@/components/duration-picker";
+import InfoHeading from "@/components/dashboard/info-heading";
 
 interface Props {
+  className?: string;
   setPunishments: UseState<Punishment[]>;
   punishments: Punishment[];
   setOpen: UseState<boolean>;
   isFinal?: boolean;
 }
 
-interface FormValues {
-  punishment?: ActionPunishmentKind | null;
-  duration?: number;
-  days?: number;
-  check?: ActionCheckKind;
-  points?: number;
-  expires?: number | null;
-}
-
-function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal }: Props) {
-  const [form, setForm] = useState<FormValues>({
-    punishment: null,
+function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, className }: Props) {
+  const form = useForm<PunishmentValues>({
+    initialValues: {
+      check: null,
+      checkTime: 86400, // 3 days
+      punishment: ActionPunishmentKind.Kick,
+      points: 3,
+      pointExpiration: 1209600, // 14 days
+      punishmentDuration: 4, // 6 hours
+    },
   });
 
-  const [actionError, setActionError] = useState<string | null>(null);
-  const [checkError, setCheckError] = useState<string | null>(null);
-
   return (
-    <>
+    <form
+      className={className}
+      onSubmit={form.onSubmit((values) => {
+        const pointExpiration = TIME_MARKS.find((t) => t.value === values.punishmentDuration)!.seconds;
+
+        setPunishments([...punishments, toAutomoderationAction({ ...values, pointExpiration })]);
+        setOpen(false);
+
+        form.reset();
+      })}
+    >
       <Select
         data={isFinal ? PointPunishmentItems : DiscordRulePunishmentItems}
         description="What should happen when something is detected."
-        error={actionError}
         label="Action"
-        onChange={(value: any) => {
-          setForm({
-            ...form,
-            punishment: value,
-            duration: DURATION_PUNISHMENTS.includes(value) ? 10800 : undefined,
-            points: value === ActionPunishmentKind.Point ? 1 : undefined,
-            expires: value === ActionPunishmentKind.Point ? 1209600 : undefined,
-          });
-        }}
-        onFocus={() => setActionError(null)}
-        placeholder="Select action..."
-        value={form.punishment ?? null}
+        {...form.getInputProps("punishment")}
       />
 
-      {DURATION_PUNISHMENTS.includes(form.punishment!) && (
-        <>
+      {DURATION_PUNISHMENTS.includes(form.values.punishment) && (
+        <div className={"mt-2.5"}>
           <InfoHeading
             description={`How long should the user be ${
-              form.punishment === ActionPunishmentKind.TempMute ? "muted" : "banned"
+              form.values.punishment === ActionPunishmentKind.TempMute ? "muted" : "banned"
             }.`}
             label="Duration"
-            mt={5}
           />
           <Slider
             label={null}
@@ -72,147 +68,120 @@ function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal }: Pr
             max={11}
             mb={15}
             mx={10}
-            onChangeEnd={(value) => {
-              setForm({ ...form, duration: TIME_MARKS.find((m) => m.value === value)!.seconds });
-            }}
             step={1}
-            value={TIME_MARKS.find((m) => m.seconds === form.duration)?.value ?? 3}
+            {...form.getInputProps("punishmentDuration")}
           />
-        </>
+        </div>
       )}
 
-      {form.punishment === ActionPunishmentKind.Point && (
+      {form.values.punishment === ActionPunishmentKind.Point && (
         <NumberInput
+          allowDecimal={false}
           description="How many points the user should get."
           label="Points"
           max={9}
           min={1}
           mt={5}
-          onChange={(points) => {
-            const value = parseNumberInput(points);
-            if (isNaN(value)) return;
-
-            setForm({ ...form, points: value });
-          }}
-          value={form.points}
+          {...form.getInputProps("points")}
         />
       )}
 
-      {form.punishment === ActionPunishmentKind.Point && (
-        <Select
-          clearable
-          searchable
-          comboboxProps={{ withinPortal: true }}
-          data={POINT_EXPIRATION}
-          defaultValue={"1209600"}
-          description="When the points should expire. You can add custom values by typing the seconds (>=300 | <=29030400)."
-          label="Expires"
-          mt={5}
-          onChange={(val) => {
-            if (!val) {
-              setForm((form) => ({ ...form, expires: null }));
-            } else {
-              setForm((form) => ({ ...form, expires: parseInt(val) }));
-            }
-          }}
+      {form.values.punishment === ActionPunishmentKind.Point && (
+        <DurationPicker
+          allowDecimal={false}
+          defaultUnit={"Days"}
+          description={"When the points should expire. Limit is 1 year."}
+          hideControls={true}
+          label={"Expiration"}
+          max={31449600}
+          min={300}
+          {...form.getInputProps("pointExpiration")}
         />
       )}
 
       <Select
-        data={AutomodChecksSelect}
+        data={PunishmentCheckItems}
         description="On which users the action should be executed."
-        error={checkError}
         label="Check"
         mt={5}
-        onChange={(value: any) => {
-          setForm({
-            ...form,
-            check: value ?? undefined,
-            days: [ActionCheckKind.AccountAge, ActionCheckKind.JoinDate].includes(value) ? 7 : undefined,
-          });
-        }}
-        onFocus={() => setCheckError(null)}
         placeholder="Select check..."
-        value={form.check?.toString()}
+        {...form.getInputProps("check")}
       />
 
-      {TIME_CHECKS.includes(form.check!) && (
-        <NumberInput
+      {TIME_CHECKS.includes(form.values.check!) && (
+        <DurationPicker
+          allowDecimal={false}
+          defaultUnit={"Days"}
           description={
-            form.check === ActionCheckKind.JoinDate
+            form.values.check === ActionCheckKind.JoinDate
               ? "How long the user must be on the sever"
               : "How old the account must be."
           }
-          label="Check time"
-          max={1000}
-          min={0}
-          mt={5}
-          onChange={(days) => {
-            const value = parseNumberInput(days);
-            if (isNaN(value)) return;
-
-            setForm({ ...form, days: value });
-          }}
-          value={form.days}
+          hideControls={true}
+          label={"Check time"}
+          max={31449600}
+          min={300}
+          {...form.getInputProps("checkTime")}
         />
       )}
 
-      <Group justify="right" mt="md">
-        <Button
-          color="green"
-          leftSection={<IconDatabasePlus />}
-          onClick={() => {
-            if (!form.punishment) {
-              setActionError("An action must be selected.");
-              return;
-            }
-
-            if (punishments.some((a) => a.check == form.check)) {
-              setCheckError("There cannot be duplicate checks.");
-              return;
-            }
-
-            setPunishments([toAutomoderationAction(form), ...punishments]);
-
-            setForm({ punishment: null });
-            setCheckError(null);
-            setActionError(null);
-            setOpen(false);
-          }}
-          variant="outline"
-        >
+      <div className={"flex justify-end mt-4"}>
+        <Button color="green" leftSection={<IconDatabasePlus />} type={"submit"} variant="outline">
           Add action
         </Button>
-      </Group>
-    </>
+      </div>
+    </form>
   );
 }
 
 export default AddPunishmentForm;
 
-function toAutomoderationAction(value: FormValues) {
-  const action: Punishment = {} as any;
+function toAutomoderationAction(value: PunishmentValues) {
+  const punishment: Punishment = {} as any;
 
-  if ([ActionPunishmentKind.TempMute, ActionPunishmentKind.TempBan].includes(value.punishment!)) {
-    action.punishment = { [value.punishment!]: { duration: value.duration } };
+  switch (value.punishment) {
+    case ActionPunishmentKind.TempMute:
+      punishment.punishment = { [value.punishment]: { duration: value.punishmentDuration } };
+      break;
+    case ActionPunishmentKind.TempBan:
+      punishment.punishment = { [value.punishment]: { duration: value.punishmentDuration } };
+      break;
+    case ActionPunishmentKind.Point:
+      punishment.punishment = { [value.punishment]: { points: value.points, expires_in: value.pointExpiration } };
+      break;
+    case ActionPunishmentKind.Ban:
+    case ActionPunishmentKind.Kick:
+    case ActionPunishmentKind.Delete:
+      punishment.punishment = value.punishment;
+      break;
   }
 
-  if (value.punishment === ActionPunishmentKind.Point) {
-    action.punishment = { [value.punishment!]: { points: value.points!, expires_in: value.expires! } };
+  switch (value.check) {
+    case ActionCheckKind.NoRole:
+      punishment.check = value.check;
+      break;
+    case ActionCheckKind.NoAvatar:
+      punishment.check = value.check;
+      break;
+    case ActionCheckKind.AccountAge:
+      punishment.check = { [value.check]: { time: value.checkTime } };
+      break;
+    case ActionCheckKind.JoinDate:
+      punishment.check = { [value.check]: { time: value.checkTime } };
+      break;
+    case null:
+      punishment.check = null;
+      break;
   }
 
-  if ([ActionPunishmentKind.Ban, ActionPunishmentKind.Kick, ActionPunishmentKind.Delete].includes(value.punishment!)) {
-    action.punishment = value.punishment!;
-  }
+  return punishment;
+}
 
-  if ([ActionCheckKind.NoRole, ActionCheckKind.NoAvatar].includes(value.check!)) {
-    action.check = value.check;
-  }
-
-  if ([ActionCheckKind.AccountAge, ActionCheckKind.JoinDate].includes(value.check!)) {
-    // @ts-ignore
-    action.check = { [value.check!]: { time: value.days } };
-  }
-
-  return action;
+interface PunishmentValues {
+  punishment: ActionPunishmentKind;
+  punishmentDuration: number;
+  check: ActionCheckKind | null;
+  checkTime: number;
+  points: number;
+  pointExpiration: number;
 }

@@ -6,6 +6,7 @@ import { IconAt } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { computed } from "mobx";
 import { handleChangeHelper } from "@/lib/handle-change";
+import { saveModerationData } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useModerationData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
@@ -13,6 +14,7 @@ import ConfigurePointsLink from "./configure-points-link";
 import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
 import LegacyRuleLink from "./legacy-rule-link";
 import LogConfig from "./log-config";
+import SaveNotification from "@/components/save-notification";
 
 type Config = ModerationConfig;
 
@@ -32,7 +34,7 @@ function ModerationSettings() {
   const moderationResponse = useModerationData();
 
   const [config, setConfig] = useState<Config | null>(null);
-  const [updatedConfig, setUpdatedConfig] = useState<Partial<Config>>({});
+  const [updatedConfig, setUpdatedConfig] = useState<Partial<Config> | null>(null);
   const oldConfig = useRef<Config>({} as Config);
 
   // Handle moderation config changes
@@ -49,7 +51,7 @@ function ModerationSettings() {
   if (!config || !moderationResponse.data) return null;
 
   return (
-    <div className={"max-w-4xl"}>
+    <div>
       <MultiSelect
         clearable
         searchable
@@ -118,6 +120,16 @@ function ModerationSettings() {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
+
+      <SaveNotification
+        data={updatedConfig}
+        fn={saveModerationData}
+        onSave={() => {
+          oldConfig.current = { ...config, ...updatedConfig };
+
+          setUpdatedConfig(null);
+        }}
+      />
     </div>
   );
 }
