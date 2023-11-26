@@ -50,7 +50,7 @@ function DiscordRuleOverview() {
               DISCORD_KEYWORD_RULE_LIMIT &&
             ruleStore.discordRulesArray.some((r) => r.trigger_type === AutoModerationTriggerType.MentionSpam)
           }
-          href={`create-rule`}
+          href={`moderation/create-rule`}
           leftSection={<IconPlaylistAdd />}
           variant="light"
         >

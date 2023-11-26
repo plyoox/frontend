@@ -1,4 +1,4 @@
-import { Provider } from "@/app/_provider";
+import { Provider } from "./_provider";
 import React from "react";
 
 function Layout({ children }: { children: React.ReactNode }) {

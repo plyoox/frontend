@@ -1,4 +1,5 @@
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { AutoModerationTriggerType } from "@/discord/enums";
 
 export interface ModerationConfig {
   active: boolean;
@@ -64,3 +65,26 @@ type PunishmentAction =
   | ActionPunishmentKind.Delete;
 
 type PunishmentCheck = AccountAgeCheck | JoinDateCheck | ActionCheckKind.NoAvatar | ActionCheckKind.NoRole | null;
+
+export interface RuleMigration {
+  enabled: boolean;
+  type: "invite" | "link-wl" | "link-bl";
+  actions: Punishment[];
+  exemptRoles: string[];
+  exemptChannels: string[];
+  keywordFilter?: string[];
+  allowList?: string[];
+}
+
+export interface CreateAutoModerationRule {
+  legacy?: string;
+  name: string;
+  enabled: boolean;
+  trigger_type: AutoModerationTriggerType;
+  exempt_roles: string[];
+  exempt_channels: string[];
+  mention_total_limit: number;
+  keyword_filter: string[];
+  regex_patterns: string[];
+  allow_list: string[];
+}

@@ -1,6 +1,6 @@
 import { Badge, ThemeIcon } from "@mantine/core";
 import { ILink } from "@/types/utils";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import NextLink from "next/link";
 
 export interface LinkProps extends ILink {

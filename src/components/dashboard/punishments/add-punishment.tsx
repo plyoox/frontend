@@ -1,11 +1,12 @@
 import { Badge, Collapse, ThemeIcon } from "@mantine/core";
-import { DEFAULT_LIMITS } from "@/lib/limits";
-import { IconAlertTriangle, IconPlus } from "@tabler/icons-react";
+import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
+import { GuildStoreContext } from "@/stores/guild-store";
+import { IconPlus } from "@tabler/icons-react";
 import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
-import { amountToColor } from "@/config/utils";
-import { showNotification } from "@mantine/notifications";
-import { useState } from "react";
+import { amountToColor } from "@/lib/utils";
+import { observer } from "mobx-react-lite";
+import { useContext, useState } from "react";
 import AddPunishmentForm from "@/components/dashboard/punishments/add-punishment-form";
 
 interface Props {
@@ -16,24 +17,19 @@ interface Props {
 }
 
 function AddPunishment({ punishments, setPunishments, isFinal, className }: Props) {
+  const guildStore = useContext(GuildStoreContext);
   const [open, setOpen] = useState(false);
+
+  const disabled =
+    punishments.length >= (guildStore.premium ? PREMIUM_LIMITS.MAX_AUTOMOD_RULES : DEFAULT_LIMITS.MAX_AUTOMOD_RULES);
 
   return (
     <div className={className}>
       <button
-        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer hover:bg-mt-dark-5 custom-button`}
+        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer custom-button
+        disabled:bg-mt-dark-7 disabled:cursor-not-allowed disabled:hover:bg-mt-dark-7`}
+        disabled={disabled}
         onClick={() => {
-          if (punishments.length >= DEFAULT_LIMITS.MAX_AUTOMOD_RULES) {
-            showNotification({
-              title: "Max rules reached",
-              message: `You can only have ${DEFAULT_LIMITS.MAX_AUTOMOD_RULES} rules per rule.`,
-              color: "yellow",
-              icon: <IconAlertTriangle size={16} />,
-            });
-
-            return;
-          }
-
           setOpen(!open);
         }}
       >
@@ -61,4 +57,4 @@ function AddPunishment({ punishments, setPunishments, isFinal, className }: Prop
   );
 }
 
-export default AddPunishment;
+export default observer(AddPunishment);

@@ -2,7 +2,7 @@ import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/disco
 import { ComboboxData, ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DiscordPermission } from "@/discord/enums";
 import { GuildDataResponse } from "@/types/responses";
-import { action, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import { createContext } from "react";
 
 export class GuildStore {
@@ -11,6 +11,11 @@ export class GuildStore {
   #categories: Map<string, CategoryChannel> = observable.map();
   #roles: Role[] = observable.array();
   guild: Guild | null = null;
+  #premium: boolean = false;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 
   setData(data: GuildDataResponse) {
     if (data.infos) this.guild = data.infos;
@@ -40,10 +45,16 @@ export class GuildStore {
         this.#categories.set(channel.id, channel);
       }
     }
+
+    this.#premium = data.premium;
   }
 
   get roles() {
     return this.#roles;
+  }
+
+  get premium() {
+    return this.#premium;
   }
 
   get writeableAsSelectable(): ComboboxItemGroup[] {

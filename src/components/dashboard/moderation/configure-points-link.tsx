@@ -3,7 +3,7 @@ import { ActionPunishmentKind } from "@/config/enums";
 import { IconAlertTriangle, IconChevronRight } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
-import { getPunishmentKind } from "@/config/utils";
+import { getPunishmentKind } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
 import { useContext, useMemo } from "react";
 import Link from "next/link";
@@ -29,7 +29,7 @@ function ConfigurePointsButton({ config }: { config: ModerationConfig }) {
 
   return (
     <Link
-      className="flex items-center justify-between bg-mt-dark-7 rounded-md p-4 w-full my-2.5 h-16 hover:bg-mt-dark-6"
+      className="flex items-center justify-between bg-mt-dark-6 rounded-md p-4 w-full my-2.5 h-16 hover:bg-mt-dark-5"
       href={`moderation/edit-points`}
     >
       <span className={"font-semibold text-xl text-pl-text"}>Point Actions</span>

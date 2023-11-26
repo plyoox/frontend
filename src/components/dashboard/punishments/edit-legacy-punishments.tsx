@@ -6,9 +6,10 @@ import ListPunishments from "@/components/dashboard/punishments/list-punishments
 interface Props {
   punishments: Punishment[];
   onChange: (actions: Punishment[]) => void;
+  isFinal?: boolean;
 }
 
-function EditLegacyPunishments({ punishments, onChange }: Props) {
+function EditLegacyPunishments({ punishments, onChange, isFinal }: Props) {
   const [actionState, setActionState] = useState<Punishment[]>([...punishments]);
 
   function customSetActions(actions: Punishment[] | ((actions: Punishment[]) => Punishment[])) {
@@ -23,7 +24,7 @@ function EditLegacyPunishments({ punishments, onChange }: Props) {
   return (
     <>
       <ListPunishments punishments={actionState} setPunishments={customSetActions} />
-      <AddPunishment className="mt-2.5" isFinal={true} punishments={actionState} setPunishments={customSetActions} />
+      <AddPunishment className="mt-2.5" isFinal={isFinal} punishments={actionState} setPunishments={customSetActions} />
     </>
   );
 }

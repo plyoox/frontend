@@ -2,7 +2,7 @@ import { ActionIcon, Badge, Tooltip } from "@mantine/core";
 import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react";
 import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
-import { actionToText } from "@/config/utils";
+import { actionToText } from "@/lib/utils";
 
 interface Props {
   index: number;
@@ -18,7 +18,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
   const downDisabled = index === count - 1;
 
   return (
-    <div className="flex items-center justify-between rounded-md h-[60px] bg-mt-dark-7 p-2 pl-2.5 my-1">
+    <div className="flex items-center justify-between rounded-md h-[60px] bg-mt-dark-6 p-2 pl-2.5 my-1">
       <div className={"flex justify-between items-center gap-2"}>
         <span>{actionToText(punishment)}</span>
         {showWarning && (

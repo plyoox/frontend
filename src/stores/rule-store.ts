@@ -76,6 +76,7 @@ class RuleStore {
     const keywordLength = this.discordRulesArray.filter(
       (rule) => rule.trigger_type === AutoModerationTriggerType.Keyword,
     ).length;
+
     return this.#loadedRules && keywordLength < DISCORD_KEYWORD_RULE_LIMIT;
   }
 }

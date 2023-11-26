@@ -3,8 +3,8 @@
 import { ModerationConfig } from "@/types/moderation";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
+import { useDiscordRules, useModerationData } from "@/lib/hooks";
 import { useEffect, useRef, useState } from "react";
-import { useModerationData } from "@/lib/hooks";
 import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
@@ -46,6 +46,7 @@ function EditPointsContainer() {
   return (
     <>
       <EditLegacyPunishments
+        isFinal={true}
         onChange={(punishments) => handleChange({ point_actions: punishments })}
         punishments={data.config.point_actions}
       />

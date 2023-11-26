@@ -129,3 +129,7 @@ export function parseNumberInput(value: string | number): number {
 
   return parseInt(value);
 }
+
+export function ensureUniqueness(values: string[]): string[] {
+  return Array.from(new Set(values));
+}
