@@ -38,7 +38,8 @@ function LegacyRulesContainer() {
   }, [moderationResponse.data]);
 
   if (moderationResponse.error || guildData.error) {
-    return <RequestError errors={[moderationResponse.error, guildData.error]} />;
+    // One must be defined
+    return <RequestError error={(moderationResponse.error || guildData.error)!} />;
   }
 
   if (!config || !guildData.data) {

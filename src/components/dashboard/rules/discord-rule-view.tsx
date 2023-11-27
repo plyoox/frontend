@@ -1,8 +1,9 @@
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { Button, Title } from "@mantine/core";
+import { Button, LoadingOverlay, Title } from "@mantine/core";
 import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
 import { IconPlaylistAdd } from "@tabler/icons-react";
 import { RuleStoreContext } from "@/stores/rule-store";
+import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { useDiscordRules } from "@/lib/hooks";
 import Link from "next/link";
@@ -15,8 +16,8 @@ function DiscordRuleOverview() {
 
   const { isLoading, error } = useDiscordRules();
 
-  if (isLoading) return <>Loading...</>;
-  if (error) return <RequestError errors={[error, undefined]} />;
+  if (isLoading) return <LoadingOverlay />;
+  if (error) return <RequestError error={error} />;
 
   const rulesWithConfig = ruleStore.discordRulesArray.filter((r) => ruleStore.moderationRules.has(r.id));
   const rulesWithoutConfig = ruleStore.discordRulesArray.filter((r) => !ruleStore.moderationRules.has(r.id));
@@ -61,4 +62,4 @@ function DiscordRuleOverview() {
   );
 }
 
-export default DiscordRuleOverview;
+export default observer(DiscordRuleOverview);

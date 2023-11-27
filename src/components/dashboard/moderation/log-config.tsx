@@ -2,19 +2,18 @@ import { API_URL } from "@/environment";
 import { ComboboxData, Select, Switch } from "@mantine/core";
 import { IconCheck, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import { ModerationResponse } from "@/types/responses";
 import { useGuildId } from "@/lib/hooks";
 import { useState } from "react";
 
 interface Props {
-  data: ModerationResponse;
+  data: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
   text: ComboboxData;
 }
 
 function LogConfig({ data, handleChange, text }: Props) {
   const id = useGuildId();
-  const [notifyUser, setNotifyUser] = useState<boolean>(data.config.notify_user);
+  const [notifyUser, setNotifyUser] = useState<boolean>(data.notify_user);
 
   const createWebhook = (channelId: string) => {
     window.open(
@@ -41,7 +40,7 @@ function LogConfig({ data, handleChange, text }: Props) {
         clearable
         searchable
         data={text}
-        defaultValue={data.config.log_channel}
+        defaultValue={data.log_channel}
         description="This channel will be used to log moderation actions. A webhook will be created."
         label="Logchannel"
         leftSection={<IconHash size={16} />}

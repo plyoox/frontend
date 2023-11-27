@@ -36,7 +36,7 @@ function EditPointsContainer() {
   }, [data]);
 
   if (error) {
-    return <RequestError errors={[undefined, error]} />;
+    return <RequestError error={error} />;
   }
 
   if (isLoading || typeof data === "undefined") {

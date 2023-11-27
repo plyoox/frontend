@@ -72,7 +72,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
                 });
               }}
               size="sm"
-              variant="transparent"
+              variant={"light"}
             >
               <IconChevronUp />
             </ActionIcon>
@@ -89,7 +89,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
                 });
               }}
               size="sm"
-              variant="transparent"
+              variant={"light"}
             >
               <IconChevronDown />
             </ActionIcon>

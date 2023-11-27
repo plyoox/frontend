@@ -1,6 +1,6 @@
 import { API_URL } from "@/environment";
 import { DiscordModerationRule } from "@/discord/types";
-import { GuildDataResponse, ModerationResponse } from "@/types/responses";
+import { GuildDataResponse, ModerationResponse, WelcomeResponse } from "@/types/responses";
 import { ModerationConfig } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
@@ -44,7 +44,13 @@ export async function fetchGuildData(id: string, params: string, redirect: any) 
 }
 
 export async function fetchModerationData(id: string) {
-  const response = await axios.get<ModerationResponse>(`${API_URL}/guild/${id}/moderation`);
+  const response = await axios.get<ModerationResponse>(`${API_URL}/guild/${id}/moderation`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function fetchWelcomeData(id: string) {
+  const response = await axios.get<WelcomeResponse>(`${API_URL}/guild/${id}/welcome`, { withCredentials: true });
 
   return response.data;
 }
@@ -56,7 +62,7 @@ export async function removeModerationRule(guildId: string, ruleId: string) {
 }
 
 export async function fetchAutoModerationRules(id: String): Promise<DiscordModerationRule[]> {
-  const response = await axios.get(`${API_URL}/guild/${id}/data/automod`);
+  const response = await axios.get(`${API_URL}/guild/${id}/data/automod`, { withCredentials: true });
 
   return response.data;
 }
@@ -64,6 +70,11 @@ export async function fetchAutoModerationRules(id: String): Promise<DiscordModer
 export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<any> {
   await axios.patch(`${API_URL}/guild/${id}/moderation`, data, {
     withCredentials: true,
-    headers: { "Content-Type": "application/json" },
+  });
+}
+
+export async function saveWelcomeData(id: string, data: Partial<ModerationConfig>): Promise<any> {
+  await axios.patch(`${API_URL}/guild/${id}/welcome`, data, {
+    withCredentials: true,
   });
 }

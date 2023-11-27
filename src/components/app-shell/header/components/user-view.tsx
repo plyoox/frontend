@@ -22,7 +22,7 @@ function UserView() {
       {({ open }) => (
         <>
           <Menu.Button
-            className={`flex items-center duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button p-1.5 px-2 rounded-lg justify-center bg-none outline-none custom-button ${
+            className={`flex items-center duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button p-1.5 px-2 rounded-lg justify-center bg-transparent outline-none ${
               open ? "shadow-pl-button" : ""
             }`}
             ref={buttonRef}

@@ -42,8 +42,8 @@ function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, clas
         const pointExpiration = TIME_MARKS.find((t) => t.value === values.punishmentDuration)!.seconds;
 
         setPunishments([...punishments, toAutomoderationAction({ ...values, pointExpiration })]);
-        setOpen(false);
 
+        setOpen(false);
         form.reset();
       })}
     >

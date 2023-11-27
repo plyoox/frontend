@@ -1,6 +1,6 @@
-import GettingStarted from "./components/GettingStarted";
-import ImportantLinks from "./components/ImportantLinks";
-import MainCard from "./components/MainCard";
+import GettingStarted from "./components/getting-started";
+import ImportantLinks from "./components/important-links";
+import MainCard from "./components/main-card";
 
 function Page() {
   return (

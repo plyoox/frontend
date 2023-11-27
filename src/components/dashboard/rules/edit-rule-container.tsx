@@ -1,6 +1,6 @@
 "use client";
 
-import { useDiscordRules, useModerationData } from "@/lib/hooks";
+import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
 import EditPunishments from "@/components/dashboard/punishments/edit-punishments";
@@ -11,6 +11,7 @@ export function EditRuleContainer() {
 
   const config = useModerationData();
   const rules = useDiscordRules();
+  useGuildData({ category: true, roles: true, text: true, premium: true });
 
   const rule = useMemo(() => {
     if (!rules || !config) return;
@@ -20,7 +21,10 @@ export function EditRuleContainer() {
   if (config.isLoading || config.isLoading || !rule) {
     return <>Loading...</>;
   }
-  if (rules.error || config.error) return <RequestError errors={[rules.error, config.error]} />;
+  if (rules.error || config.error) {
+    // One of them is always defined
+    return <RequestError error={(rules.error || config.error)!} />;
+  }
 
   return <EditPunishments rule={rule} />;
 }

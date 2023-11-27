@@ -37,7 +37,7 @@ function RuleTypeSelect({ rule }: { rule: UseRef<Partial<CreateAutoModerationRul
   return (
     <Radio.Group
       withAsterisk
-      defaultValue={rule.current.trigger_type?.toString()}
+      defaultValue={rule.current.trigger_type?.toString() ?? AutoModerationTriggerType.Keyword.toString()}
       description="The type of rule that should be created"
       label="Rule type"
       maw={900}

@@ -47,7 +47,7 @@ function Exemptions({ rule, setRule, setStep }: Props) {
 
       <div className={"mt-2.5 flex justify-end gap-2"}>
         <Button
-          color="teal"
+          leftSection={<IconChevronLeft />}
           onClick={() => {
             setRule((r) => ({
               ...r,
@@ -57,13 +57,11 @@ function Exemptions({ rule, setRule, setStep }: Props) {
 
             setStep(0);
           }}
-          rightSection={<IconChevronLeft />}
-          variant="outline"
+          variant="subtle"
         >
           Back
         </Button>
         <Button
-          color="teal"
           onClick={() => {
             setRule((r) => ({
               ...r,
@@ -74,7 +72,7 @@ function Exemptions({ rule, setRule, setStep }: Props) {
             setStep(2);
           }}
           rightSection={<IconChevronRight />}
-          variant="outline"
+          variant="subtle"
         >
           Next
         </Button>

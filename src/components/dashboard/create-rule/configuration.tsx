@@ -1,13 +1,13 @@
 import { API_URL } from "@/environment";
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { Box, Button } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { CreateAutoModerationRule } from "@/types/moderation";
 import { DiscordModerationRule } from "@/discord/types";
-import { FC, useContext, useRef } from "react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { UseState } from "@/types/react";
 import { showNotification } from "@mantine/notifications";
+import { useContext, useRef } from "react";
 import { useGuildId } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import KeywordConfig from "@/components/dashboard/create-rule/configure-keyword";
@@ -19,7 +19,7 @@ interface Props {
   setRule: UseState<Partial<CreateAutoModerationRule>>;
 }
 
-const Configuration: FC<Props> = ({ rule, setRule, setStep }) => {
+function Configuration({ rule, setRule, setStep }: Props) {
   const id = useGuildId();
   const { push } = useRouter();
 
@@ -27,13 +27,14 @@ const Configuration: FC<Props> = ({ rule, setRule, setStep }) => {
   const ruleStore = useContext(RuleStoreContext);
 
   return (
-    <Box maw={900}>
-      {rule.trigger_type === AutoModerationTriggerType.Keyword && <KeywordConfig rule={partialRule} />}
+    <div>
+      {/*{rule.trigger_type === AutoModerationTriggerType.Keyword && <KeywordConfig rule={partialRule} />}*/}
+      <KeywordConfig rule={partialRule} />
       {/*{rule.trigger_type === AutoModerationTriggerType.MentionSpam && <MentionConfig rule={partialRule} />}*/}
 
-      <div className={"mt-2.5 flex justify-end"}>
+      <div className={"mt-2.5 flex justify-end gap-2"}>
         <Button
-          color="teal"
+          leftSection={<IconChevronLeft />}
           onClick={() => {
             setRule((r) => ({
               ...r,
@@ -42,13 +43,12 @@ const Configuration: FC<Props> = ({ rule, setRule, setStep }) => {
 
             setStep(1);
           }}
-          rightSection={<IconChevronLeft />}
-          variant="outline"
+          variant="subtle"
         >
           Back
         </Button>
         <Button
-          color="teal"
+          color="green"
           onClick={() => {
             if (rule.trigger_type === AutoModerationTriggerType.Keyword) {
               if (!partialRule.current.regex_patterns?.length && !partialRule.current.keyword_filter?.length) {
@@ -93,14 +93,14 @@ const Configuration: FC<Props> = ({ rule, setRule, setStep }) => {
               });
           }}
           rightSection={<IconChevronRight />}
-          variant="outline"
+          variant="filled"
         >
           Create rule
         </Button>
       </div>
-    </Box>
+    </div>
   );
-};
+}
 
 export default Configuration;
 

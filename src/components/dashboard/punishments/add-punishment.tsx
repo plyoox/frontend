@@ -26,7 +26,7 @@ function AddPunishment({ punishments, setPunishments, isFinal, className }: Prop
   return (
     <div className={className}>
       <button
-        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer custom-button
+        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer
         disabled:bg-mt-dark-7 disabled:cursor-not-allowed disabled:hover:bg-mt-dark-7`}
         disabled={disabled}
         onClick={() => {

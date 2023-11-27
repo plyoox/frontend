@@ -1,8 +1,8 @@
 import { API_URL } from "@/environment";
 import { AuthGuild, AuthUser } from "@/types/authentication";
-import { action, makeAutoObservable } from "mobx";
 import { createContext } from "react";
-import axios, { AxiosError } from "axios";
+import { flow, makeAutoObservable } from "mobx";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 export enum AuthStatus {
   Authenticated,
@@ -19,48 +19,35 @@ export class UserStore {
     makeAutoObservable(this);
   }
 
-  setAuthStatus(status: AuthStatus) {
-    this.authStatus = status;
-  }
-
-  setUser(user: AuthUser | null): void {
-    this.user = user;
-  }
-
   setGuild(guild: AuthGuild | null) {
     this.guild = guild;
   }
 
-  async fetchUser() {
+  fetchUser = flow(function* (this: UserStore) {
     try {
-      this.setAuthStatus(AuthStatus.Pending);
+      this.authStatus = AuthStatus.Pending;
 
-      const response = await axios.get<AuthUser>(`${API_URL}/user`, { withCredentials: true });
+      const response: AxiosResponse<AuthUser> = yield axios.get<AuthUser>(`${API_URL}/user`, { withCredentials: true });
 
-      action(() => {
-        this.setUser(response.data);
-        this.setAuthStatus(AuthStatus.Authenticated);
-      })();
+      this.user = response.data;
+      this.authStatus = AuthStatus.Authenticated;
     } catch (e) {
       const error = e as AxiosError;
       if (error.response?.status === 401) {
-        action(() => {
-          this.setAuthStatus(AuthStatus.Unauthenticated);
-        })();
+        this.authStatus = AuthStatus.Unauthenticated;
       }
     }
-  }
+  });
 
-  async logout() {
+  logout = flow(function* (this: UserStore) {
     try {
-      await axios.delete(`${API_URL}/logout`, { withCredentials: true });
-      action(() => {
-        this.setAuthStatus(AuthStatus.Unauthenticated);
-      })();
+      yield axios.delete(`${API_URL}/logout`, { withCredentials: true });
+
+      this.authStatus = AuthStatus.Unauthenticated;
     } catch (e) {
       console.error(e);
     }
-  }
+  });
 }
 
 export const userStoreInstance = new UserStore();

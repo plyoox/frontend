@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, MultiSelect } from "@mantine/core";
+import { Accordion, LoadingOverlay, MultiSelect } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAt } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
@@ -14,6 +14,7 @@ import ConfigurePointsLink from "./configure-points-link";
 import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
 import LegacyRuleLink from "./legacy-rule-link";
 import LogConfig from "./log-config";
+import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 
 type Config = ModerationConfig;
@@ -48,7 +49,13 @@ function ModerationSettings() {
   const roles = computed(() => guildStore.rolesAsSelectable).get();
   const text = computed(() => guildStore.textAsSelectable).get();
 
-  if (!config || !moderationResponse.data) return null;
+  if (moderationResponse.error) {
+    return <RequestError error={moderationResponse.error} />;
+  }
+
+  if (moderationResponse.isLoading || !config) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <div>
@@ -106,7 +113,7 @@ function ModerationSettings() {
           </Accordion.Control>
 
           <Accordion.Panel>
-            <LogConfig data={moderationResponse.data} handleChange={handleChange} text={text} />
+            <LogConfig data={config} handleChange={handleChange} text={text} />
           </Accordion.Panel>
         </Accordion.Item>
 

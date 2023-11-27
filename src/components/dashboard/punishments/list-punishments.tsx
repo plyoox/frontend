@@ -9,7 +9,7 @@ interface Props {
 
 function ListPunishments({ punishments, setPunishments }: Props) {
   return (
-    <div className="mt-2.5">
+    <div>
       {punishments.map((action, index) => (
         <Punishment
           count={punishments.length}

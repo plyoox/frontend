@@ -1,15 +1,20 @@
-import { Alert } from "@mantine/core";
+import { AxiosError } from "axios";
 import { IconAlertTriangle } from "@tabler/icons-react";
 
 interface Props {
-  errors: [any, any];
+  error: AxiosError;
 }
 
-function RequestError({ errors: [er1, er2] }: Props) {
+function RequestError({ error }: Props) {
   return (
-    <Alert color="red" icon={<IconAlertTriangle />} mb={10} mt={10} variant="filled">
-      {(er1 || er2).message}
-    </Alert>
+    <div className={"bg-red-300 text-red-950 p-5 rounded-md"}>
+      <div className={"flex gap-2 mb-2"}>
+        <IconAlertTriangle size={24} />
+        <span>{error.message}</span>
+      </div>
+
+      <span className={"text-sm text-black"}>If this error persists, please contact support.</span>
+    </div>
   );
 }
 

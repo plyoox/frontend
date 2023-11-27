@@ -13,6 +13,7 @@ import Exemptions from "@/components/dashboard/create-rule/exemptions";
 function CreateRuleContainer() {
   const [step, setStep] = useState(0);
   const [rule, setRule] = useState<Partial<CreateAutoModerationRule>>(() => {
+    if (typeof localStorage === "undefined") return {};
     const rule = localStorage.getItem("migrate-rule");
 
     if (!rule) return {};

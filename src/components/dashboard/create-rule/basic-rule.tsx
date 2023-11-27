@@ -61,7 +61,6 @@ function BasicRule({ setStep, setRule, rule }: Props) {
 
       <div className={"flex justify-end"}>
         <Button
-          color="teal"
           onClick={() => {
             if (!partialRule.current.name) {
               setError("Rule name is required");
@@ -78,7 +77,7 @@ function BasicRule({ setStep, setRule, rule }: Props) {
             setStep(1);
           }}
           rightSection={<IconChevronRight />}
-          variant="outline"
+          variant="subtle"
         >
           Next
         </Button>
