@@ -1,4 +1,5 @@
 import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
+import { LevelRole } from "@/types/leveling";
 import { ModerationConfig, ModerationRule } from "@/types/moderation";
 
 export interface GuildDataResponse {
@@ -24,4 +25,15 @@ export interface WelcomeResponse {
   join_channel: string;
   leave_channel: string;
   join_roles: string[];
+}
+
+export interface LevelingResponse {
+  active: boolean;
+  message: string;
+  channel: string | null;
+  roles: LevelRole[];
+  no_xp_role: string | null;
+  no_xp_channels: string[];
+  remove_roles: boolean;
+  booster_xp_multiplier: number | null;
 }

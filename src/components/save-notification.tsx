@@ -8,10 +8,10 @@ import { useGuildId } from "@/lib/hooks";
 import { useEffect, useState } from "react";
 import classes from "@/styles/save-notification.module.css";
 
-interface Props {
+interface Props<T = any> {
   onSave: () => void;
-  fn: (id: string, data: any) => Promise<void>;
-  data: object | null;
+  fn: (id: string, data: T) => Promise<void>;
+  data: Partial<T> | null;
 }
 
 function SaveNotification({ data, fn, onSave }: Props) {

@@ -1,5 +1,5 @@
 import { API_URL } from "@/environment";
-import { AuthGuild, AuthUser } from "@/types/authentication";
+import { AuthUser } from "@/types/authentication";
 import { createContext } from "react";
 import { flow, makeAutoObservable } from "mobx";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -13,14 +13,9 @@ export enum AuthStatus {
 export class UserStore {
   authStatus: AuthStatus = AuthStatus.Unauthenticated;
   user: AuthUser | null = null;
-  guild: AuthGuild | null = null;
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  setGuild(guild: AuthGuild | null) {
-    this.guild = guild;
   }
 
   fetchUser = flow(function* (this: UserStore) {
@@ -45,7 +40,7 @@ export class UserStore {
 
       this.authStatus = AuthStatus.Unauthenticated;
     } catch (e) {
-      console.error(e);
+      console.error("e", e);
     }
   });
 }

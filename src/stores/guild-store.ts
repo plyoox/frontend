@@ -92,7 +92,7 @@ export class GuildStore {
     return Object.entries(data).map(([group, items]) => ({ group: group, items }));
   }
 
-  get voiceAsSelectable(): ComboboxData {
+  get voiceAsSelectable(): ComboboxItemGroup[] {
     const data: Record<string, ComboboxItem[]> = { "": [] };
     for (const channel of this.#voiceChannels.values()) {
       const group = this.#categories.get(channel.parent_id!)?.name ?? "";
@@ -105,31 +105,45 @@ export class GuildStore {
   }
 
   get allAsSelectable(): ComboboxData {
-    return [...this.textAsSelectable, ...this.voiceAsSelectable];
+    const data: Record<string, any[]> = { "": [] };
+
+    this.textAsSelectable.forEach((group) => {
+      if (!data[group.group]) data[group.group] = group.items;
+      else data[group.group].push(...group.items);
+    });
+
+    this.voiceAsSelectable.forEach((group) => {
+      if (!data[group.group]) data[group.group] = group.items;
+      else data[group.group].push(...group.items);
+    });
+
+    return Object.entries(data).map(([group, items]) => ({ group: group, items }));
   }
 
   get rolesAsSelectable(): ComboboxItem[] {
     return [...this.#roles].map((r) => ({ label: r.name, value: r.id }));
   }
 
-  get manageableRolesAsSelectable(): ComboboxData[] {
-    const highestRole = this.#roles.find((r) => r.id === this.guild!.highest_role)!;
+  get botHighestRole(): Role | undefined {
+    return this.#roles.find((r) => r.id === this.guild!.highest_role);
+  }
 
-    // return [...this.#roles]
-    //   .filter(
-    //     (r) =>
-    //       !r.managed &&
-    //       highestRole.position > r.position &&
-    //       (BigInt(r.permissions) & DiscordPermission.ManageRoles) === DiscordPermission.ManageRoles,
-    //   )
-    //   .map((r) => ({ label: r.name, value: r.id }));
+  get manageableRolesAsSelectable(): ComboboxItem[] {
+    const highestRole = this.botHighestRole;
+    if (highestRole === undefined) return [];
 
-    return [];
+    return [...this.#roles]
+      .filter((r) => !r.managed && highestRole.position > r.position)
+      .map((r) => ({ label: r.name, value: r.id }));
   }
 
   botHasPermission(permission: bigint) {
     if (this.guild === null) return false;
-    return (BigInt(this.guild.permissions) & permission) === permission;
+
+    const permissions = BigInt(this.guild.permissions);
+
+    if ((permissions & DiscordPermission.Administrator) === DiscordPermission.Administrator) return true;
+    return (permissions & permission) === permission;
   }
 }
 

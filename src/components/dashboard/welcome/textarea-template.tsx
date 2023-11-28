@@ -28,21 +28,21 @@ function TextareaTemplate({ textarea, template }: Props) {
       </Popover.Target>
       <Popover.Dropdown>
         {template.map((t) => {
-          if (t.info) {
-            return (
-              <Tooltip withArrow color="dark" key={t.value} label={t.info}>
-                <Button onClick={() => typeInTextarea(t.value)} variant="subtle">
-                  {t.name}
-                </Button>
-              </Tooltip>
-            );
-          }
-
-          return (
-            <Button key={t.value} onClick={() => typeInTextarea(t.value)} variant="subtle">
+          const button = (
+            <Button key={t.value} onClick={() => typeInTextarea(t.value)} size={"xs"} variant={"subtle"}>
               {t.name}
             </Button>
           );
+
+          if (t.info) {
+            return (
+              <Tooltip withArrow color="dark" key={t.info + t.value} label={t.info}>
+                {button}
+              </Tooltip>
+            );
+          } else {
+            return button;
+          }
         })}
       </Popover.Dropdown>
     </Popover>

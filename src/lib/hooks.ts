@@ -1,9 +1,15 @@
 import { AxiosError } from "axios";
 import { DiscordModerationRule } from "@/discord/types";
-import { GuildDataResponse, ModerationResponse, WelcomeResponse } from "@/types/responses";
+import { GuildDataResponse, LevelingResponse, ModerationResponse, WelcomeResponse } from "@/types/responses";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { RuleStoreContext } from "@/stores/rule-store";
-import { fetchAutoModerationRules, fetchGuildData, fetchModerationData, fetchWelcomeData } from "@/lib/requests";
+import {
+  fetchAutoModerationRules,
+  fetchGuildData,
+  fetchLevelingData,
+  fetchModerationData,
+  fetchWelcomeData,
+} from "@/lib/requests";
 import { useContext, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -89,6 +95,18 @@ export function useWelcomeData() {
   const { data, error, isLoading } = useQuery<WelcomeResponse, AxiosError>({
     queryKey: ["leveling", id],
     queryFn: () => fetchWelcomeData(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
+export function useLevelingData() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<LevelingResponse, AxiosError>({
+    queryKey: ["leveling", id],
+    queryFn: () => fetchLevelingData(id),
     refetchOnMount: "always",
   });
 

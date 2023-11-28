@@ -63,7 +63,6 @@ function AllowList({ rule, allowList, setAllowList }: Props) {
           }
 
           const linkMatch = val.match(/([a-zA-Z0-9-]{2,30}\.[a-zA-Z0-9-]{2,30})\b/);
-          console.log({ linkMatch });
           if (linkMatch) {
             const name = linkMatch[1];
 

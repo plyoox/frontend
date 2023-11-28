@@ -47,10 +47,13 @@ function WelcomeContainer() {
   }
 
   return (
-    <div>
+    <>
       <Accordion
         multiple
         chevronPosition="left"
+        classNames={{
+          item: "bg-mt-dark-7 mt-1",
+        }}
         defaultValue={localStorage.getItem("mod-acc-state")?.split(",") ?? ["user-join", "user-leave"]}
         onChange={(val) => localStorage.setItem("mod-acc-state", val.join(","))}
         variant="filled"
@@ -89,7 +92,7 @@ function WelcomeContainer() {
           setUpdatedConfig(null);
         }}
       />
-    </div>
+    </>
   );
 }
 

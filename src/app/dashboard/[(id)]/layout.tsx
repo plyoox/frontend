@@ -4,7 +4,8 @@ import { AppShell } from "@mantine/core";
 import { GlobalGuildStore, GuildStoreContext } from "@/stores/guild-store";
 import BreadCrumbs from "@/components/dashboard/bread-crumbs";
 import Header from "@/components/app-shell/header/header";
-import React, { useState } from "react";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
+import React, { Suspense, useState } from "react";
 import Sidenav from "@/components/app-shell/sidenav/sidenav";
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -27,7 +28,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         <GuildStoreContext.Provider value={GlobalGuildStore}>
           <div className={"p-5 max-w-4xl"}>
             <BreadCrumbs />
-            {children}
+            <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
           </div>
         </GuildStoreContext.Provider>
       </AppShell.Main>
