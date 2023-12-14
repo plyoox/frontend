@@ -34,15 +34,20 @@ export class UserStore {
     }
   });
 
-  logout = flow(function* (this: UserStore) {
+  requestLogout = flow(function* (this: UserStore) {
     try {
       yield axios.delete(`${API_URL}/logout`, { withCredentials: true });
 
-      this.authStatus = AuthStatus.Unauthenticated;
+      this.logout();
     } catch (e) {
       console.error("e", e);
     }
   });
+
+  logout() {
+    this.authStatus = AuthStatus.Unauthenticated;
+    this.user = null;
+  }
 }
 
 export const userStoreInstance = new UserStore();

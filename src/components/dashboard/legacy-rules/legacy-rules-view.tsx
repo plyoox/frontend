@@ -30,11 +30,11 @@ function LegacyRuleView({ data, handleChange }: Props) {
       </Tabs.Panel>
 
       <Tabs.Panel value="link">
-        <LinkRule channels={channels} data={data} handleChange={handleChange} roles={roles} />
+        <LinkRule channels={channels} config={data} handleChange={handleChange} roles={roles} />
       </Tabs.Panel>
 
       <Tabs.Panel value="invite">
-        <InviteRule channels={channels} data={data} handleChange={handleChange} roles={roles} />
+        <InviteRule channels={channels} config={data} handleChange={handleChange} roles={roles} />
       </Tabs.Panel>
     </Tabs>
   );

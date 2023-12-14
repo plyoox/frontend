@@ -16,6 +16,7 @@ import LegacyRuleLink from "./legacy-rule-link";
 import LogConfig from "./log-config";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
+import ToggleActive from "@/components/dashboard/toggle-active";
 
 type Config = ModerationConfig;
 
@@ -58,7 +59,9 @@ function ModerationSettings() {
   }
 
   return (
-    <div>
+    <>
+      <ToggleActive active={config.active} onChange={(active) => handleChange({ active })} />
+
       <MultiSelect
         clearable
         searchable
@@ -66,6 +69,7 @@ function ModerationSettings() {
         description="These roles will be granted permission to use the moderation commands."
         label="Moderation roles"
         leftSection={<IconAt size={16} />}
+        maxValues={10}
         mt={5}
         nothingFoundMessage="This guild has no available roles."
         onChange={(value) =>
@@ -85,6 +89,7 @@ function ModerationSettings() {
         description="These roles will be ignored by the automod. Moderation roles are already ignored."
         label="Ignored roles"
         leftSection={<IconAt size={16} />}
+        maxValues={25}
         mt={5}
         nothingFoundMessage="This guild has no available roles."
         onChange={(value) => handleChange({ ignored_roles: value })}
@@ -137,7 +142,7 @@ function ModerationSettings() {
           setUpdatedConfig(null);
         }}
       />
-    </div>
+    </>
   );
 }
 

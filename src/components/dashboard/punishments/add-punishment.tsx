@@ -20,12 +20,12 @@ function AddPunishment({ punishments, setPunishments, isFinal, className }: Prop
   const guildStore = useContext(GuildStoreContext);
   const [open, setOpen] = useState(false);
 
-  const limit = guildStore.premium ? PREMIUM_LIMITS.MAX_AUTOMOD_RULES : DEFAULT_LIMITS.MAX_AUTOMOD_RULES;
+  const limit = guildStore.premium ? PREMIUM_LIMITS.MAX_RULE_PUNISHMENTS : DEFAULT_LIMITS.MAX_RULE_PUNISHMENTS;
 
   return (
     <div className={className}>
       <button
-        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer
+        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer hover:bg-mt-dark-5
         disabled:bg-mt-dark-7 disabled:cursor-not-allowed disabled:hover:bg-mt-dark-7`}
         disabled={punishments.length >= limit}
         onClick={() => {

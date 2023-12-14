@@ -1,6 +1,12 @@
 import { API_URL } from "@/environment";
-import { DiscordModerationRule } from "@/discord/types";
-import { GuildDataResponse, LevelingResponse, ModerationResponse, WelcomeResponse } from "@/types/responses";
+import { DiscordModerationRule, Guild } from "@/discord/types";
+import {
+  GuildDataResponse,
+  LevelingResponse,
+  LoggingResponse,
+  ModerationResponse,
+  WelcomeResponse,
+} from "@/types/responses";
 import { ModerationConfig } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
@@ -61,6 +67,18 @@ export async function fetchLevelingData(id: string) {
   return response.data;
 }
 
+export async function fetchLoggingData(id: string) {
+  const response = await axios.get<LoggingResponse>(`${API_URL}/guild/${id}/logging`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function fetchGuilds(): Promise<Guild[]> {
+  const res = await axios.get(`${API_URL}/discord/guilds`, { withCredentials: true });
+
+  return res.data;
+}
+
 export async function removeModerationRule(guildId: string, ruleId: string) {
   await axios.delete(`${API_URL}/guild/${guildId}/moderation/rules/${ruleId}`, {
     withCredentials: true,
@@ -87,6 +105,12 @@ export async function saveWelcomeData(id: string, data: Partial<Partial<WelcomeR
 
 export async function saveLevelingData(id: string, data: Partial<Partial<LevelingResponse>>): Promise<any> {
   await axios.patch(`${API_URL}/guild/${id}/leveling`, data, {
+    withCredentials: true,
+  });
+}
+
+export async function saveLoggingConfig(id: string, data: Partial<Partial<LoggingResponse>>): Promise<any> {
+  await axios.patch(`${API_URL}/guild/${id}/logging`, data, {
     withCredentials: true,
   });
 }

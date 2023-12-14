@@ -17,6 +17,7 @@ import LevelRoleManager from "@/components/dashboard/leveling/level-role-manager
 import LevelUpMessage from "@/components/dashboard/leveling/level-up-message";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
+import ToggleActive from "@/components/dashboard/toggle-active";
 
 type Config = LevelingResponse;
 
@@ -57,6 +58,8 @@ function LevelContainer() {
 
   return (
     <>
+      <ToggleActive active={config.active} onChange={(active) => handleChange({ active })} />
+
       <Accordion
         multiple
         chevronPosition="left"

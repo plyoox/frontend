@@ -28,6 +28,7 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
         disabled={!manageRolePermission}
         label="Join role"
         leftSection={<IconAt size={16} />}
+        max={20}
         mt={5}
         nothingFoundMessage={'No roles available. Make sure the bot has the "Manage Roles" permission.'}
         onChange={(value) => handleChange({ join_roles: value })}

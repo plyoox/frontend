@@ -42,22 +42,24 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
       <MultiSelect
         searchable
         data={channels}
-        defaultValue={data.caps_whitelisted_channels}
+        defaultValue={data.caps_exempt_channels}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}
+        maxValues={50}
         onChange={(val) => {
-          handleChange({ caps_whitelisted_channels: val });
+          handleChange({ caps_exempt_channels: val });
         }}
         placeholder="Select channels to exempt..."
       />
 
       <MultiSelect
         data={roles}
-        defaultValue={data.caps_whitelisted_roles}
+        defaultValue={data.caps_exempt_roles}
         label="Exempt Roles"
         leftSection={<IconAt size={16} />}
+        maxValues={50}
         onChange={(val) => {
-          handleChange({ caps_whitelisted_roles: val });
+          handleChange({ caps_exempt_roles: val });
         }}
         placeholder="Select roles to exempt..."
       />

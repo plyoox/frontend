@@ -1,6 +1,7 @@
 import { IconChevronDown, IconListSearch, IconLogout } from "@tabler/icons-react";
 import { Menu } from "@headlessui/react";
 import { UserStoreContext } from "@/stores/user-store";
+import { observer } from "mobx-react-lite";
 import { useContext, useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -58,7 +59,7 @@ function UserView() {
               className="mt-0.5 flex p-2 cursor-pointer hover:bg-red-400/20 rounded-md hover:text-white duration-200"
               href="/"
               onClick={() => {
-                store.logout();
+                store.requestLogout();
               }}
             >
               <IconLogout className="mr-2 text-red-400" size={18} />
@@ -71,4 +72,4 @@ function UserView() {
   );
 }
 
-export default UserView;
+export default observer(UserView);

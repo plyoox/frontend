@@ -1,6 +1,5 @@
 @import "../styles/tw-preflight.css";
+@import "../styles/mantine-variables.css";
 
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
-

@@ -1,4 +1,4 @@
-import "./Scrollbar.css";
+import "../../../styles/Scrollbar.css";
 import { Guild } from "@/discord/types";
 import { Suspense } from "react";
 import ServerList from "./components/server-list";

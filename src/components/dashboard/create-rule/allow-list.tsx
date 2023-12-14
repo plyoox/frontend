@@ -1,9 +1,8 @@
-import { Button, MultiSelect, TagsInput, TextInput } from "@mantine/core";
 import { CreateAutoModerationRule } from "@/types/moderation";
-import { IconPlaylistAdd } from "@tabler/icons-react";
+import { TagsInput } from "@mantine/core";
 import { UseRef, UseState } from "@/types/react";
 import { ensureUniqueness } from "@/lib/utils";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 interface Props {
   rule: UseRef<Partial<CreateAutoModerationRule>>;
@@ -25,6 +24,7 @@ function AllowList({ rule, allowList, setAllowList }: Props) {
         clearable
         data={allowList}
         description="Add allowed words and phrases"
+        maxTags={100}
         onChange={(val) => {
           if (val.length < allowList.length) setAllowList(val);
         }}

@@ -36,7 +36,7 @@ function TextareaTemplate({ textarea, template }: Props) {
 
           if (t.info) {
             return (
-              <Tooltip withArrow color="dark" key={t.info + t.value} label={t.info}>
+              <Tooltip withArrow key={t.info + t.value} label={t.info}>
                 {button}
               </Tooltip>
             );

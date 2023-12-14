@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@mantine/core"],
   },
+  output: "standalone",
   images: {
     remotePatterns: [
       {

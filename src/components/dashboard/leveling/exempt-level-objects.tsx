@@ -23,22 +23,22 @@ function ExemptLevelObjects({
         description="Users with this role will not receive any xp"
         label="No xp role"
         leftSection={<IconAt size={16} />}
-        onChange={(value) => handleChange({ no_xp_role: value })}
+        onChange={(value) => handleChange({ exempt_role: value })}
         placeholder="Select role..."
-        value={config.no_xp_role}
+        value={config.exempt_role}
       />
 
       <MultiSelect
         clearable
         multiple
         searchable
-        data={guildStore.allAsSelectable}
+        data={guildStore.channelsAsSelectable}
         description="In this channels no one will receive any xp"
         label="No xp channels"
         leftSection={<IconHash size={16} />}
-        onChange={(value) => handleChange({ no_xp_channels: value })}
+        onChange={(value) => handleChange({ exempt_channels: value })}
         placeholder="Select channels..."
-        value={config?.no_xp_channels}
+        value={config?.exempt_channels}
       />
     </>
   );

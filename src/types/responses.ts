@@ -1,5 +1,6 @@
 import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
 import { LevelRole } from "@/types/leveling";
+import { LoggingConfig, LoggingSetting } from "@/types/logging";
 import { ModerationConfig, ModerationRule } from "@/types/moderation";
 
 export interface GuildDataResponse {
@@ -32,8 +33,18 @@ export interface LevelingResponse {
   message: string;
   channel: string | null;
   roles: LevelRole[];
-  no_xp_role: string | null;
-  no_xp_channels: string[];
+  exempt_role: string | null;
+  exempt_channels: string[];
   remove_roles: boolean;
   booster_xp_multiplier: number | null;
+}
+
+export interface LoggingResponse {
+  config: LoggingConfig;
+  settings: LoggingSetting[];
+}
+
+export interface MaybeWebhook {
+  id: string;
+  channel_id: string | null;
 }

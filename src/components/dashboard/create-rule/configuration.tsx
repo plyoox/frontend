@@ -79,7 +79,7 @@ function Configuration({ rule, setRule, setStep }: Props) {
 
             createAutoModerationRule(id!, fullRule)
               .then((r) => {
-                push(`/dashboard/${id}/moderation`, { state: rule.legacy });
+                push(`/dashboard/${id}/moderation`);
                 ruleStore.addDiscordRule(r);
               })
               .catch((e) => {

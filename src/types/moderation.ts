@@ -10,21 +10,21 @@ export interface ModerationConfig {
   point_actions: Punishment[];
 
   invite_active: boolean;
-  invite_whitelisted_channels: string[];
-  invite_whitelisted_roles: string[];
-  invite_allowed_guilds: string[];
+  invite_exempt_channels: string[];
+  invite_exempt_roles: string[];
+  invite_exempt_guilds: string[];
   invite_actions: Punishment[];
 
   link_active: boolean;
-  link_whitelisted_channels: string[];
-  link_whitelisted_roles: string[];
+  link_exempt_channels: string[];
+  link_exempt_roles: string[];
   link_allow_list: string[];
   link_actions: Punishment[];
   link_is_whitelist: boolean;
 
   caps_active: boolean;
-  caps_whitelisted_channels: string[];
-  caps_whitelisted_roles: string[];
+  caps_exempt_channels: string[];
+  caps_exempt_roles: string[];
   caps_actions: Punishment[];
 }
 

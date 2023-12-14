@@ -2,7 +2,7 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, createTheme } from "@mantine/core";
 import { Poppins } from "next/font/google";
 import { Provider } from "@/app/_provider";
 import React from "react";
@@ -11,6 +11,10 @@ import type { Metadata } from "next";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const theme = createTheme({
+  cursorType: "pointer",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no" name="viewport" />
         <title>Plyoox.net - Discord Bot</title>
       </head>
-      <body className={`${poppins.className} bg-mt-dark-9 text-pl-text`}>
-        <MantineProvider forceColorScheme="dark" withCssVariables={false}>
+      <body className={`${poppins.className} bg-mt-dark-9`}>
+        <MantineProvider forceColorScheme="dark" theme={theme} withCssVariables={false}>
           <Provider>{children}</Provider>
         </MantineProvider>
       </body>

@@ -53,6 +53,10 @@ export class GuildStore {
     return this.#roles;
   }
 
+  get textChannels() {
+    return this.#textChannels;
+  }
+
   get premium() {
     return this.#premium;
   }
@@ -104,7 +108,7 @@ export class GuildStore {
     return Object.entries(data).map(([group, items]) => ({ group: group, items }));
   }
 
-  get allAsSelectable(): ComboboxData {
+  get channelsAsSelectable(): ComboboxData {
     const data: Record<string, any[]> = { "": [] };
 
     this.textAsSelectable.forEach((group) => {
@@ -121,7 +125,7 @@ export class GuildStore {
   }
 
   get rolesAsSelectable(): ComboboxItem[] {
-    return [...this.#roles].map((r) => ({ label: r.name, value: r.id }));
+    return this.#roles.map((r) => ({ label: r.name, value: r.id }));
   }
 
   get botHighestRole(): Role | undefined {

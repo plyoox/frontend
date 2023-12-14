@@ -12,6 +12,7 @@ import JoinConfig from "@/components/dashboard/welcome/join-config";
 import LeaveConfig from "@/components/dashboard/welcome/leave-config";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
+import ToggleActive from "@/components/dashboard/toggle-active";
 
 type Config = WelcomeResponse;
 
@@ -48,6 +49,8 @@ function WelcomeContainer() {
 
   return (
     <>
+      <ToggleActive active={config.active} onChange={(active) => handleChange({ active })} />
+
       <Accordion
         multiple
         chevronPosition="left"

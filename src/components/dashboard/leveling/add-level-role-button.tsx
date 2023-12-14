@@ -19,7 +19,7 @@ function AddLevelRoleButton({
   const guildStore = useContext(GuildStoreContext);
   const [open, setOpen] = useState(false);
 
-  const limit = guildStore.premium ? PREMIUM_LIMITS.MAX_AUTOMOD_RULES : DEFAULT_LIMITS.MAX_AUTOMOD_RULES;
+  const limit = guildStore.premium ? PREMIUM_LIMITS.MAX_LEVEL_ROLES : DEFAULT_LIMITS.MAX_LEVEL_ROLES;
 
   return (
     <div className={className}>
