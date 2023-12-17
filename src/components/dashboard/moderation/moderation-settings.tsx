@@ -22,10 +22,11 @@ type Config = ModerationConfig;
 
 function ModerationSettings() {
   function handleChange(data: Partial<Config>) {
-    const newConfig = { ...config!, ...data };
-    const updatedKeys = handleChangeHelper(data, newConfig, oldConfig);
+    const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    setConfig(newConfig);
+    console.log({ updatedKeys });
+
+    setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
 

@@ -1,7 +1,6 @@
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconCheck, IconX } from "@tabler/icons-react";
 import { LoggingSetting } from "@/types/logging";
-import { MultiSelect, Select, Switch } from "@mantine/core";
+import { MultiSelect, Select } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
@@ -57,6 +56,7 @@ function LoggingSetting({
             onChange({ ...setting, channel: null });
           }
         }}
+        placeholder={"Select a logging channel..."}
       />
 
       <MultiSelect
@@ -65,6 +65,7 @@ function LoggingSetting({
         label={"Exempt Roles"}
         maxValues={50}
         onChange={(value) => onChange({ ...setting, exempt_roles: value })}
+        placeholder={"Select exempt roles..."}
         value={setting.exempt_roles}
       />
       <MultiSelect
@@ -73,6 +74,7 @@ function LoggingSetting({
         label={"Exempt Channels"}
         maxValues={50}
         onChange={(value) => onChange({ ...setting, exempt_channels: value })}
+        placeholder={"Select exempt channels..."}
         value={setting.exempt_channels}
       />
     </div>

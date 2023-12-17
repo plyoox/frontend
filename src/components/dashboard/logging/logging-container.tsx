@@ -4,6 +4,7 @@ import { Accordion, LoadingOverlay } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { LoggingKind } from "@/config/enums";
 import { LoggingResponse } from "@/types/responses";
+import { capitalize } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveLoggingConfig } from "@/lib/requests";
 import { useEffect, useRef, useState } from "react";
@@ -19,10 +20,11 @@ type Config = LoggingResponse;
 
 function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
-    const newConfig = { ...config!, ...data };
-    const updatedKeys = handleChangeHelper(data, newConfig, oldConfig);
+    const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    setConfig(newConfig);
+    console.log({ updatedKeys });
+
+    setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
 
@@ -54,7 +56,16 @@ function LoggingContainer() {
     <>
       <ToggleActive active={config.config.active} onChange={(active) => handleChange({ config: { active } })} />
 
-      <Accordion multiple>
+      <Accordion
+        multiple
+        chevronPosition="left"
+        classNames={{
+          item: "bg-mt-dark-7 mt-1",
+        }}
+        defaultValue={localStorage.getItem("mod-acc-state")?.split(",") ?? []}
+        onChange={(val) => localStorage.setItem("mod-acc-state", val.join(","))}
+        variant="filled"
+      >
         {Object.entries(LoggingKind).map(([_, value]) => {
           const setting = config.settings.find((s) => s.kind === value) ?? {
             kind: value,
@@ -72,7 +83,13 @@ function LoggingContainer() {
                 }
                 state={setting.active}
               >
-                <AccordionLabel description={""} label={value.toLowerCase()} />
+                <AccordionLabel
+                  description={""}
+                  label={value
+                    .split("_")
+                    .map((v) => capitalize(v))
+                    .join(" ")}
+                />
               </AccordionSwitchControl>
 
               <Accordion.Panel>

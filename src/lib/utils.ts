@@ -133,3 +133,7 @@ export function parseNumberInput(value: string | number): number {
 export function ensureUniqueness(values: string[]): string[] {
   return Array.from(new Set(values));
 }
+
+export function capitalize(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
