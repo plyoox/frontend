@@ -18,10 +18,9 @@ function LegacyRulesContainer() {
   const oldConfig = useRef<Config>({} as Config);
 
   function handleChange(data: Partial<Config>) {
-    const newConfig = { ...config!, ...data };
-    const updatedKeys = handleChangeHelper(data, newConfig, oldConfig);
+    const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    setConfig(newConfig);
+    setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
 

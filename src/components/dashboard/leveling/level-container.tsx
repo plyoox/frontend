@@ -23,10 +23,9 @@ type Config = LevelingResponse;
 
 function LevelContainer() {
   function handleChange(data: Partial<Config>) {
-    const newConfig = { ...config!, ...data };
-    const updatedKeys = handleChangeHelper(data, newConfig, oldConfig);
+    const updatedKeys = handleChangeHelper(config!, data, oldConfig);
 
-    setConfig(newConfig);
+    setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
 

@@ -1,8 +1,8 @@
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
 import { Button, NumberInput, Select, Slider } from "@mantine/core";
 import {
-  DiscordRulePunishmentItems,
   DURATION_PUNISHMENTS,
+  DiscordRulePunishmentItems,
   PointPunishmentItems,
   PunishmentCheckItems,
   TIME_CHECKS,
