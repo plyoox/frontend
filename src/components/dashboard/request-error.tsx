@@ -7,8 +7,8 @@ interface Props {
 
 function RequestError({ error }: Props) {
   return (
-    <div className={"bg-red-300 text-red-950 p-5 rounded-md mt-2"}>
-      <div className={"flex gap-2 mb-2"}>
+    <div className={"mt-2 rounded-md bg-red-300 p-5 text-red-950"}>
+      <div className={"mb-2 flex gap-2"}>
         <IconAlertTriangle size={24} />
         <span>{error.message}</span>
       </div>

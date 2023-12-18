@@ -23,8 +23,8 @@ function LevelRoleItem({ levelRole, onRemove }: { levelRole: LevelRole; onRemove
   }, [role, guildStore.botHighestRole]);
 
   return (
-    <div className="flex items-center justify-between rounded-md h-[60px] bg-mt-dark-6 p-2 pl-2.5 my-1">
-      <div className={"flex justify-between items-center gap-2"}>
+    <div className="my-1 flex h-[60px] items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
+      <div className={"flex items-center justify-between gap-2"}>
         <span>{role?.name ?? "Deleted Role"}</span>
         {showWarning && (
           <Tooltip withArrow label="The bot has no permission to assign this role.">

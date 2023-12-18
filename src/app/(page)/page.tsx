@@ -4,9 +4,9 @@ import MainCard from "./components/main-card";
 
 function Page() {
   return (
-    <div className="container mx-auto relative flex flex-col px-5">
-      <MainCard className="mx-auto lg:absolute md:top-10 2xl:z-10 2xl:left-16 mt-5" />
-      <GettingStarted className="mx-auto lg:absolute lg:top-60 2xl:right-52 lg:right-0 mt-5" />
+    <div className="container relative mx-auto flex flex-col px-5 text-white">
+      <MainCard className="mx-auto mt-5 md:top-10 lg:absolute 2xl:left-16 2xl:z-10" />
+      <GettingStarted className="mx-auto mt-5 lg:absolute lg:right-0 lg:top-60 2xl:right-52" />
       <ImportantLinks className="mx-auto mt-5 lg:mt-[480px]" />
     </div>
   );

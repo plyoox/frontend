@@ -18,7 +18,7 @@ function ServerCard({ guild }: Props) {
 
   return (
     <Link
-      className={`p-2.5 flex w-full bg-mt-dark-7 my-2 items-center hover:bg-mt-dark-6 duration-200 rounded-md ${
+      className={`my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 ${
         guild.has_bot ? "hover:shadow-pl-button" : "hover:shadow-pl-primary"
       }`}
       href={url}
@@ -26,7 +26,7 @@ function ServerCard({ guild }: Props) {
       <Avatar alt={guild.name} color="gray" radius="xl" src={iconUrl}>
         {acronym}
       </Avatar>
-      <span className="text-lg mt-1.5 ml-2">{guild.name}</span>
+      <span className="ml-2 mt-1.5 text-lg">{guild.name}</span>
       {guild.has_bot ? <IconLayoutDashboard className={"ml-auto"} /> : <IconUserPlus className={"ml-auto"} />}
     </Link>
   );

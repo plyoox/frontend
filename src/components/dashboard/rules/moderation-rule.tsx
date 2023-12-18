@@ -21,8 +21,8 @@ function ModerationRule({ rule }: Props) {
     );
 
   return (
-    <div className="flex bg-dark-7 rounded-md max-h-[60px] pl-5 my-1 p-1 justify-between flex-nowrap bg-mt-dark-6">
-      <div className={"flex justify-between items-center gap-2"}>
+    <div className="bg-dark-7 my-1 flex max-h-[60px] flex-nowrap justify-between rounded-md bg-mt-dark-6 p-1 pl-5">
+      <div className={"flex items-center justify-between gap-2"}>
         <span>{rule.name}</span>
         <>
           {!rule.enabled && (
@@ -41,7 +41,7 @@ function ModerationRule({ rule }: Props) {
           )}
         </>
       </div>
-      <div className={"flex items-center gap-2 w-32 justify-between"}>
+      <div className={"flex w-32 items-center justify-between gap-2"}>
         <Tooltip withArrow label="Configure rule">
           <Link href={`moderation/edit-rule/${rule.id}`}>
             <ActionIcon color="green" variant="light">

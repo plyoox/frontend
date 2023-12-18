@@ -1,7 +1,6 @@
 import { ComboboxData, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
 import { IconAt, IconCheck, IconChevronRight, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import { observer } from "mobx-react-lite";
 import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
 
 interface Props {
@@ -64,7 +63,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         placeholder="Select roles to exempt..."
       />
 
-      <h3 className={"mt-3 font-medium text-xl"}>Configure Actions</h3>
+      <h3 className={"mt-3 text-xl font-medium"}>Configure Actions</h3>
 
       <EditLegacyPunishments
         isFinal={false}

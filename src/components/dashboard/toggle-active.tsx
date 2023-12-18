@@ -3,8 +3,8 @@ import { Switch } from "@mantine/core";
 
 function ToggleActive({ active, onChange }: { active: boolean; onChange: (active: boolean) => void }) {
   return (
-    <div className={"flex justify-between my-3"}>
-      <span className={"text-pl-text text-sm"}>Module enabled</span>
+    <div className={"my-3 flex justify-between"}>
+      <span className={"text-sm text-pl-text"}>Module enabled</span>
 
       <Switch
         checked={active}

@@ -16,9 +16,9 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
 
   return (
     <>
-      <h3 className={"font-medium text-lg"}>Templates</h3>
+      <h3 className={"text-lg font-medium"}>Templates</h3>
 
-      <div className={"text-mt-dark-0 mb-2.5 text-sm"}>
+      <div className={"mb-2.5 text-sm text-mt-dark-0"}>
         Templates are pre-defined regex patterns that can be used to block specific links.
         <br />
         Specific exemption can be added in the allow list. It will also extend some of your input to be more viable.
@@ -74,7 +74,7 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
           rule.current.regex_patterns = val;
         }}
       >
-        <div className={"flex gap-2 flex-wrap"}>
+        <div className={"flex flex-wrap gap-2"}>
           <Chip color="indigo" disabled={hasLink} value={INVITE_REGEX} variant="light">
             Block Invites
           </Chip>

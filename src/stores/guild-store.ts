@@ -6,47 +6,15 @@ import { action, makeAutoObservable, observable } from "mobx";
 import { createContext } from "react";
 
 export class GuildStore {
+  guild: Guild | null = null;
   #textChannels: Map<string, TextChannel> = observable.map();
   #voiceChannels: Map<string, VoiceChannel> = observable.map();
   #categories: Map<string, CategoryChannel> = observable.map();
   #roles: Role[] = observable.array();
-  guild: Guild | null = null;
   #premium: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  setData(data: GuildDataResponse) {
-    if (data.infos) this.guild = data.infos;
-    if (data.text) {
-      action(() => {
-        this.#textChannels.clear();
-        for (const channel of data.text) {
-          this.#textChannels.set(channel.id, channel);
-        }
-      })();
-    }
-    if (data.roles) {
-      action(() => {
-        this.#roles.length = 0;
-        this.#roles.push(...data.roles);
-      })();
-    }
-    if (data.voice) {
-      this.#voiceChannels.clear();
-      for (const channel of data.voice) {
-        this.#voiceChannels.set(channel.id, channel);
-      }
-    }
-    if (data.category) {
-      this.#categories.clear();
-      for (const channel of data.category) {
-        this.#categories.set(channel.id, channel);
-      }
-    }
-
-    this.#premium = data.premium;
   }
 
   get roles() {
@@ -139,6 +107,38 @@ export class GuildStore {
     return [...this.#roles]
       .filter((r) => !r.managed && highestRole.position > r.position)
       .map((r) => ({ label: r.name, value: r.id }));
+  }
+
+  setData(data: GuildDataResponse) {
+    if (data.infos) this.guild = data.infos;
+    if (data.text) {
+      action(() => {
+        this.#textChannels.clear();
+        for (const channel of data.text) {
+          this.#textChannels.set(channel.id, channel);
+        }
+      })();
+    }
+    if (data.roles) {
+      action(() => {
+        this.#roles.length = 0;
+        this.#roles.push(...data.roles);
+      })();
+    }
+    if (data.voice) {
+      this.#voiceChannels.clear();
+      for (const channel of data.voice) {
+        this.#voiceChannels.set(channel.id, channel);
+      }
+    }
+    if (data.category) {
+      this.#categories.clear();
+      for (const channel of data.category) {
+        this.#categories.set(channel.id, channel);
+      }
+    }
+
+    this.#premium = data.premium;
   }
 
   botHasPermission(permission: bigint) {

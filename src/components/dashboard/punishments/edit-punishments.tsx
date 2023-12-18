@@ -36,7 +36,7 @@ function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
       <ListPunishments punishments={punishments} setPunishments={setPunishments} />
       <AddPunishment className="mt-2.5" punishments={punishments} setPunishments={setPunishments} />
 
-      <div className={"flex justify-end mt-2.5 gap-2.5"}>
+      <div className={"mt-2.5 flex justify-end gap-2.5"}>
         {
           <Tooltip withArrow label="This will delete the rule from the server">
             <Button

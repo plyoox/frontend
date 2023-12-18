@@ -15,16 +15,24 @@ class RuleStore {
     makeAutoObservable(this);
   }
 
+  get moderationRules() {
+    return this.#moderationRules;
+  }
+
+  get discordRules() {
+    return this.#discordRules;
+  }
+
+  get discordRulesArray() {
+    return Array.from(this.#discordRules.values());
+  }
+
   addModerationRule(rule: ModerationRule) {
     this.#moderationRules.set(rule.rule_id, rule);
   }
 
   removeModerationRule(rule_id: string) {
     this.#moderationRules.delete(rule_id);
-  }
-
-  get moderationRules() {
-    return this.#moderationRules;
   }
 
   setModerationRules(rules: ModerationRule[]) {
@@ -43,6 +51,22 @@ class RuleStore {
     this.removeAbundantRules();
   }
 
+  addDiscordRule(rule: DiscordModerationRule) {
+    this.#discordRules.set(rule.id, rule);
+  }
+
+  removeDiscordRule(rule_id: string) {
+    this.#discordRules.delete(rule_id);
+  }
+
+  canCreateKeywordRule() {
+    const keywordLength = this.discordRulesArray.filter(
+      (rule) => rule.trigger_type === AutoModerationTriggerType.Keyword,
+    ).length;
+
+    return this.#loadedRules && keywordLength < DISCORD_KEYWORD_RULE_LIMIT;
+  }
+
   /**
    * Deletes all moderation rules that have no corresponding discord rule
    */
@@ -54,30 +78,6 @@ class RuleStore {
         });
       }
     }
-  }
-
-  addDiscordRule(rule: DiscordModerationRule) {
-    this.#discordRules.set(rule.id, rule);
-  }
-
-  removeDiscordRule(rule_id: string) {
-    this.#discordRules.delete(rule_id);
-  }
-
-  get discordRules() {
-    return this.#discordRules;
-  }
-
-  get discordRulesArray() {
-    return Array.from(this.#discordRules.values());
-  }
-
-  canCreateKeywordRule() {
-    const keywordLength = this.discordRulesArray.filter(
-      (rule) => rule.trigger_type === AutoModerationTriggerType.Keyword,
-    ).length;
-
-    return this.#loadedRules && keywordLength < DISCORD_KEYWORD_RULE_LIMIT;
   }
 }
 

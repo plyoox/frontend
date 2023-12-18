@@ -18,7 +18,7 @@ function AllowList({ rule, allowList, setAllowList }: Props) {
 
   return (
     <>
-      <h3 className={"font-medium text-lg"}>Allow list</h3>
+      <h3 className={"text-lg font-medium"}>Allow list</h3>
 
       <TagsInput
         clearable

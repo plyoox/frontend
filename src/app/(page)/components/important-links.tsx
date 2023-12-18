@@ -7,8 +7,8 @@ interface Props {
 
 function ImportantLinks({ className }: Props) {
   return (
-    <div className={`bg-pl-text text-black p-8 rounded-lg md:p-16 lg:max-w-[445px] w-full ${className}`}>
-      <h2 className="font-bold text-3xl tracking-wide">Important Links</h2>
+    <div className={`w-full rounded-lg bg-pl-text p-8 text-black md:p-16 lg:max-w-[445px] ${className}`}>
+      <h2 className="text-3xl font-bold tracking-wide">Important Links</h2>
 
       <ul className="mt-2">
         <li>

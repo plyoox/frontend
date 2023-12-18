@@ -27,9 +27,9 @@ function DynamicCrumbs() {
 
   return (
     <>
-      <li className={"font-semibold text-mt-dark-2 text-xs"}>/</li>
+      <li className={"text-xs font-semibold text-mt-dark-2"}>/</li>
 
-      <li className={"hover:underline font-medium text-blue-400"}>
+      <li className={"font-medium text-blue-400 hover:underline"}>
         <Link href={`/dashboard/${id}`}>
           <span>{guild?.name ?? id}</span>
         </Link>
@@ -37,12 +37,12 @@ function DynamicCrumbs() {
 
       {path && (
         <>
-          <li className={"font-semibold text-mt-dark-2 text-xs"}>/</li>
+          <li className={"text-xs font-semibold text-mt-dark-2"}>/</li>
 
           <li>
             {path.isLink ? (
               <Link
-                className={"hover:underline font-medium text-blue-400"}
+                className={"font-medium text-blue-400 hover:underline"}
                 href={`/dashboard/${id}/${path.path.toLowerCase()}`}
               >
                 {path.path}

@@ -6,15 +6,15 @@ interface Props {
 
 function MainCard({ className }: Props) {
   return (
-    <div className={`p-8 rounded-lg bg-pl-card md:p-16 w-full lg:max-w-[575px] ${className}`}>
-      <span className="text-4xl whitespace-nowrap">
+    <div className={`w-full rounded-lg bg-pl-card p-8 md:p-16 lg:max-w-[575px] ${className}`}>
+      <span className="whitespace-nowrap text-4xl">
         A{" "}
-        <span className="bg-gradient-to-r from-pl-accent to-pl-primary bg-clip-text text-transparent font-black italic tracking-wider">
+        <span className="bg-gradient-to-r from-pl-accent to-pl-primary bg-clip-text font-black italic tracking-wider text-transparent">
           modern
         </span>
       </span>
       <br />
-      <span className="text-5xl font-black whitespace-nowrap">
+      <span className="whitespace-nowrap text-5xl font-black">
         <span>Discord Bot</span>
       </span>
 

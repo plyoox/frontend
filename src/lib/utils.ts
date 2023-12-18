@@ -124,12 +124,6 @@ export function amountToColor(amount: number, max: number): { from: string; to: 
   return { from: "orange", to: "red" };
 }
 
-export function parseNumberInput(value: string | number): number {
-  if (typeof value === "number") return value;
-
-  return parseInt(value);
-}
-
 export function ensureUniqueness(values: string[]): string[] {
   return Array.from(new Set(values));
 }

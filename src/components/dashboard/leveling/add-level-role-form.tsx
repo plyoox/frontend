@@ -78,7 +78,7 @@ function AddLevelRoleForm({
         placeholder={"Select level..."}
       />
 
-      <div className={"flex justify-end mt-2.5"}>
+      <div className={"mt-2.5 flex justify-end"}>
         <Button type="submit">Save</Button>
       </div>
     </form>

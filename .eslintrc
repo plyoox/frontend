@@ -22,7 +22,6 @@
         ]
       }
     ],
-     "react-hooks/exhaustive-deps": 2,
     "react/jsx-sort-props": [
       2,
       {
@@ -30,7 +29,6 @@
         "ignoreCase": true,
         "noSortAlphabetically": false
       }
-    ],
-    "react-hooks/rules-of-hooks": 2
+    ]
   }
 }

@@ -2,7 +2,7 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 
-import { MantineProvider, createTheme } from "@mantine/core";
+import { createTheme, MantineProvider } from "@mantine/core";
 import { Poppins } from "next/font/google";
 import { Provider } from "@/app/_provider";
 import React from "react";

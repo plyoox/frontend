@@ -30,8 +30,8 @@ function SaveNotification({ data, fn, onSave }: Props) {
   }, [data, className]);
 
   return (
-    <div className={`${classes.notificationBar} ${className} w-10/12 lg:w-1/2 rounded-md bg-black p-2.5`}>
-      <div className={"flex justify-between items-center"}>
+    <div className={`${classes.notificationBar} ${className} w-10/12 rounded-md bg-black p-2.5 lg:w-1/2`}>
+      <div className={"flex items-center justify-between"}>
         <span className={"pr-2.5"}>You have some unsaved settings. Save to keep them.</span>
         <Button
           color="green"

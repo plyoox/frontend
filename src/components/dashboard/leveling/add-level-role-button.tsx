@@ -24,14 +24,14 @@ function AddLevelRoleButton({
   return (
     <div className={className}>
       <button
-        className={`pl-2.5 w-full rounded-md h-[60px] pr-2 bg-mt-dark-6 flex justify-between items-center cursor-pointer
-        disabled:bg-mt-dark-7 disabled:cursor-not-allowed disabled:hover:bg-mt-dark-7`}
+        className={`flex h-[60px] w-full cursor-pointer items-center justify-between rounded-md bg-mt-dark-6 pl-2.5 pr-2
+        disabled:cursor-not-allowed disabled:bg-mt-dark-7 disabled:hover:bg-mt-dark-7`}
         disabled={config.roles.length >= limit}
         onClick={() => {
           setOpen(!open);
         }}
       >
-        <div className="font-semibold flex items-center gap-3">
+        <div className="flex items-center gap-3 font-semibold">
           <ThemeIcon color="green" size="md" variant="light">
             <IconPlus size={20} />
           </ThemeIcon>

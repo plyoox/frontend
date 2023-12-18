@@ -12,7 +12,7 @@ function Link({ color, icon, label, link, setOpened, beta }: LinkProps) {
 
   return (
     <NextLink
-      className="block p-3 rounded hover:bg-opacity-20 hover:bg-white/5"
+      className="block rounded p-3 hover:bg-white/5 hover:bg-opacity-20"
       href={`/dashboard/${id}/${link}`}
       onClick={() => {
         setOpened(false);

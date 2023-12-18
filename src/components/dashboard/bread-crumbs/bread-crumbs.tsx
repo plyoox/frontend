@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export function BreadCrumbs() {
   return (
-    <ul className={"list-none flex gap-2 p-0 items-center m-0"}>
-      <li className={"hover:underline font-medium text-blue-400"}>
+    <ul className={"m-0 flex list-none items-center gap-2 p-0"}>
+      <li className={"font-medium text-blue-400 hover:underline"}>
         <Link href="/dashboard">Server List</Link>
       </li>
       <DynamicCrumbs />

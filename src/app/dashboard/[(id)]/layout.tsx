@@ -26,7 +26,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <AppShell.Main>
         <GuildStoreContext.Provider value={GlobalGuildStore}>
-          <div className={"p-5 max-w-4xl"}>
+          <div className={"max-w-4xl p-5"}>
             <BreadCrumbs />
             <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
           </div>

@@ -1,8 +1,8 @@
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
 import { Button, NumberInput, Select, Slider } from "@mantine/core";
 import {
-  DURATION_PUNISHMENTS,
   DiscordRulePunishmentItems,
+  DURATION_PUNISHMENTS,
   PointPunishmentItems,
   PunishmentCheckItems,
   TIME_CHECKS,
@@ -125,7 +125,7 @@ function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, clas
         />
       )}
 
-      <div className={"flex justify-end mt-4"}>
+      <div className={"mt-4 flex justify-end"}>
         <Button color="green" leftSection={<IconDatabasePlus />} type={"submit"} variant="outline">
           Add action
         </Button>

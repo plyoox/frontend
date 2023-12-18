@@ -7,7 +7,7 @@ function Logo() {
     <Link className="flex items-center gap-3" href="/">
       <Image alt="plyoox logo" className="h-14 w-14" src={logo} />
 
-      <div className="uppercase font-black text-xl">
+      <div className="text-xl font-black uppercase text-white">
         <span className="text-3xl">P</span>lyoox
       </div>
     </Link>

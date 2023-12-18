@@ -18,8 +18,8 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
   const downDisabled = index === count - 1;
 
   return (
-    <div className="flex items-center justify-between rounded-md h-[60px] bg-mt-dark-6 p-2 pl-2.5 my-1">
-      <div className={"flex justify-between items-center gap-2"}>
+    <div className="my-1 flex h-[60px] items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
+      <div className={"flex items-center justify-between gap-2"}>
         <span>{actionToText(punishment)}</span>
         {showWarning && (
           <Tooltip withArrow label="This is a global action and should be last. Click to resolve">

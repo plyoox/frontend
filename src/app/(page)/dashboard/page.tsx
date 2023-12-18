@@ -29,11 +29,11 @@ function Page({ searchParams }: { searchParams: { data?: string } }) {
 
   return (
     <div>
-      <h1 className={"text-3xl text-center my-5 "}>Select a server</h1>
+      <h1 className={"my-5 text-center text-3xl "}>Select a server</h1>
 
       <div
         className={
-          "max-h-[70vh] bg-mt-dark-7 container mx-auto max-w-2xl overflow-y-scroll p-2 rounded-md shadow-xl shadow-mt-dark-8"
+          "container mx-auto max-h-[70vh] max-w-2xl overflow-y-scroll rounded-md bg-mt-dark-7 p-2 shadow-xl shadow-mt-dark-8"
         }
       >
         <Suspense fallback={<ServerLoading />}>

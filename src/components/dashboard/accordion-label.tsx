@@ -2,7 +2,7 @@ function AccordionLabel({ label, description }: { label: string; description: st
   return (
     <>
       <h3 className="text-lg font-semibold text-pl-text">{label}</h3>
-      <span className={"font-normal text-sm text-mt-dark-2"}>{description}</span>
+      <span className={"text-sm font-normal text-mt-dark-2"}>{description}</span>
     </>
   );
 }

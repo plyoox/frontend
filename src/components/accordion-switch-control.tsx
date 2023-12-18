@@ -8,7 +8,7 @@ interface Props extends AccordionControlProps {
 
 function AccordionSwitchControl({ state, onStateChange, ...props }: Props) {
   return (
-    <div className={"flex items-center hover:bg-mt-dark-6 rounded-sm"}>
+    <div className={"flex items-center rounded-sm hover:bg-mt-dark-6"}>
       <Accordion.Control {...props} />
 
       <Switch

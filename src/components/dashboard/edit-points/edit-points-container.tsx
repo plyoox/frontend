@@ -3,7 +3,7 @@
 import { ModerationConfig } from "@/types/moderation";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
-import { useDiscordRules, useModerationData } from "@/lib/hooks";
+import { useModerationData } from "@/lib/hooks";
 import { useEffect, useRef, useState } from "react";
 import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";

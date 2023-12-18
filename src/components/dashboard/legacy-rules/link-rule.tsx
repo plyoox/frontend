@@ -88,7 +88,7 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         size="md"
       />
 
-      <h3 className={"mt-3 font-medium text-xl"}>Configure Actions</h3>
+      <h3 className={"mt-3 text-xl font-medium"}>Configure Actions</h3>
 
       <EditLegacyPunishments
         isFinal={false}
@@ -96,7 +96,7 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         punishments={config.link_actions}
       />
 
-      <div className={"flex justify-end mt-2.5"}>
+      <div className={"mt-2.5 flex justify-end"}>
         <Tooltip label={canCreateRule ? "Use the Discord built in rules" : "Discord's rule limit reached"}>
           <Button
             color="violet"

@@ -23,31 +23,31 @@ function UserView() {
       {({ open }) => (
         <>
           <Menu.Button
-            className={`flex items-center duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button p-1.5 px-2 rounded-lg justify-center bg-transparent outline-none ${
+            className={`flex items-center justify-center rounded-lg bg-transparent p-1.5 px-2 outline-none duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button ${
               open ? "shadow-pl-button" : ""
             }`}
             ref={buttonRef}
           >
             <Image
               alt="avatar"
-              className="rounded-full mr-2"
+              className="mr-2 rounded-full"
               height={36}
               src={`https://cdn.discordapp.com/${avatar}`}
               width={36}
             />
 
-            <span>{store.user?.display_name ?? store.user?.username}</span>
+            <span className={"text-white"}>{store.user?.display_name ?? store.user?.username}</span>
 
-            <IconChevronDown className={`duration-200 ml-1 ${open ? "rotate-180" : ""}`} size={15} />
+            <IconChevronDown className={`ml-1 duration-200 ${open ? "rotate-180" : ""}`} size={15} />
           </Menu.Button>
 
           <Menu.Items
-            className="bg-mt-dark-7 absolute right-0 w-44 mt-2 p-2 rounded-md z-20 shadow-pl-accent-light drop-shadow-2xl text-gray-200 text-sm"
+            className="absolute right-0 z-20 mt-2 w-44 rounded-md bg-mt-dark-7 p-2 text-sm text-gray-200 shadow-pl-accent-light drop-shadow-2xl"
             style={{ width: buttonRef.current?.clientWidth }}
           >
             <Menu.Item
               as={Link}
-              className="flex p-2 cursor-pointer hover:bg-mt-dark-6 rounded-md hover:text-white"
+              className="flex cursor-pointer rounded-md p-2 hover:bg-mt-dark-6 hover:text-white"
               href="/dashboard"
             >
               <IconListSearch className="mr-2" size={18} />
@@ -56,7 +56,7 @@ function UserView() {
 
             <Menu.Item
               as={Link}
-              className="mt-0.5 flex p-2 cursor-pointer hover:bg-red-400/20 rounded-md hover:text-white duration-200"
+              className="mt-0.5 flex cursor-pointer rounded-md p-2 duration-200 hover:bg-red-400/20 hover:text-white"
               href="/"
               onClick={() => {
                 store.requestLogout();

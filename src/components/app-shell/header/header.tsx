@@ -8,8 +8,8 @@ interface NavbarProps {
 
 function Header({ setOpen, open }: NavbarProps) {
   return (
-    <nav className="border-b border-b-dark-4 px-2 bg-mt-dark-7">
-      <div className="container mx-auto flex items-center h-[70px] justify-between">
+    <nav className="border-b border-b-dark-4 bg-mt-dark-7 px-2">
+      <div className="container mx-auto flex h-[70px] items-center justify-between">
         <Logo />
 
         <LoginView />
