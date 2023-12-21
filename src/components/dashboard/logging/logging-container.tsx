@@ -1,13 +1,14 @@
 "use client";
 
-import { Accordion, LoadingOverlay } from "@mantine/core";
+import { Accordion, LoadingOverlay, Select } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
+import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingKind } from "@/config/enums";
 import { LoggingResponse } from "@/types/responses";
 import { capitalize } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveLoggingConfig } from "@/lib/requests";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
@@ -22,13 +23,14 @@ function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    console.log({ updatedKeys });
-
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
 
+  function openModal() {}
+
   const guildId = useGuildId();
+  const guildStore = useContext(GuildStoreContext);
 
   const loggingResponse = useLoggingData();
   useGuildData({ category: true, text: true, roles: true });
@@ -55,6 +57,12 @@ function LoggingContainer() {
   return (
     <>
       <ToggleActive active={config.config.active} onChange={(active) => handleChange({ config: { active } })} />
+
+      <Select
+        data={guildStore.textAsSelectable}
+        description={"Set a channel for specific log variants."}
+        label={"Set channel"}
+      />
 
       <Accordion
         multiple

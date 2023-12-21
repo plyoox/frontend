@@ -26,7 +26,7 @@ function LogConfig({ data, handleChange, text }: Props) {
     bc.onmessage = (msg) => {
       if (typeof msg.data === "string") {
         const data = msg.data.split(":");
-        if (data.at(2) !== "WHMOD") return;
+        if (data.at(0) !== "moderation") return;
 
         handleChange({ log_channel: data[1] });
         bc.close();

@@ -8,6 +8,7 @@ export function BreadCrumbs() {
       <li className={"font-medium text-blue-400 hover:underline"}>
         <Link href="/dashboard">Server List</Link>
       </li>
+
       <DynamicCrumbs />
 
       <li className="ml-auto">

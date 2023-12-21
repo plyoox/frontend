@@ -1,12 +1,20 @@
-import Header from "@/components/app-shell/header/header";
-import React from "react";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 
-function Layout({ children }: { children: React.ReactNode }) {
+import { MantineProvider } from "@mantine/core";
+import { Provider } from "@/app/_provider";
+import { ReactNode } from "react";
+import { theme } from "@/config/defaults";
+import Header from "@/components/app-shell/header/header";
+
+function Layout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <Header />
-      {children}
-    </>
+    <MantineProvider forceColorScheme="dark" theme={theme} withCssVariables={false}>
+      <Provider>
+        <Header />
+        {children}
+      </Provider>
+    </MantineProvider>
   );
 }
 

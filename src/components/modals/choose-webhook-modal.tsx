@@ -69,6 +69,9 @@ function ChooseWebhookModal({
                 const channel = new BroadcastChannel("webhook-creation");
 
                 channel.postMessage(`${innerProps.webhookKind}:${innerProps.channel}`);
+                channel.close();
+
+                context.closeModal(id);
               }}
               variant={"light"}
             >

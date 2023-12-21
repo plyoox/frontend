@@ -23,16 +23,16 @@ function LoggingSetting({
         text: "Create a new ",
         channel: channelId,
         webhookKind: setting.kind,
-        forbidText: true,
+        forbidText: false,
         noSingleUse: false,
       },
     });
 
-    const bc = new BroadcastChannel("new-webhook");
+    const bc = new BroadcastChannel("webhook-creation");
     bc.onmessage = (msg) => {
       if (typeof msg.data === "string") {
         const data = msg.data.split(":");
-        if (data.at(2) !== setting.kind) return;
+        if (data.at(0) !== setting.kind) return;
 
         onChange({
           ...setting,

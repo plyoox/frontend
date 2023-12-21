@@ -13,7 +13,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <AppShell
-      header={{ height: 71 }}
+      header={{ height: 70 }}
       navbar={{ breakpoint: "sm", width: { sm: 200, lg: 300 }, collapsed: { mobile: open } }}
     >
       <AppShell.Header>
@@ -26,7 +26,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <AppShell.Main>
         <GuildStoreContext.Provider value={GlobalGuildStore}>
-          <div className={"max-w-4xl p-5"}>
+          <div className={"max-w-4xl p-5 text-white"}>
             <BreadCrumbs />
             <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
           </div>
