@@ -1,6 +1,11 @@
 import { LoggingKind } from "@/config/enums";
 import { MaybeWebhook } from "@/types/responses";
 
+export interface LoggingData {
+  config: LoggingConfig;
+  settings: Record<string, LoggingSetting>;
+}
+
 export interface LoggingConfig {
   active: boolean;
 }

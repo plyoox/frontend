@@ -8,32 +8,32 @@ export function handleChangeHelper<T extends Record<keyof T, unknown>>(
   const conf: T = structuredClone({ ...config, ...data });
 
   for (const [key, value] of Object.entries(conf) as [keyof T, unknown][]) {
-    if (typeof value === "object") {
-      // Special case for the logging config `settings` key
-      if (Array.isArray(value) && typeof value.at(0) === "object") {
-        const oldData = oldConfig.current[key] as unknown[] | undefined;
+    if (value === oldConfig.current[key]) {
+      delete conf[key];
+    } else if (typeof value === "object") {
+      if (Array.isArray(value)) {
+        if (JSON.stringify(value) === JSON.stringify(oldConfig.current[key])) {
+          delete conf[key];
+        }
+      } else if (value !== null) {
+        const oldData = oldConfig.current[key] as Record<string, unknown> | undefined;
 
         if (oldData !== undefined) {
-          const arr = value as unknown[];
+          const obj = value as Record<string, unknown>;
 
-          for (const arrValue of structuredClone(arr)) {
-            const hasEqual = oldData.some((oldValue) => JSON.stringify(arrValue) === JSON.stringify(oldValue));
-
-            if (hasEqual) {
-              const index = arr.findIndex((a) => JSON.stringify(a) === JSON.stringify(arrValue));
-              arr.splice(index, 1);
+          for (const [objKey, objValue] of Object.entries(obj)) {
+            if (JSON.stringify(objValue) === JSON.stringify(oldData[objKey])) {
+              delete obj[objKey];
             }
           }
-
-          // Remove empty array, this is a special case for the logging config
-          if (value.length === 0) {
-            delete conf[key];
-          }
         }
-      } else if (JSON.stringify(value) === JSON.stringify(oldConfig.current[key])) {
-        delete conf[key];
       }
-    } else if (value === oldConfig.current[key]) {
+    } else if (JSON.stringify(value) === JSON.stringify(oldConfig.current[key])) {
+      delete conf[key];
+    }
+
+    // Remove empty objects
+    if (typeof value === "object" && value !== null && Object.keys(value).length === 0) {
       delete conf[key];
     }
   }

@@ -1,6 +1,6 @@
 import { Badge, ThemeIcon } from "@mantine/core";
 import { ILink } from "@/types/utils";
-import { useParams } from "next/navigation";
+import { useGuildId } from "@/lib/hooks";
 import NextLink from "next/link";
 
 export interface LinkProps extends ILink {
@@ -8,7 +8,7 @@ export interface LinkProps extends ILink {
 }
 
 function Link({ color, icon, label, link, setOpened, beta }: LinkProps) {
-  const { "(id)": id } = useParams();
+  const id = useGuildId();
 
   return (
     <NextLink

@@ -7,9 +7,9 @@ function Page() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.has("channel_id")) {
+    if (searchParams.has("channel_id") && searchParams.has("type")) {
       const channelId = searchParams.get("channel_id")!;
-      const type = searchParams.get("type") ?? "";
+      const type = searchParams.get("type")!.split("-").splice(1).join("_");
 
       const channel = new BroadcastChannel("webhook-creation");
       channel.postMessage(`${type}:${channelId}`);

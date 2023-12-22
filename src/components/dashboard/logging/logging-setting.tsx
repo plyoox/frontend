@@ -30,6 +30,7 @@ function LoggingSetting({
 
     const bc = new BroadcastChannel("webhook-creation");
     bc.onmessage = (msg) => {
+      console.log(msg);
       if (typeof msg.data === "string") {
         const data = msg.data.split(":");
         if (data.at(0) !== setting.kind) return;

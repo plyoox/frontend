@@ -3,8 +3,8 @@
 import { Accordion, LoadingOverlay, Select } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { LoggingData } from "@/types/logging";
 import { LoggingKind } from "@/config/enums";
-import { LoggingResponse } from "@/types/responses";
 import { capitalize } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveLoggingConfig } from "@/lib/requests";
@@ -17,11 +17,13 @@ import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
 
-type Config = LoggingResponse;
+type Config = LoggingData;
 
 function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
+
+    console.log("updatedKeys", updatedKeys);
 
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
@@ -62,6 +64,7 @@ function LoggingContainer() {
         data={guildStore.textAsSelectable}
         description={"Set a channel for specific log variants."}
         label={"Set channel"}
+        mb={10}
       />
 
       <Accordion
@@ -75,7 +78,7 @@ function LoggingContainer() {
         variant="filled"
       >
         {Object.entries(LoggingKind).map(([_, value]) => {
-          const setting = config.settings.find((s) => s.kind === value) ?? {
+          const setting = config.settings[value] ?? {
             kind: value,
             guild_id: guildId,
             ...DEFAULT_LOGGING_SETTING,
@@ -86,7 +89,7 @@ function LoggingContainer() {
               <AccordionSwitchControl
                 onStateChange={(val) =>
                   handleChange({
-                    settings: [...config.settings.filter((s) => s.kind !== value), { ...setting, active: val }],
+                    settings: { ...config.settings, [value]: { ...setting, active: val } },
                   })
                 }
                 state={setting.active}
@@ -104,11 +107,11 @@ function LoggingContainer() {
                 <LoggingSetting
                   onChange={(setting) => {
                     handleChange({
-                      settings: [...config.settings.filter((s) => s.kind !== value), setting],
+                      settings: { ...config.settings, [value]: setting },
                     });
                   }}
                   setting={
-                    config.settings.find((s) => s.kind === value) ?? {
+                    config.settings[value] ?? {
                       kind: value,
                       guild_id: guildId,
                       ...DEFAULT_LOGGING_SETTING,
@@ -125,7 +128,10 @@ function LoggingContainer() {
         data={updatedConfig}
         fn={saveLoggingConfig}
         onSave={() => {
-          oldConfig.current = { ...config, ...updatedConfig };
+          oldConfig.current = {
+            config: { ...config?.config, ...updatedConfig?.config },
+            settings: { ...config?.settings, ...updatedConfig?.settings },
+          };
 
           setUpdatedConfig(null);
         }}

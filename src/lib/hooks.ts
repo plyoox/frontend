@@ -8,6 +8,7 @@ import {
   WelcomeResponse,
 } from "@/types/responses";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { LoggingData } from "@/types/logging";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { UserStoreContext } from "@/stores/user-store";
 import {
@@ -24,7 +25,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGuildId() {
-  const { "(id)": id } = useParams();
+  const { id } = useParams();
 
   return id as string;
 }
@@ -125,7 +126,7 @@ export function useLevelingData() {
 export function useLoggingData() {
   const id = useGuildId();
 
-  const { data, error, isLoading } = useQuery<LoggingResponse, AxiosError>({
+  const { data, error, isLoading } = useQuery<LoggingData, AxiosError>({
     queryKey: ["logging", id],
     queryFn: () => fetchLoggingData(id),
     refetchOnMount: "always",

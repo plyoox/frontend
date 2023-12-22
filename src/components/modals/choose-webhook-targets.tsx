@@ -49,3 +49,5 @@ function ChooseWebhookModal({
     </>
   );
 }
+
+export default ChooseWebhookModal;

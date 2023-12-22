@@ -8,18 +8,17 @@ import ChooseWebhookModal from "@/components/modals/choose-webhook-modal";
 import React from "react";
 
 export function Provider({ children }: { children: React.ReactNode }) {
-  const [queryClient] = React.useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            refetchOnWindowFocus: false,
-            retry: false,
-            gcTime: 1000 * 60 * 10,
-          },
+  const [queryClient] = React.useState(() => {
+    return new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+          retry: false,
+          gcTime: 1000 * 60 * 10,
         },
-      }),
-  );
+      },
+    });
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

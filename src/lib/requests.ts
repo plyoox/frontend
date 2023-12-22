@@ -7,6 +7,7 @@ import {
   ModerationResponse,
   WelcomeResponse,
 } from "@/types/responses";
+import { LoggingData } from "@/types/logging";
 import { ModerationConfig } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
@@ -67,10 +68,13 @@ export async function fetchLevelingData(id: string) {
   return response.data;
 }
 
-export async function fetchLoggingData(id: string) {
+export async function fetchLoggingData(id: string): Promise<LoggingData> {
   const response = await axios.get<LoggingResponse>(`${API_URL}/guild/${id}/logging`, { withCredentials: true });
 
-  return response.data;
+  return {
+    config: response.data.config,
+    settings: Object.fromEntries(response.data.settings.map((e) => [e.kind, e])) as any,
+  };
 }
 
 export async function fetchGuilds(): Promise<Guild[]> {
@@ -91,26 +95,31 @@ export async function fetchAutoModerationRules(id: String): Promise<DiscordModer
   return response.data;
 }
 
-export async function saveModerationData(id: string, data: Partial<Partial<ModerationConfig>>): Promise<any> {
+export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<any> {
   await axios.patch(`${API_URL}/guild/${id}/moderation`, data, {
     withCredentials: true,
   });
 }
 
-export async function saveWelcomeData(id: string, data: Partial<Partial<WelcomeResponse>>): Promise<any> {
+export async function saveWelcomeData(id: string, data: Partial<WelcomeResponse>): Promise<any> {
   await axios.patch(`${API_URL}/guild/${id}/welcome`, data, {
     withCredentials: true,
   });
 }
 
-export async function saveLevelingData(id: string, data: Partial<Partial<LevelingResponse>>): Promise<any> {
+export async function saveLevelingData(id: string, data: Partial<LevelingResponse>): Promise<any> {
   await axios.patch(`${API_URL}/guild/${id}/leveling`, data, {
     withCredentials: true,
   });
 }
 
-export async function saveLoggingConfig(id: string, data: Partial<Partial<LoggingResponse>>): Promise<any> {
-  await axios.patch(`${API_URL}/guild/${id}/logging`, data, {
+export async function saveLoggingConfig(id: string, data: Partial<LoggingData>): Promise<any> {
+  const loggingData: Partial<LoggingResponse> = {
+    config: data.config,
+    settings: data.settings ? Object.values(data.settings) : undefined,
+  };
+
+  await axios.patch(`${API_URL}/guild/${id}/logging`, loggingData, {
     withCredentials: true,
   });
 }
