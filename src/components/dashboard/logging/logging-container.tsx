@@ -23,8 +23,6 @@ function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    console.log("updatedKeys", updatedKeys);
-
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }

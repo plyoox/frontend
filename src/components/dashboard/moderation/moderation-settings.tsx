@@ -24,8 +24,6 @@ function ModerationSettings() {
   function handleChange(data: Partial<Config>) {
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
-    console.log({ updatedKeys });
-
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
