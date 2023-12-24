@@ -15,7 +15,7 @@ function ChooseWebhookModal({
 
   function openWindow() {
     window.open(
-      `${API_URL}/guild/${guildId}/create-webhook?channel_id=${innerProps.channel}&webhook=other&single_use=false`,
+      `${API_URL}/guild/${guildId}/webhook/redirect?channel_id=${innerProps.channel}&webhook=other&single_use=false`,
       "Create Webhook | Plyoox",
       "height=900,width=500",
     );

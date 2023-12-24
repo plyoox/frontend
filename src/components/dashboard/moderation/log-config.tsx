@@ -17,7 +17,7 @@ function LogConfig({ data, handleChange, text }: Props) {
 
   const createWebhook = (channelId: string) => {
     window.open(
-      `${API_URL}/guild/${id}/create-webhook?channel_id=${channelId}&webhook=whmod`,
+      `${API_URL}/guild/${id}/webhook/redirect?channel_id=${channelId}&webhook=whmod`,
       "Create Webhook | Plyoox",
       "height=900,width=500",
     );
