@@ -38,7 +38,7 @@ function AddLevelRoleButton({
           <span className="mt-0.5 ">Add level role</span>
         </div>
         <Badge gradient={amountToColor(config.roles.length, limit)} variant="gradient">
-          {config.roles.length}/{limit} Rules
+          {config.roles.length}/{limit} Roles
         </Badge>
       </button>
 
