@@ -42,7 +42,7 @@ function AddLevelRoleButton({
         </Badge>
       </button>
 
-      <Collapse className="rounded-b" in={open}>
+      <Collapse className={"mt-1"} in={open}>
         <AddLevelRoleForm
           className="rounded-md bg-mt-dark-6 p-2"
           config={config}
