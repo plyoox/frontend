@@ -73,7 +73,7 @@ function AddLevelRoleForm({
         required
         searchable
         data={availableLevels}
-        label="Select role"
+        label="Select level"
         {...form.getInputProps("level")}
         placeholder={"Select level..."}
       />
