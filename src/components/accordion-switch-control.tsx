@@ -1,5 +1,5 @@
-import { Accordion, AccordionControlProps, Switch } from "@mantine/core";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { Accordion, AccordionControlProps } from "@mantine/core";
+import CustomSwitch from "@/components/custom-switch";
 
 interface Props extends AccordionControlProps {
   state: boolean;
@@ -11,16 +11,13 @@ function AccordionSwitchControl({ state, onStateChange, ...props }: Props) {
     <div className={"flex items-center rounded-sm hover:bg-mt-dark-6"}>
       <Accordion.Control {...props} />
 
-      <Switch
+      <CustomSwitch
         checked={state}
-        color="gray"
-        mr={10}
-        offLabel={<IconX color={"red"} size="1rem" stroke={3} />}
-        onChange={(el) => {
-          onStateChange(el.target.checked);
+        color={"gray"}
+        onChange={(checked) => {
+          onStateChange(checked);
         }}
-        onLabel={<IconCheck color={"green"} size="1rem" stroke={3} />}
-        size="md"
+        onIconColor={"green"}
       />
     </div>
   );

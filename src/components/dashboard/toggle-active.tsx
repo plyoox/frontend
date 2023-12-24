@@ -1,21 +1,16 @@
-import { IconCheck, IconX } from "@tabler/icons-react";
-import { Switch } from "@mantine/core";
+import CustomSwitch from "@/components/custom-switch";
 
 function ToggleActive({ active, onChange }: { active: boolean; onChange: (active: boolean) => void }) {
   return (
-    <div className={"my-3 flex justify-between"}>
-      <span className={"text-sm text-pl-text"}>Module enabled</span>
-
-      <Switch
+    <div className={"my-3"}>
+      <CustomSwitch
         checked={active}
         color="teal"
-        mr={10}
-        offLabel={<IconX color={"red"} size="1rem" stroke={3} />}
-        onChange={(el) => {
-          onChange(el.target.checked);
+        label={"Module enabled"}
+        labelPosition={"left"}
+        onChange={(checked) => {
+          onChange(checked);
         }}
-        onLabel={<IconCheck color={"lime"} size="1rem" stroke={3} />}
-        size="md"
       />
     </div>
   );
