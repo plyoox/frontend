@@ -17,6 +17,7 @@ interface Props<T = any> {
 function SaveNotification({ data, fn, onSave }: Props) {
   const id = useGuildId();
   const [className, setClassName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // To prevent the first render, which would cause a flicker
@@ -30,38 +31,44 @@ function SaveNotification({ data, fn, onSave }: Props) {
   }, [data, className]);
 
   return (
-    <div className={`${classes.notificationBar} ${className} w-10/12 rounded-md bg-black p-2.5 lg:w-1/2`}>
-      <div className={"flex items-center justify-between"}>
-        <span className={"pr-2.5"}>You have some unsaved settings. Save to keep them.</span>
-        <Button
-          color="green"
-          leftSection={<IconCircleCheck />}
-          onClick={() => {
-            fn(id, data)
-              .then(() => {
-                onSave();
+    <div className={`${classes.notificationBarWrapper} ${className} pointer-events-none flex justify-center`}>
+      <div className={`pointer-events-auto relative z-50 w-10/12 rounded-md bg-black p-2.5 lg:w-1/2`}>
+        <div className={"flex items-center justify-between"}>
+          <span className={"pr-3"}>You have some unsaved settings. Save to keep them.</span>
+          <Button
+            color="green"
+            leftSection={<IconCircleCheck />}
+            loading={loading}
+            onClick={() => {
+              setLoading(true);
+              fn(id, data)
+                .then(() => {
+                  onSave();
+                  setLoading(false);
 
-                showNotification({
-                  title: "Successfully saved",
-                  color: "teal",
-                  message: "The config was successfully saved.",
-                  autoClose: 1500,
+                  showNotification({
+                    title: "Successfully saved",
+                    color: "teal",
+                    message: "The config was successfully saved.",
+                    autoClose: 1500,
+                  });
+                })
+                .catch((err) => {
+                  setLoading(false);
+                  showNotification({
+                    title: "Error while saving",
+                    color: "red",
+                    icon: <IconAlertCircle />,
+                    message: err.message,
+                    autoClose: 3000,
+                  });
                 });
-              })
-              .catch((err) => {
-                showNotification({
-                  title: "Error while saving",
-                  color: "red",
-                  icon: <IconAlertCircle />,
-                  message: err.message,
-                  autoClose: 3000,
-                });
-              });
-          }}
-          variant="outline"
-        >
-          Save
-        </Button>
+            }}
+            variant="light"
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   );
