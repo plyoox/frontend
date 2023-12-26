@@ -1,4 +1,4 @@
-import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind, HelperPermission } from "@/config/enums";
 import { ComboboxItem } from "@mantine/core";
 
 export const TIME_CHECKS = [ActionCheckKind.JoinDate, ActionCheckKind.AccountAge];
@@ -63,4 +63,10 @@ export const POINT_EXPIRATION_ITEMS: ComboboxItem[] = [
   { label: "3 months", value: "7889400" },
   { label: "6 months", value: "14515200" },
   { label: "1 year", value: "29030400" },
+];
+
+export const HELPER_PERMISSION_ITEMS: ComboboxItem[] = [
+  { label: "Full", value: HelperPermission.Full },
+  { label: "View", value: HelperPermission.View },
+  { label: "None", value: "" },
 ];

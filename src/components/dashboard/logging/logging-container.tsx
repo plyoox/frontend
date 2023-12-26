@@ -1,12 +1,13 @@
 "use client";
 
-import { Accordion, LoadingOverlay, Select } from "@mantine/core";
+import { Accordion, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingData } from "@/types/logging";
 import { LoggingKind } from "@/config/enums";
+import { ModifiedLoggingData } from "@/types/logging";
 import { capitalize } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
+import { observer } from "mobx-react-lite";
 import { saveLoggingConfig } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
@@ -17,7 +18,7 @@ import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
 
-type Config = LoggingData;
+type Config = ModifiedLoggingData;
 
 function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
@@ -27,7 +28,7 @@ function LoggingContainer() {
     setUpdatedConfig(updatedKeys);
   }
 
-  function openModal() {}
+  // function openModal() {}
 
   const guildId = useGuildId();
   const guildStore = useContext(GuildStoreContext);
@@ -37,14 +38,73 @@ function LoggingContainer() {
 
   const [config, setConfig] = useState<Config | null>(null);
   const [updatedConfig, setUpdatedConfig] = useState<Partial<Config> | null>(null);
+  const [textChannels, setTextChannels] = useState<ComboboxItemGroup[]>([]);
   const oldConfig = useRef<Config>({} as Config);
 
   useEffect(() => {
     if (loggingResponse.data) {
-      setConfig(loggingResponse.data);
-      oldConfig.current = loggingResponse.data;
+      const webhooks = Object.values(loggingResponse.data.settings)
+        .filter((setting) => setting.channel?.channel_id)
+        .map((setting) => {
+          const channel = guildStore.textChannels.get(setting.channel!.channel_id! /* filtered above */);
+
+          return {
+            label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+            value: setting.channel!.id ?? "unknown",
+            disabled: true,
+          };
+        });
+
+      if (webhooks.length > 0) {
+        setTextChannels((channels) => {
+          const webhookGroup = channels.find((group) => group.group === "Webhooks");
+
+          if (webhookGroup) {
+            webhookGroup.items.push(
+              ...webhooks.filter((webhook) => !webhookGroup.items.some((item: any) => item.value === webhook.value)),
+            );
+          } else {
+            channels.push({
+              group: "Webhooks",
+              items: webhooks,
+            });
+          }
+
+          return [...channels];
+        });
+      }
+
+      const loggingData: ModifiedLoggingData = {
+        config: loggingResponse.data.config,
+        settings: Object.fromEntries(
+          loggingResponse.data.settings.map((e) => [
+            e.kind,
+            {
+              ...e,
+              channel: e.channel?.id ?? null,
+            },
+          ]),
+        ) as any,
+      };
+
+      setConfig(loggingData);
+      oldConfig.current = loggingData;
     }
-  }, [loggingResponse.data]);
+  }, [guildStore.textChannels, loggingResponse.data]);
+
+  // Keep a list of text channels with the webhooks that are being used
+  useEffect(() => {
+    if (guildStore.textAsSelectable) {
+      const currentWebhooks = textChannels.find((channel) => channel.group === "Webhooks");
+      const newChannels = [...guildStore.textAsSelectable];
+
+      if (currentWebhooks) newChannels.push(currentWebhooks);
+
+      setTextChannels(newChannels);
+    }
+    // It is not relevant if textChannels changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guildStore.textAsSelectable]);
 
   if (loggingResponse.error) {
     return <RequestError error={loggingResponse.error} />;
@@ -108,6 +168,7 @@ function LoggingContainer() {
                       settings: { ...config.settings, [value]: setting },
                     });
                   }}
+                  setTextChannels={setTextChannels}
                   setting={
                     config.settings[value] ?? {
                       kind: value,
@@ -115,6 +176,7 @@ function LoggingContainer() {
                       ...DEFAULT_LOGGING_SETTING,
                     }
                   }
+                  textChannels={textChannels}
                 />
               </Accordion.Panel>
             </Accordion.Item>
@@ -138,4 +200,4 @@ function LoggingContainer() {
   );
 }
 
-export default LoggingContainer;
+export default observer(LoggingContainer);

@@ -24,3 +24,8 @@ export enum LoggingKind {
   MessageDelete = "message_delete",
   MessageEdit = "message_edit",
 }
+
+export enum HelperPermission {
+  View = "view",
+  Full = "full",
+}

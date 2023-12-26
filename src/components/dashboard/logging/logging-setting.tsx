@@ -1,6 +1,7 @@
+import { ComboboxItemGroup, MultiSelect, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingSetting } from "@/types/logging";
-import { MultiSelect, Select } from "@mantine/core";
+import { LoggingSettingData } from "@/types/logging";
+import { UseState } from "@/types/react";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
@@ -8,9 +9,13 @@ import { useContext } from "react";
 function LoggingSetting({
   setting,
   onChange,
+  textChannels,
+  setTextChannels,
 }: {
-  setting: LoggingSetting;
-  onChange: (config: LoggingSetting) => void;
+  setting: LoggingSettingData;
+  textChannels: ComboboxItemGroup[];
+  setTextChannels: UseState<ComboboxItemGroup[]>;
+  onChange: (config: LoggingSettingData) => void;
 }) {
   const guildStore = useContext(GuildStoreContext);
 
@@ -20,7 +25,7 @@ function LoggingSetting({
       title: "Create Webhook",
       centered: true,
       innerProps: {
-        text: "Create a new ",
+        text: "Create a new webhook",
         channel: channelId,
         webhookKind: setting.kind,
         forbidText: false,
@@ -30,14 +35,46 @@ function LoggingSetting({
 
     const bc = new BroadcastChannel("webhook-creation");
     bc.onmessage = (msg) => {
-      console.log(msg);
       if (typeof msg.data === "string") {
         const data = msg.data.split(":");
         if (data.at(0) !== setting.kind) return;
 
+        const webhookId = data.at(2);
+
+        // Add webhook to the list of channels
+        if (webhookId)
+          setTextChannels((channels) => {
+            const channel = guildStore.textChannels.get(data[1]);
+            const webhookGroup = channels.find((group) => group.group === "Webhooks");
+
+            if (webhookGroup) {
+              // check if webhook already exists
+              if (!webhookGroup.items.some((item: any) => item.value === webhookId)) {
+                webhookGroup.items.push({
+                  label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+                  value: webhookId,
+                  disabled: true,
+                });
+              }
+            } else {
+              channels.push({
+                group: "Webhooks",
+                items: [
+                  {
+                    label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+                    value: webhookId,
+                    disabled: true,
+                  },
+                ],
+              });
+            }
+
+            return [...channels];
+          });
+
         onChange({
           ...setting,
-          channel: data[1],
+          channel: (webhookId ?? data[1]) as any,
         });
         bc.close();
       }
@@ -47,7 +84,9 @@ function LoggingSetting({
   return (
     <div className={"my-3"}>
       <Select
-        data={guildStore.textAsSelectable}
+        clearable
+        searchable
+        data={textChannels}
         description={"The channel, where the logs should be sent to."}
         label={"Log Channel"}
         onChange={(value) => {
@@ -58,10 +97,11 @@ function LoggingSetting({
           }
         }}
         placeholder={"Select a logging channel..."}
+        value={setting.channel}
       />
 
       <MultiSelect
-        data={guildStore.rolesAsSelectable}
+        data={textChannels}
         description={"Actions by users with these roles will not be logged."}
         label={"Exempt Roles"}
         maxValues={50}
@@ -70,7 +110,7 @@ function LoggingSetting({
         value={setting.exempt_roles}
       />
       <MultiSelect
-        data={guildStore.channelsAsSelectable}
+        data={textChannels}
         description={"Actions in these channels will not be logged."}
         label={"Exempt Channels"}
         maxValues={50}

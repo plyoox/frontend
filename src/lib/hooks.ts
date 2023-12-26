@@ -5,10 +5,11 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
+  SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingData } from "@/types/logging";
+import { MaybeWebhook } from "@/types/webhook";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { UserStoreContext } from "@/stores/user-store";
 import {
@@ -18,6 +19,8 @@ import {
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
+  fetchSettingsData,
+  fetchWebhooks,
   fetchWelcomeData,
 } from "@/lib/requests";
 import { useContext, useEffect } from "react";
@@ -123,10 +126,34 @@ export function useLevelingData() {
   return { data, error, isLoading };
 }
 
+export function useSettingsData() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<SettingsResponse, AxiosError>({
+    queryKey: ["settings", id],
+    queryFn: () => fetchSettingsData(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
+export function useWebhooks() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<MaybeWebhook[], AxiosError>({
+    queryKey: ["webhook", id],
+    queryFn: () => fetchWebhooks(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
 export function useLoggingData() {
   const id = useGuildId();
 
-  const { data, error, isLoading } = useQuery<LoggingData, AxiosError>({
+  const { data, error, isLoading } = useQuery<LoggingResponse, AxiosError>({
     queryKey: ["logging", id],
     queryFn: () => fetchLoggingData(id),
     refetchOnMount: "always",

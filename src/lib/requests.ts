@@ -5,9 +5,11 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
+  SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
 import { LoggingData } from "@/types/logging";
+import { MaybeWebhook } from "@/types/webhook";
 import { ModerationConfig } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
@@ -68,13 +70,22 @@ export async function fetchLevelingData(id: string) {
   return response.data;
 }
 
-export async function fetchLoggingData(id: string): Promise<LoggingData> {
+export async function fetchSettingsData(id: string) {
+  const response = await axios.get<SettingsResponse>(`${API_URL}/guild/${id}/settings`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function fetchWebhooks(id: string) {
+  const response = await axios.get<MaybeWebhook[]>(`${API_URL}/guild/${id}/webhook`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function fetchLoggingData(id: string) {
   const response = await axios.get<LoggingResponse>(`${API_URL}/guild/${id}/logging`, { withCredentials: true });
 
-  return {
-    config: response.data.config,
-    settings: Object.fromEntries(response.data.settings.map((e) => [e.kind, e])) as any,
-  };
+  return response.data;
 }
 
 export async function fetchGuilds(): Promise<Guild[]> {
@@ -120,6 +131,12 @@ export async function saveLoggingConfig(id: string, data: Partial<LoggingData>):
   };
 
   await axios.patch(`${API_URL}/guild/${id}/logging`, loggingData, {
+    withCredentials: true,
+  });
+}
+
+export async function saveSettingsData(id: string, data: Partial<SettingsResponse>): Promise<any> {
+  await axios.patch(`${API_URL}/guild/${id}/settings`, data, {
     withCredentials: true,
   });
 }

@@ -1,4 +1,5 @@
 import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
+import { HelperPermission } from "@/config/enums";
 import { LevelRole } from "@/types/leveling";
 import { LoggingConfig, LoggingSetting } from "@/types/logging";
 import { ModerationConfig, ModerationRule } from "@/types/moderation";
@@ -44,7 +45,6 @@ export interface LoggingResponse {
   settings: LoggingSetting[];
 }
 
-export interface MaybeWebhook {
-  id: string;
-  channel_id: string | null;
+export interface SettingsResponse {
+  helper_permission: HelperPermission | null;
 }
