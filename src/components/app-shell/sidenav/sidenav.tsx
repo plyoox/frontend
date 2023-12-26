@@ -11,7 +11,6 @@ import {
 import Link from "./components/link";
 
 interface SidenavProps {
-  open: boolean;
   setOpen: (value: boolean) => void;
 }
 
@@ -55,9 +54,9 @@ const LINKS: ILink[] = [
   },
 ];
 
-function Sidenav({ open, setOpen }: SidenavProps) {
+function Sidenav({ setOpen }: SidenavProps) {
   return (
-    <AppShell.Navbar hidden={open} pt={20} px={10} py={5}>
+    <AppShell.Navbar pt={20} px={10} py={5}>
       <AppShell.Section>
         {LINKS.map((link) => (
           <Link key={link.label} {...link} setOpened={setOpen} />

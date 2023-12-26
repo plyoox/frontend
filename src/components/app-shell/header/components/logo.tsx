@@ -7,7 +7,7 @@ function Logo() {
     <Link className="flex items-center gap-3" href="/">
       <Image priority alt="plyoox logo" className="h-14 w-14" src={logo} />
 
-      <div className="text-xl font-black uppercase text-white">
+      <div className="hidden text-xl font-black uppercase text-white sm:block">
         <span className="mr-0.5 text-3xl">P</span>lyoox
       </div>
     </Link>

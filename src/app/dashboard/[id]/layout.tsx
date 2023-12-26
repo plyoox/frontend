@@ -13,14 +13,14 @@ function Layout({ children }: { children: ReactNode }) {
   return (
     <AppShell
       header={{ height: 70 }}
-      navbar={{ breakpoint: "sm", width: { sm: 200, lg: 300 }, collapsed: { mobile: open } }}
+      navbar={{ breakpoint: "sm", width: { sm: 200, lg: 300 }, collapsed: { mobile: !open } }}
     >
       <AppShell.Header>
         <Header open={open} setOpen={setOpen} />
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <Sidenav open={open} setOpen={setOpen} />
+        <Sidenav setOpen={setOpen} />
       </AppShell.Navbar>
 
       <AppShell.Main>
