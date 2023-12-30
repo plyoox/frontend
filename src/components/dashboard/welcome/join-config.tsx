@@ -15,15 +15,13 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
   const textFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const manageRolePermission = guildStore.botHasPermission(DiscordPermission.ManageRoles);
-  const roles = guildStore.rolesAsSelectable;
-  const channels = guildStore.writeableAsSelectable;
 
   return (
     <>
       <MultiSelect
         clearable
         searchable
-        data={roles}
+        data={guildStore.manageableRolesAsSelectable}
         description="The role the user will receive when joining the server"
         disabled={!manageRolePermission}
         label="Join role"
@@ -39,7 +37,7 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
       <Select
         clearable
         searchable
-        data={channels}
+        data={guildStore.writeableAsSelectable}
         description="The channel the bot will send the join message"
         label="Join message channel"
         leftSection={<IconHash size={16} />}
