@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
+import { Accordion, ComboboxItem, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingKind } from "@/config/enums";
@@ -43,30 +43,36 @@ function LoggingContainer() {
 
   useEffect(() => {
     if (loggingResponse.data) {
-      const webhooks = Object.values(loggingResponse.data.settings)
-        .filter((setting) => setting.channel?.channel_id)
-        .map((setting) => {
-          const channel = guildStore.textChannels.get(setting.channel!.channel_id! /* filtered above */);
+      const webhookMap = new Map<string, ComboboxItem>();
 
-          return {
+      Object.values(loggingResponse.data.settings)
+        .filter((setting) => setting.channel?.webhook_channel)
+        .forEach((setting) => {
+          const channel = guildStore.textChannels.get(setting.channel!.webhook_channel! /* filtered above */);
+
+          webhookMap.set(setting.channel!.id, {
             label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
             value: setting.channel!.id ?? "unknown",
             disabled: true,
-          };
+          });
         });
 
-      if (webhooks.length > 0) {
+      if (webhookMap.size > 0) {
         setTextChannels((channels) => {
           const webhookGroup = channels.find((group) => group.group === "Webhooks");
 
           if (webhookGroup) {
-            webhookGroup.items.push(
-              ...webhooks.filter((webhook) => !webhookGroup.items.some((item: any) => item.value === webhook.value)),
-            );
+            webhookGroup.items.forEach((item) => {
+              const forcedTypeItem = item as ComboboxItem;
+
+              webhookMap.set(forcedTypeItem.value, forcedTypeItem);
+            });
+
+            webhookGroup.items = Array.from(webhookMap.values());
           } else {
             channels.push({
               group: "Webhooks",
-              items: webhooks,
+              items: Array.from(webhookMap.values()),
             });
           }
 

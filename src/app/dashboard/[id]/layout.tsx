@@ -25,7 +25,7 @@ function Layout({ children }: { children: ReactNode }) {
 
       <AppShell.Main>
         <GuildStoreContext.Provider value={GlobalGuildStore}>
-          <div className={"max-w-4xl p-5 text-white"}>
+          <div className={"max-w-4xl p-5 pb-60 text-white"}>
             <BreadCrumbs />
             {children}
           </div>

@@ -13,13 +13,13 @@ interface Props extends MaybeWebhook {
   setWebhooks: UseState<MaybeWebhook[] | null>;
 }
 
-function WebhookView({ id, channel_id, ref_count, single_use, setWebhooks }: Props) {
+function WebhookView({ id, webhook_channel, ref_count, single_use, setWebhooks }: Props) {
   const guildStore = useContext(GuildStoreContext);
 
   const [deleting, setDeleting] = useState(false);
 
-  const isWebhook = !!channel_id;
-  const channel = isWebhook ? guildStore.textChannels.get(channel_id!) : guildStore.textChannels.get(id!);
+  const isWebhook = !!webhook_channel;
+  const channel = isWebhook ? guildStore.textChannels.get(webhook_channel!) : guildStore.textChannels.get(id!);
 
   return (
     <div className="flex items-center gap-2 rounded-md bg-mt-dark-5 px-4 py-2">
