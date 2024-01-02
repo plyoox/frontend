@@ -139,12 +139,14 @@ export default AddPunishmentForm;
 function toAutomoderationAction(value: PunishmentValues) {
   const punishment: Punishment = {} as any;
 
+  const duration = TIME_MARKS.find((t) => t.value === value.punishmentDuration)!.seconds;
+
   switch (value.punishment) {
     case ActionPunishmentKind.TempMute:
-      punishment.punishment = { [value.punishment]: { duration: value.punishmentDuration } };
+      punishment.punishment = { [value.punishment]: { duration } };
       break;
     case ActionPunishmentKind.TempBan:
-      punishment.punishment = { [value.punishment]: { duration: value.punishmentDuration } };
+      punishment.punishment = { [value.punishment]: { duration } };
       break;
     case ActionPunishmentKind.Point:
       punishment.punishment = { [value.punishment]: { points: value.points, expires_in: value.pointExpiration } };
