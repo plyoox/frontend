@@ -5,7 +5,7 @@ import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { useGuildId } from "@/lib/hooks";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "@/styles/save-notification.module.css";
 
 interface Props<T = any> {
@@ -16,6 +16,7 @@ interface Props<T = any> {
 
 function SaveNotification({ data, fn, onSave }: Props) {
   const id = useGuildId();
+  const ref = useRef<HTMLDivElement>(null);
   const [className, setClassName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,11 +28,15 @@ function SaveNotification({ data, fn, onSave }: Props) {
       setClassName(classes.fadeIn);
     } else {
       setClassName(classes.fadeOut);
+
+      setTimeout(() => {
+        ref.current!.classList.add("hidden");
+      }, 250);
     }
   }, [data, className]);
 
   return (
-    <div className={`${classes.notificationBarWrapper} ${className} pointer-events-none flex justify-center`}>
+    <div className={`${classes.notificationBarWrapper} ${className} pointer-events-none flex justify-center`} ref={ref}>
       <div className={`pointer-events-auto relative z-50 w-10/12 rounded-md bg-black p-2.5 lg:w-1/2`}>
         <div className={"flex items-center justify-between"}>
           <span className={"pr-3"}>You have some unsaved settings. Save to keep them.</span>
