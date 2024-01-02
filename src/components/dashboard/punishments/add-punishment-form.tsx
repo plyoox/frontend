@@ -31,7 +31,7 @@ function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, clas
       punishment: ActionPunishmentKind.Kick,
       points: 3,
       pointExpiration: 1209600, // 14 days
-      punishmentDuration: 4, // 6 hours
+      punishmentDuration: 5, // 6 hours
     },
   });
 
