@@ -107,10 +107,10 @@ export async function fetchAutoModerationRules(id: String): Promise<DiscordModer
 }
 
 export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<any> {
-  if (data.log_channel) {
+  if (data.logging_channel) {
     // Backend only accepts the channel/webhook id
     // @ts-ignore
-    data.log_channel = data.log_channel.id;
+    data.logging_channel = data.logging_channel.id;
   }
 
   await axios.patch(`${API_URL}/guild/${id}/moderation`, data, {

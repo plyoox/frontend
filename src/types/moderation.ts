@@ -6,7 +6,7 @@ export interface ModerationConfig {
   active: boolean;
   moderation_roles: string[];
   ignored_roles: string[];
-  log_channel: MaybeWebhook | null;
+  logging_channel: MaybeWebhook | null;
   notify_user: boolean;
   point_actions: Punishment[];
 

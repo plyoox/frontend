@@ -1,23 +1,27 @@
 import { API_URL } from "@/environment";
-import { ComboboxData, Select, Switch } from "@mantine/core";
+import { ComboboxItemGroup, Select, Switch } from "@mantine/core";
+import { GuildStoreContext } from "@/stores/guild-store";
 import { IconCheck, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
 import { useGuildId } from "@/lib/hooks";
-import { useState } from "react";
 
 interface Props {
-  data: ModerationConfig;
+  config: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
-  text: ComboboxData;
 }
 
-function LogConfig({ data, handleChange, text }: Props) {
+function LogConfig({ config, handleChange }: Props) {
   const id = useGuildId();
-  const [notifyUser, setNotifyUser] = useState<boolean>(data.notify_user);
+  const guildStore = useContext(GuildStoreContext);
+
+  const [textChannels, setTextChannels] = useState<ComboboxItemGroup[]>([]);
+  const [notifyUser, setNotifyUser] = useState<boolean>(config.notify_user);
 
   const createWebhook = (channelId: string) => {
     window.open(
-      `${API_URL}/guild/${id}/webhook/redirect?channel_id=${channelId}&webhook=whmod`,
+      `${API_URL}/guild/${id}/webhook/redirect?channel_id=${channelId}&webhook=moderation`,
       "Create Webhook | Plyoox",
       "height=900,width=500",
     );
@@ -25,22 +29,65 @@ function LogConfig({ data, handleChange, text }: Props) {
     const bc = new BroadcastChannel("webhook-creation");
     bc.onmessage = (msg) => {
       if (typeof msg.data === "string") {
+        console.log(msg.data);
+
         const data = msg.data.split(":");
         if (data.at(0) !== "moderation") return;
 
-        handleChange({ log_channel: data[1] });
+        if (data.length === 3) {
+          handleChange({ logging_channel: { id: data[2], webhook_channel: data[1], single_use: false, ref_count: 0 } });
+        } else if (data.length === 2) {
+          handleChange({ logging_channel: { id: data[1], webhook_channel: null, single_use: false, ref_count: 0 } });
+        }
+
         bc.close();
       }
     };
   };
+
+  useEffect(() => {
+    if (config.logging_channel) {
+      const channel = guildStore.textChannels.get(
+        config.logging_channel.webhook_channel ? config.logging_channel.webhook_channel : config.logging_channel.id,
+      );
+
+      if (!channel) {
+        setTextChannels(guildStore.textAsSelectable);
+        return;
+      }
+
+      const webhook = {
+        label: channel.name + " (Webhook)",
+        value: config.logging_channel.id,
+        disabled: true,
+      };
+
+      if (!webhook) {
+        setTextChannels(guildStore.textAsSelectable);
+        return;
+      }
+
+      setTextChannels((channels) => {
+        const webhookGroup = channels.filter((group) => group.group !== "Webhooks");
+
+        webhookGroup.push({
+          group: "Webhooks",
+          items: [webhook],
+        });
+
+        return webhookGroup;
+      });
+    } else {
+      setTextChannels(guildStore.textAsSelectable);
+    }
+  }, [guildStore.textAsSelectable, guildStore.textChannels, config.logging_channel]);
 
   return (
     <>
       <Select
         clearable
         searchable
-        data={text}
-        defaultValue={data.log_channel}
+        data={textChannels}
         description="This channel will be used to log moderation actions. A webhook will be created."
         label="Logchannel"
         leftSection={<IconHash size={16} />}
@@ -48,10 +95,11 @@ function LogConfig({ data, handleChange, text }: Props) {
         onChange={(val) => {
           if (val) createWebhook(val);
           else {
-            handleChange({ log_channel: null });
+            handleChange({ logging_channel: null });
           }
         }}
         placeholder="Select channel..."
+        value={config.logging_channel?.id ?? null}
       />
 
       <Switch
@@ -76,4 +124,4 @@ function LogConfig({ data, handleChange, text }: Props) {
   );
 }
 
-export default LogConfig;
+export default observer(LogConfig);

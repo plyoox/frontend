@@ -18,7 +18,7 @@ export function handleChangeHelper<T extends Record<keyof T, unknown>>(
       } else if (value !== null) {
         const oldData = oldConfig.current[key] as Record<string, unknown> | undefined;
 
-        if (oldData !== undefined) {
+        if (oldData) {
           const obj = value as Record<string, unknown>;
 
           for (const [objKey, objValue] of Object.entries(obj)) {

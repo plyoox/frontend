@@ -4,7 +4,6 @@ import { Accordion, LoadingOverlay, MultiSelect } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAt } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import { computed } from "mobx";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -46,9 +45,6 @@ function ModerationSettings() {
     }
   }, [moderationResponse.data]);
 
-  const roles = computed(() => guildStore.rolesAsSelectable).get();
-  const text = computed(() => guildStore.textAsSelectable).get();
-
   if (moderationResponse.error) {
     return <RequestError error={moderationResponse.error} />;
   }
@@ -64,7 +60,7 @@ function ModerationSettings() {
       <MultiSelect
         clearable
         searchable
-        data={roles}
+        data={guildStore.rolesAsSelectable}
         description="These roles will be granted permission to use the moderation commands."
         label="Moderation roles"
         leftSection={<IconAt size={16} />}
@@ -84,7 +80,7 @@ function ModerationSettings() {
       <MultiSelect
         clearable
         searchable
-        data={roles}
+        data={guildStore.rolesAsSelectable}
         description="These roles will be ignored by the automod. Moderation roles are already ignored."
         label="Ignored roles"
         leftSection={<IconAt size={16} />}
@@ -117,7 +113,7 @@ function ModerationSettings() {
           </Accordion.Control>
 
           <Accordion.Panel>
-            <LogConfig data={config} handleChange={handleChange} text={text} />
+            <LogConfig config={config} handleChange={handleChange} />
           </Accordion.Panel>
         </Accordion.Item>
 

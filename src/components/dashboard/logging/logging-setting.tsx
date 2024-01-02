@@ -37,7 +37,7 @@ function LoggingSetting({
     bc.onmessage = (msg) => {
       if (typeof msg.data === "string") {
         const data = msg.data.split(":");
-        if (data.at(0) !== setting.kind) return;
+        if (data.at(0) !== `log_${setting.kind}`) return;
 
         const webhookId = data.at(2);
 
