@@ -1,11 +1,12 @@
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
 import { AutoModerationTriggerType } from "@/discord/enums";
+import { MaybeWebhook } from "@/types/webhook";
 
 export interface ModerationConfig {
   active: boolean;
   moderation_roles: string[];
   ignored_roles: string[];
-  log_channel: string | null;
+  log_channel: MaybeWebhook | null;
   notify_user: boolean;
   point_actions: Punishment[];
 
