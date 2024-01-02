@@ -1,7 +1,7 @@
 import { API_URL } from "@/environment";
 import { Button, Tooltip } from "@mantine/core";
 import { DiscordModerationRule } from "@/discord/types";
-import { IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
+import { IconAlertCircle, IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
 import { ModerationRule, Punishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { notifications } from "@mantine/notifications";
@@ -70,17 +70,34 @@ function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
           leftSection={<IconPlaylistAdd />}
           onClick={() => {
             if (punishments.length === 0) {
-              removeModerationRule(currentRule.guild_id, currentRule.rule_id).then(() => {
-                guildStore.removeModerationRule(currentRule.rule_id);
-              });
+              removeModerationRule(currentRule.guild_id, currentRule.rule_id)
+                .then(() => {
+                  guildStore.removeModerationRule(currentRule.rule_id);
+                })
+                .catch((e) => {
+                  notifications.show({
+                    icon: <IconAlertCircle />,
+                    title: "Failed to delete rule",
+                    message: e.message,
+                  });
+                });
             } else if (JSON.stringify(currentRule.actions) !== JSON.stringify(punishments)) {
               saveModerationRule(currentRule.guild_id, currentRule.rule_id, {
                 actions: punishments,
                 reason: currentRule.reason,
-              }).then(() => {
-                currentRule.actions = punishments;
-                guildStore.addModerationRule(currentRule);
-              });
+              })
+                .then(() => {
+                  currentRule.actions = punishments;
+                  guildStore.addModerationRule(currentRule);
+                })
+                .catch((e) => {
+                  notifications.show({
+                    icon: <IconAlertCircle />,
+                    color: "red",
+                    title: "Failed to save rule",
+                    message: e.message,
+                  });
+                });
             }
           }}
           variant="light"
