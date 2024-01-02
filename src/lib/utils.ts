@@ -85,7 +85,7 @@ export function actionToText(punishment: Punishment): string {
   if (DURATION_PUNISHMENTS.includes(punishmentKind)) {
     const data = action[punishmentKind] as TempActionValue;
 
-    str += ` ${formatSeconds(data.duration)}.`;
+    str += ` for ${formatSeconds(data.duration, true)}.`;
   } else {
     str += ".";
   }
