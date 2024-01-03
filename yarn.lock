@@ -399,9 +399,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/core@npm:7.3.2"
+"@mantine/core@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/core@npm:7.4.0"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     clsx: "npm:2.0.0"
@@ -410,67 +410,67 @@ __metadata:
     react-textarea-autosize: "npm:8.5.3"
     type-fest: "npm:^3.13.1"
   peerDependencies:
-    "@mantine/hooks": 7.3.2
+    "@mantine/hooks": 7.4.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 9f4b67345617562e2f59121e75743d3ad1d99c09f3f62f62268e8d5a491d85ca3aedaae59a2c0f928ef67975a84a65dba445a3b1556c42d59129476c34949140
+  checksum: edfb82287639e9e08071e730f2a2bfcbb098c80c6ffa60bc76aee5e0d995c827480561ad691bfd8a155b0d714dfdec6572670190f1d00256f10d9e510c90c5bf
   languageName: node
   linkType: hard
 
-"@mantine/form@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/form@npm:7.3.2"
+"@mantine/form@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/form@npm:7.4.0"
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
     klona: "npm:^2.0.6"
   peerDependencies:
     react: ^18.2.0
-  checksum: c02bbc014a0ae33054612cbc2295ededb2f1316eee602a0912ef4c806d77236a08b54e85f4c8e840034431930d90edc15fe359a40c246254afeacd72d8d57835
+  checksum: 0f1a346202eacec960a877277a7a90d9ae02035f1cfd97605582fea03b8f1abfb23a0ea66b8e7f13090391b9ca2a00b3888ce3d62379e500f20aaf56248271ba
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/hooks@npm:7.3.2"
+"@mantine/hooks@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/hooks@npm:7.4.0"
   peerDependencies:
     react: ^18.2.0
-  checksum: 9dce135264a0c6199df9887aa4456312007973ffc4aaca4219d9339509f52e07c26927c61cdf2bfd6df4bc934ce5b6abb784565e512455b0e36038bcec969c80
+  checksum: 6d38ba6cbe05594ef3df5e350bc31985b2f72ec05613cf81d3c83f9d0e8bc48564b1cfa0639886460c7ed476f8be67a9b587e8e79486ded9cd93e53a533d36d2
   languageName: node
   linkType: hard
 
-"@mantine/modals@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/modals@npm:7.3.2"
+"@mantine/modals@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/modals@npm:7.4.0"
   peerDependencies:
-    "@mantine/core": 7.3.2
-    "@mantine/hooks": 7.3.2
+    "@mantine/core": 7.4.0
+    "@mantine/hooks": 7.4.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: a5aea1d6526bb13c710ffd4a225c9227611fb42e2e73e899560b50f8c1677970d0d431b9f1a4fb417919d40a5f52f063b64f0584f199116d8cfd99dc00e3794b
+  checksum: 0b32b321af9d51d04a37a3ac0060d6c53acc296c6932895a5ef1dcd15d242c5a5155b586f6ef6a05a0db5810a3abcb85701ad321156fbbb9023c2e95f48db3c4
   languageName: node
   linkType: hard
 
-"@mantine/notifications@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/notifications@npm:7.3.2"
+"@mantine/notifications@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/notifications@npm:7.4.0"
   dependencies:
-    "@mantine/store": "npm:7.3.2"
+    "@mantine/store": "npm:7.4.0"
     react-transition-group: "npm:4.4.5"
   peerDependencies:
-    "@mantine/core": 7.3.2
-    "@mantine/hooks": 7.3.2
+    "@mantine/core": 7.4.0
+    "@mantine/hooks": 7.4.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: f284273ef8c0cfa829a7f9b928c3f5c0c04ed8db0f96b48a2b228743b17a140e107d2a8623d55ae0cce2cb935da9a36e85f6b7943f0ef679faaa6dcb5995642a
+  checksum: 85cf214a841df422c70bba7c8a87ea2c5e99560835942dd685460714ac31249899c3f6c4ba24109a964c4480ed0e7ff4d9e4d42d9d70f353e65a4fa7c7276775
   languageName: node
   linkType: hard
 
-"@mantine/store@npm:7.3.2":
-  version: 7.3.2
-  resolution: "@mantine/store@npm:7.3.2"
+"@mantine/store@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@mantine/store@npm:7.4.0"
   peerDependencies:
     react: ^18.2.0
-  checksum: e53afdd86b39693550c24f23ab8c13db03f21c70898c46aa6066a26ebdc6d5d08162ef2ea2a339fb6985d3b46557555ea70760d0d9ff15b664f7b11e31643318
+  checksum: 514a4a7cf188987af0af5c99efc62d646259132f73401d46d88d88b26ddf67213b01945af6093386cb5ae5209144a196d17c30c5a022fc5f69260dfa937f89b1
   languageName: node
   linkType: hard
 
@@ -644,21 +644,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.17.0":
-  version: 5.17.0
-  resolution: "@tanstack/query-core@npm:5.17.0"
-  checksum: 3090ada4ba1bed162186ca33c25c5caa4e3e4449555dd1cec331a43b5e89d9b5a3320d5983ca106b33bbf7388783bd0dfc071957579a4db037ca4b66ad031e85
+"@tanstack/query-core@npm:5.17.1":
+  version: 5.17.1
+  resolution: "@tanstack/query-core@npm:5.17.1"
+  checksum: b3cfb44bfe33e8f23368905f7e51edad2ea8ee5ac1bc559a6e54dcb1667faf11e39ffd6f2a4ab87e317f2c8d2ca8e3be8f137fdd1dc46f89a5480d782b7d8e1d
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.17.0":
-  version: 5.17.0
-  resolution: "@tanstack/react-query@npm:5.17.0"
+"@tanstack/react-query@npm:^5.17.1":
+  version: 5.17.1
+  resolution: "@tanstack/react-query@npm:5.17.1"
   dependencies:
-    "@tanstack/query-core": "npm:5.17.0"
+    "@tanstack/query-core": "npm:5.17.1"
   peerDependencies:
     react: ^18.0.0
-  checksum: 7f40ed9b874a5709c54e5c6393126f8b44a4b1e80ddd68ee96f514019f5b9244a86fff06ccb8072bb113fac79dcd0a69fd1ea56871b9366df1f79db27bf817af
+  checksum: ab6152e4db73d1e238b90833dc75b33621298fdf9a0cdd42d727d8cef8cb5ad25b9ee432dd6e424a4c232e69e52a06070479bbe589df4ded33bbbe03f75d84ba
   languageName: node
   linkType: hard
 
@@ -3254,13 +3254,13 @@ __metadata:
   resolution: "next-frontend@workspace:."
   dependencies:
     "@headlessui/react": "npm:^1.7.17"
-    "@mantine/core": "npm:^7.3.2"
-    "@mantine/form": "npm:^7.3.2"
-    "@mantine/hooks": "npm:^7.3.2"
-    "@mantine/modals": "npm:^7.3.2"
-    "@mantine/notifications": "npm:^7.3.2"
+    "@mantine/core": "npm:^7.4.0"
+    "@mantine/form": "npm:^7.4.0"
+    "@mantine/hooks": "npm:^7.4.0"
+    "@mantine/modals": "npm:^7.4.0"
+    "@mantine/notifications": "npm:^7.4.0"
     "@tabler/icons-react": "npm:^2.45.0"
-    "@tanstack/react-query": "npm:^5.17.0"
+    "@tanstack/react-query": "npm:^5.17.1"
     "@types/node": "npm:^20.10.6"
     "@types/react": "npm:^18.2.46"
     "@types/react-dom": "npm:^18.2.18"
