@@ -130,10 +130,17 @@ export async function saveLevelingData(id: string, data: Partial<LevelingRespons
   });
 }
 
-export async function saveLoggingConfig(id: string, data: Partial<LoggingData>): Promise<any> {
-  const loggingData: Partial<LoggingResponse> = {
+export async function saveLoggingConfig(id: string, data: Partial<LoggingData>): Promise<void> {
+  // Convert the channel object to the id
+  const loggingData = {
     config: data.config,
-    settings: data.settings ? Object.values(data.settings) : undefined,
+    settings: data.settings
+      ? Object.values(data.settings).map((s) => {
+          // @ts-ignore
+          s.channel = s.channel ? s.channel.id : null;
+          return s;
+        })
+      : undefined,
   };
 
   await axios.patch(`${API_URL}/guild/${id}/logging`, loggingData, {

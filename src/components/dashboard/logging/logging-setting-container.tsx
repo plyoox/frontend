@@ -1,21 +1,21 @@
 import { ComboboxItemGroup, MultiSelect, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingSettingData } from "@/types/logging";
+import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 
-function LoggingSetting({
+function LoggingSettingContainer({
   setting,
   onChange,
   textChannels,
   setTextChannels,
 }: {
-  setting: LoggingSettingData;
+  setting: LoggingSetting;
   textChannels: ComboboxItemGroup[];
   setTextChannels: UseState<ComboboxItemGroup[]>;
-  onChange: (config: LoggingSettingData) => void;
+  onChange: (config: LoggingSetting) => void;
 }) {
   const guildStore = useContext(GuildStoreContext);
 
@@ -74,7 +74,12 @@ function LoggingSetting({
 
         onChange({
           ...setting,
-          channel: (webhookId ?? data[1]) as any,
+          channel: {
+            id: data[1]!,
+            webhook_channel: data[2],
+            single_use: false,
+            ref_count: 1,
+          },
         });
         bc.close();
       }
@@ -97,7 +102,7 @@ function LoggingSetting({
           }
         }}
         placeholder={"Select a logging channel..."}
-        value={setting.channel}
+        value={setting.channel?.id ?? null}
       />
 
       <MultiSelect
@@ -122,4 +127,4 @@ function LoggingSetting({
   );
 }
 
-export default observer(LoggingSetting);
+export default observer(LoggingSettingContainer);

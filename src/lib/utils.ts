@@ -1,6 +1,10 @@
 import { AccountAgeCheck, JoinDateCheck, PointAction, Punishment, TempActionValue } from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/config/select-values";
+import { GuildStore } from "@/stores/guild-store";
+import { LoggingData } from "@/types/logging";
+import { UseState } from "@/types/react";
 
 export function getPunishmentKind(data: Punishment): ActionPunishmentKind {
   const value = data.punishment;
@@ -130,4 +134,51 @@ export function ensureUniqueness(values: string[]): string[] {
 
 export function capitalize(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function setLoggingTextChannels({
+  guildStore,
+  setTextChannels,
+  data,
+}: {
+  guildStore: GuildStore;
+  setTextChannels: UseState<ComboboxItemGroup[]>;
+  data: LoggingData;
+}) {
+  const webhookMap = new Map<string, ComboboxItem>();
+
+  Object.values(data.settings)
+    .filter((setting) => setting.channel?.webhook_channel)
+    .forEach((setting) => {
+      const channel = guildStore.textChannels.get(setting.channel!.webhook_channel! /* filtered above */);
+
+      webhookMap.set(setting.channel!.id, {
+        label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+        value: setting.channel!.id ?? "unknown",
+        disabled: true,
+      });
+    });
+
+  if (webhookMap.size > 0) {
+    setTextChannels((channels) => {
+      const webhookGroup = channels.find((group) => group.group === "Webhooks");
+
+      if (webhookGroup) {
+        webhookGroup.items.forEach((item) => {
+          const forcedTypeItem = item as ComboboxItem;
+
+          webhookMap.set(forcedTypeItem.value, forcedTypeItem);
+        });
+
+        webhookGroup.items = Array.from(webhookMap.values());
+      } else {
+        channels.push({
+          group: "Webhooks",
+          items: Array.from(webhookMap.values()),
+        });
+      }
+
+      return [...channels];
+    });
+  }
 }

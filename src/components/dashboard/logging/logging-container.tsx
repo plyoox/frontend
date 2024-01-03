@@ -1,24 +1,25 @@
 "use client";
 
-import { Accordion, ComboboxItem, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
+import { Accordion, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { LoggingData, LoggingSetting, MassWebhookKind } from "@/types/logging";
 import { LoggingKind } from "@/config/enums";
-import { ModifiedLoggingData } from "@/types/logging";
-import { capitalize } from "@/lib/utils";
+import { capitalize, setLoggingTextChannels } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
+import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { saveLoggingConfig } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
-import LoggingSetting from "@/components/dashboard/logging/logging-setting";
+import LoggingSettingContainer from "@/components/dashboard/logging/logging-setting-container";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
 
-type Config = ModifiedLoggingData;
+type Config = LoggingData;
 
 function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
@@ -27,8 +28,6 @@ function LoggingContainer() {
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
-
-  // function openModal() {}
 
   const guildId = useGuildId();
   const guildStore = useContext(GuildStoreContext);
@@ -39,64 +38,21 @@ function LoggingContainer() {
   const [config, setConfig] = useState<Config | null>(null);
   const [updatedConfig, setUpdatedConfig] = useState<Partial<Config> | null>(null);
   const [textChannels, setTextChannels] = useState<ComboboxItemGroup[]>([]);
+  const webhookVariant = useRef<MassWebhookKind | null>(null);
   const oldConfig = useRef<Config>({} as Config);
 
   useEffect(() => {
     if (loggingResponse.data) {
-      const webhookMap = new Map<string, ComboboxItem>();
-
-      Object.values(loggingResponse.data.settings)
-        .filter((setting) => setting.channel?.webhook_channel)
-        .forEach((setting) => {
-          const channel = guildStore.textChannels.get(setting.channel!.webhook_channel! /* filtered above */);
-
-          webhookMap.set(setting.channel!.id, {
-            label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
-            value: setting.channel!.id ?? "unknown",
-            disabled: true,
-          });
-        });
-
-      if (webhookMap.size > 0) {
-        setTextChannels((channels) => {
-          const webhookGroup = channels.find((group) => group.group === "Webhooks");
-
-          if (webhookGroup) {
-            webhookGroup.items.forEach((item) => {
-              const forcedTypeItem = item as ComboboxItem;
-
-              webhookMap.set(forcedTypeItem.value, forcedTypeItem);
-            });
-
-            webhookGroup.items = Array.from(webhookMap.values());
-          } else {
-            channels.push({
-              group: "Webhooks",
-              items: Array.from(webhookMap.values()),
-            });
-          }
-
-          return [...channels];
-        });
-      }
-
-      const loggingData: ModifiedLoggingData = {
+      const loggingData = {
         config: loggingResponse.data.config,
-        settings: Object.fromEntries(
-          loggingResponse.data.settings.map((e) => [
-            e.kind,
-            {
-              ...e,
-              channel: e.channel?.id ?? null,
-            },
-          ]),
-        ) as any,
+        settings: Object.fromEntries(loggingResponse.data.settings.map((setting) => [setting.kind as any, setting])),
       };
 
+      setLoggingTextChannels({ data: loggingData, guildStore, setTextChannels });
       setConfig(loggingData);
       oldConfig.current = loggingData;
     }
-  }, [guildStore.textChannels, loggingResponse.data]);
+  }, [guildStore, loggingResponse.data]);
 
   // Keep a list of text channels with the webhooks that are being used
   useEffect(() => {
@@ -111,6 +67,95 @@ function LoggingContainer() {
     // It is not relevant if textChannels changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [guildStore.textAsSelectable]);
+
+  const openModal = (channelId: string) => {
+    modals.openContextModal({
+      modal: "webhookMassSelect",
+      title: "Select Webhook Channels",
+      centered: true,
+      innerProps: {
+        text: "Select webhooks for specific channels.",
+        channel: channelId,
+        onVariant: (kind: MassWebhookKind) => {
+          webhookVariant.current = kind;
+        },
+      },
+    });
+
+    const broadcastChannel = new BroadcastChannel("webhook-creation");
+    broadcastChannel.onmessage = (msg) => {
+      if (typeof msg.data !== "string") return;
+      const data = msg.data.split(":");
+
+      if (data.at(0) !== "other") return;
+
+      const channelId = data.at(1);
+      const webhookId = data.at(2);
+      if (!channelId) return;
+
+      const settings: Record<string, LoggingSetting> = {};
+
+      let channel;
+      if (webhookId) {
+        channel = {
+          id: webhookId,
+          webhook_channel: channelId,
+          ref_count: 1,
+          single_use: false,
+        };
+      } else {
+        channel = {
+          id: channelId,
+          webhook_channel: null,
+          ref_count: 1,
+          single_use: false,
+        };
+      }
+
+      for (const value of Object.values(LoggingKind)) {
+        const setting = config?.settings[value] ?? {
+          kind: value,
+          guild_id: guildId,
+          ...DEFAULT_LOGGING_SETTING,
+        };
+
+        const configSettings = { ...setting, channel };
+
+        if (webhookVariant.current === "all") {
+          settings[value] = configSettings;
+        } else if (webhookVariant.current === "empty") {
+          if (!setting.channel) {
+            settings[value] = configSettings;
+          } else if (config?.settings[value]) {
+            settings[value] = config.settings[value];
+          }
+        }
+      }
+
+      if (Object.keys(settings).length !== Object.keys(LoggingKind).length) {
+        console.log("not all settings were set");
+        return;
+      }
+
+      // Update text channels with the new webhook
+      setLoggingTextChannels({
+        data: {
+          config: config?.config!,
+          settings: settings,
+        },
+        guildStore,
+        setTextChannels,
+      });
+
+      handleChange({
+        settings: settings,
+      });
+
+      // Close the broadcast channel
+      broadcastChannel.close();
+      webhookVariant.current = null;
+    };
+  };
 
   if (loggingResponse.error) {
     return <RequestError error={loggingResponse.error} />;
@@ -129,6 +174,11 @@ function LoggingContainer() {
         description={"Set a channel for specific log variants."}
         label={"Set channel"}
         mb={10}
+        onChange={(channel) => {
+          if (channel) {
+            openModal(channel);
+          }
+        }}
       />
 
       <Accordion
@@ -141,7 +191,7 @@ function LoggingContainer() {
         onChange={(val) => localStorage.setItem("mod-acc-state", val.join(","))}
         variant="filled"
       >
-        {Object.entries(LoggingKind).map(([_, value]) => {
+        {Object.values(LoggingKind).map((value) => {
           const setting = config.settings[value] ?? {
             kind: value,
             guild_id: guildId,
@@ -168,7 +218,7 @@ function LoggingContainer() {
               </AccordionSwitchControl>
 
               <Accordion.Panel>
-                <LoggingSetting
+                <LoggingSettingContainer
                   onChange={(setting) => {
                     handleChange({
                       settings: { ...config.settings, [value]: setting },

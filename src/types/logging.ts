@@ -1,14 +1,11 @@
 import { LoggingKind } from "@/config/enums";
 import { MaybeWebhook } from "@/types/webhook";
 
+export type MassWebhookKind = "all" | "empty";
+
 export interface LoggingData {
   config: LoggingConfig;
-  settings: Record<string, LoggingSetting>;
-}
-
-export interface ModifiedLoggingData {
-  config: LoggingConfig;
-  settings: Record<string, LoggingSettingData>;
+  settings: Record<LoggingKind, LoggingSetting>;
 }
 
 export interface LoggingConfig {
@@ -20,15 +17,6 @@ export interface LoggingSetting {
   active: boolean;
   guild_id: string;
   channel: MaybeWebhook | null;
-  exempt_roles: string[];
-  exempt_channels: string[];
-}
-
-export interface LoggingSettingData {
-  kind: LoggingKind;
-  active: boolean;
-  guild_id: string;
-  channel: string | null;
   exempt_roles: string[];
   exempt_channels: string[];
 }

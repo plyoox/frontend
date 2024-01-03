@@ -1,6 +1,7 @@
 import { API_URL } from "@/environment";
 import { Button, Tooltip } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
+import { MassWebhookKind } from "@/types/logging";
 import { useGuildId } from "@/lib/hooks";
 
 function ChooseWebhookModal({
@@ -10,10 +11,13 @@ function ChooseWebhookModal({
 }: ContextModalProps<{
   text: string;
   channel: string;
+  onVariant: (kind: MassWebhookKind) => void;
 }>) {
   const guildId = useGuildId();
 
-  function openWindow() {
+  function openWindow(kind: MassWebhookKind) {
+    innerProps.onVariant(kind);
+
     window.open(
       `${API_URL}/guild/${guildId}/webhook/redirect?channel_id=${innerProps.channel}&webhook=other&single_use=false`,
       "Create Webhook | Plyoox",
@@ -29,11 +33,11 @@ function ChooseWebhookModal({
 
       <div className={"flex flex-col gap-2"}>
         <Tooltip label={"Set the webhook for all settings"}>
-          <Button onClick={() => openWindow()}>Change all</Button>
+          <Button onClick={() => openWindow("all")}>Change all</Button>
         </Tooltip>
 
         <Tooltip label={"Set the webhook for all settings that not already have a channel"}>
-          <Button onClick={() => openWindow()}>Change empty</Button>
+          <Button onClick={() => openWindow("empty")}>Change empty</Button>
         </Tooltip>
 
         <Button
