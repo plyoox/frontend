@@ -33,7 +33,7 @@ function LeaveConfig({ data, handleChange }: { data: Config; handleChange: (data
 
       <Textarea
         autosize
-        description="The message that will be sent when a user leaves the guild"
+        description="The message that will be sent when a user leaves the guild. Click on the icon on the right to use templates."
         label="Leave message"
         leftSection={<IconBlockquote size={16} />}
         maxLength={1900}

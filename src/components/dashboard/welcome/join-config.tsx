@@ -50,7 +50,7 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
 
       <Textarea
         autosize
-        description="The message that will be sent when a user joins the guild"
+        description="The message that will be sent when a user joins the guild. Click on the icon on the right to use templates."
         label="Join message"
         leftSection={<IconBlockquote size={16} />}
         maxLength={1900}
