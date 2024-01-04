@@ -68,7 +68,7 @@ function ChooseWebhookModal({
               onClick={() => {
                 const channel = new BroadcastChannel("webhook-creation");
 
-                channel.postMessage(`${innerProps.webhookKind}:${innerProps.channel}`);
+                channel.postMessage(`log_${innerProps.webhookKind}:${innerProps.channel}`);
                 channel.close();
 
                 context.closeModal(id);
