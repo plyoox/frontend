@@ -1,12 +1,12 @@
 import { AppShell } from "@mantine/core";
 import { ILink } from "@/types/utils";
 import {
-  IconArrowUpCircle,
   IconBrandTwitch,
   IconMessages,
   IconSettings,
   IconShieldChevron,
   IconUserPlus,
+  IconUserUp,
 } from "@tabler/icons-react";
 import Link from "./components/link";
 
@@ -17,38 +17,38 @@ interface SidenavProps {
 const LINKS: ILink[] = [
   {
     color: "pink",
-    icon: <IconSettings size={15} />,
+    icon: <IconSettings size={20} />,
     label: "Settings",
     link: "settings",
   },
   {
     color: "grape",
-    icon: <IconBrandTwitch size={15} />,
+    icon: <IconBrandTwitch size={20} />,
     label: "Twitch",
     link: "notifications",
     beta: true,
   },
   {
     color: "blue",
-    icon: <IconUserPlus size={15} />,
+    icon: <IconUserPlus size={20} />,
     label: "Welcome",
     link: "welcome",
   },
   {
     color: "teal",
-    icon: <IconShieldChevron size={15} />,
+    icon: <IconShieldChevron size={20} />,
     label: "Moderation",
     link: "moderation",
   },
   {
     color: "lime",
-    icon: <IconMessages size={15} />,
+    icon: <IconMessages size={20} />,
     label: "Logging",
     link: "logging",
   },
   {
     color: "yellow",
-    icon: <IconArrowUpCircle size={15} />,
+    icon: <IconUserUp size={20} />,
     label: "Leveling",
     link: "leveling",
   },
