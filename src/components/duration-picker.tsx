@@ -5,7 +5,7 @@ import React, { useMemo, useState } from "react";
 interface DurationPickerProps {
   label: string;
   description: string;
-  value: number;
+  value?: number;
   onChange: (value: number) => void;
   max?: number;
   min?: number;
@@ -26,7 +26,7 @@ const DURATION_OPTIONS: DurationOptions = {
 };
 
 function DurationPicker({
-  value,
+  value = 1,
   onChange,
   min,
   max,
