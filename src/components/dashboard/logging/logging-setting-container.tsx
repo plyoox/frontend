@@ -1,6 +1,7 @@
 import { ComboboxItemGroup, MultiSelect, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
+import { UNNECESSARY_ROLE_FIELD } from "@/components/dashboard/logging/available-fields";
 import { UseState } from "@/types/react";
 import { addLoggingTextChannel } from "@/lib/utils";
 import { modals } from "@mantine/modals";
@@ -63,6 +64,9 @@ function LoggingSettingContainer({
     };
   };
 
+  const showChannel = setting.kind.startsWith("message");
+  const showRoles = !UNNECESSARY_ROLE_FIELD.includes(setting.kind);
+
   return (
     <div className={"my-3"}>
       <Select
@@ -82,24 +86,28 @@ function LoggingSettingContainer({
         value={setting.channel?.id ?? null}
       />
 
-      <MultiSelect
-        data={textChannels}
-        description={"Actions by users with these roles will not be logged."}
-        label={"Exempt Roles"}
-        maxValues={50}
-        onChange={(value) => onChange({ ...setting, exempt_roles: value })}
-        placeholder={"Select exempt roles..."}
-        value={setting.exempt_roles}
-      />
-      <MultiSelect
-        data={textChannels}
-        description={"Actions in these channels will not be logged."}
-        label={"Exempt Channels"}
-        maxValues={50}
-        onChange={(value) => onChange({ ...setting, exempt_channels: value })}
-        placeholder={"Select exempt channels..."}
-        value={setting.exempt_channels}
-      />
+      {showRoles && (
+        <MultiSelect
+          data={textChannels}
+          description={"Actions by users with these roles will not be logged."}
+          label={"Exempt Roles"}
+          maxValues={50}
+          onChange={(value) => onChange({ ...setting, exempt_roles: value })}
+          placeholder={"Select exempt roles..."}
+          value={setting.exempt_roles}
+        />
+      )}
+      {showChannel && (
+        <MultiSelect
+          data={textChannels}
+          description={"Actions in these channels will not be logged."}
+          label={"Exempt Channels"}
+          maxValues={50}
+          onChange={(value) => onChange({ ...setting, exempt_channels: value })}
+          placeholder={"Select exempt channels..."}
+          value={setting.exempt_channels}
+        />
+      )}
     </div>
   );
 }
