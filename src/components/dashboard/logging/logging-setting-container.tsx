@@ -2,6 +2,7 @@ import { ComboboxItemGroup, MultiSelect, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";
+import { addLoggingTextChannel } from "@/lib/utils";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
@@ -41,46 +42,22 @@ function LoggingSettingContainer({
 
         const webhookId = data.at(2);
 
-        // Add webhook to the list of channels
-        if (webhookId)
-          setTextChannels((channels) => {
-            const channel = guildStore.textChannels.get(data[1]);
-            const webhookGroup = channels.find((group) => group.group === "Webhooks");
-
-            if (webhookGroup) {
-              // check if webhook already exists
-              if (!webhookGroup.items.some((item: any) => item.value === webhookId)) {
-                webhookGroup.items.push({
-                  label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
-                  value: webhookId,
-                  disabled: true,
-                });
-              }
-            } else {
-              channels.push({
-                group: "Webhooks",
-                items: [
-                  {
-                    label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
-                    value: webhookId,
-                    disabled: true,
-                  },
-                ],
-              });
-            }
-
-            return [...channels];
-          });
-
-        onChange({
+        const newSetting = {
           ...setting,
           channel: {
-            id: data[1]!,
-            webhook_channel: data[2],
-            single_use: false,
+            id: webhookId ?? channelId,
+            webhook_channel: webhookId ? channelId : null,
             ref_count: 1,
+            single_use: false,
           },
-        });
+        };
+
+        // Add webhook to the list of channels
+        if (webhookId) {
+          addLoggingTextChannel({ setting: newSetting, setTextChannels, guildStore });
+        }
+        onChange(newSetting);
+
         bc.close();
       }
     };

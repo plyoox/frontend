@@ -1,9 +1,9 @@
 import { AccountAgeCheck, JoinDateCheck, PointAction, Punishment, TempActionValue } from "@/types/moderation";
-import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/config/enums";
 import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/config/select-values";
 import { GuildStore } from "@/stores/guild-store";
-import { LoggingData } from "@/types/logging";
+import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";
 
 export function getPunishmentKind(data: Punishment): ActionPunishmentKind {
@@ -139,15 +139,15 @@ export function capitalize(string: string): string {
 export function setLoggingTextChannels({
   guildStore,
   setTextChannels,
-  data,
+  settings,
 }: {
   guildStore: GuildStore;
   setTextChannels: UseState<ComboboxItemGroup[]>;
-  data: LoggingData;
+  settings: Record<LoggingKind, LoggingSetting>;
 }) {
   const webhookMap = new Map<string, ComboboxItem>();
 
-  Object.values(data.settings)
+  Object.values(settings)
     .filter((setting) => setting.channel?.webhook_channel)
     .forEach((setting) => {
       const channel = guildStore.textChannels.get(setting.channel!.webhook_channel! /* filtered above */);
@@ -181,4 +181,48 @@ export function setLoggingTextChannels({
       return [...channels];
     });
   }
+}
+
+export function addLoggingTextChannel({
+  guildStore,
+  setTextChannels,
+  setting,
+}: {
+  guildStore: GuildStore;
+  setTextChannels: UseState<ComboboxItemGroup[]>;
+  setting: LoggingSetting;
+}) {
+  const webhook = setting.channel;
+  if (!webhook || !webhook?.webhook_channel) {
+    return;
+  }
+
+  setTextChannels((channels) => {
+    const channel = guildStore.textChannels.get(webhook.webhook_channel!);
+    const webhookGroup = channels.find((group) => group.group === "Webhooks");
+
+    if (webhookGroup) {
+      // check if webhook already exists
+      if (!webhookGroup.items.some((item: any) => item.value === webhook.id)) {
+        webhookGroup.items.push({
+          label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+          value: webhook.id,
+          disabled: true,
+        });
+      }
+    } else {
+      channels.push({
+        group: "Webhooks",
+        items: [
+          {
+            label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+            value: webhook.id,
+            disabled: true,
+          },
+        ],
+      });
+    }
+
+    return [...channels];
+  });
 }

@@ -48,7 +48,7 @@ function LoggingContainer() {
         settings: Object.fromEntries(loggingResponse.data.settings.map((setting) => [setting.kind as any, setting])),
       };
 
-      setLoggingTextChannels({ data: loggingData, guildStore, setTextChannels });
+      setLoggingTextChannels({ settings: loggingData.settings, guildStore, setTextChannels });
       setConfig(loggingData);
       oldConfig.current = loggingData;
     }
@@ -139,10 +139,7 @@ function LoggingContainer() {
 
       // Update text channels with the new webhook
       setLoggingTextChannels({
-        data: {
-          config: config?.config!,
-          settings: settings,
-        },
+        settings,
         guildStore,
         setTextChannels,
       });
