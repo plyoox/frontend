@@ -36,6 +36,12 @@ function WebhookContainer({ className }: { className?: string }) {
         {config.map((webhook) => (
           <WebhookView key={webhook.id} {...webhook} setWebhooks={setConfig!} />
         ))}
+
+        {config.length === 0 && (
+          <div className={"flex h-14 items-center justify-center rounded-md bg-mt-dark-7 text-mt-dark-2"}>
+            No webhooks created yet.
+          </div>
+        )}
       </div>
     </div>
   );
