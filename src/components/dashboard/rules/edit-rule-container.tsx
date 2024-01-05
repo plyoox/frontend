@@ -3,7 +3,7 @@
 import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
-import EditPunishments from "@/components/dashboard/punishments/edit-punishments";
+import EditPunishments from "@/components/dashboard/actions/edit-actions";
 import RequestError from "@/components/dashboard/request-error";
 
 export function EditRuleContainer() {

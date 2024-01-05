@@ -1,7 +1,7 @@
 import { ComboboxData, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
 import { IconAt, IconCheck, IconChevronRight, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
+import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 
 interface Props {
   channels: ComboboxData;
@@ -65,7 +65,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
 
       <h3 className={"mt-3 text-xl font-medium"}>Configure Actions</h3>
 
-      <EditLegacyPunishments
+      <EditLegacyActions
         isFinal={false}
         onChange={(actions) => {
           handleChange({ caps_actions: actions });

@@ -5,7 +5,7 @@ import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
 import { useEffect, useRef, useState } from "react";
 import { useModerationData } from "@/lib/hooks";
-import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
+import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
@@ -44,7 +44,7 @@ function EditPointsContainer() {
 
   return (
     <>
-      <EditLegacyPunishments
+      <EditLegacyActions
         isFinal={true}
         onChange={(punishments) => handleChange({ point_actions: punishments })}
         punishments={data.config.point_actions}

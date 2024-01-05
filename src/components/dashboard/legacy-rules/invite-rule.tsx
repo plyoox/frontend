@@ -4,7 +4,7 @@ import { ModerationConfig } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { observer } from "mobx-react-lite";
 import { useContext, useMemo } from "react";
-import EditLegacyPunishments from "@/components/dashboard/punishments/edit-legacy-punishments";
+import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import Link from "next/link";
 
 interface Props {
@@ -76,7 +76,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
 
       <h3 className={"mt-3 text-xl font-medium"}>Configure Actions</h3>
 
-      <EditLegacyPunishments
+      <EditLegacyActions
         isFinal={false}
         onChange={(actions) => {
           handleChange({ invite_actions: actions });

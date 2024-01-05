@@ -7,7 +7,7 @@ import { UseState } from "@/types/react";
 import { amountToColor } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
-import AddPunishmentForm from "@/components/dashboard/punishments/add-punishment-form";
+import AddActionForm from "@/components/dashboard/actions/add-action-form";
 
 interface Props {
   punishments: Punishment[];
@@ -16,7 +16,7 @@ interface Props {
   className?: string;
 }
 
-function AddPunishment({ punishments, setPunishments, isFinal, className }: Props) {
+function AddActions({ punishments, setPunishments, isFinal, className }: Props) {
   const guildStore = useContext(GuildStoreContext);
   const [open, setOpen] = useState(false);
 
@@ -44,7 +44,7 @@ function AddPunishment({ punishments, setPunishments, isFinal, className }: Prop
       </button>
 
       <Collapse className="rounded-b" in={open}>
-        <AddPunishmentForm
+        <AddActionForm
           className="mt-1 rounded-md bg-mt-dark-6 p-2"
           isFinal={isFinal}
           punishments={punishments}
@@ -56,4 +56,4 @@ function AddPunishment({ punishments, setPunishments, isFinal, className }: Prop
   );
 }
 
-export default observer(AddPunishment);
+export default observer(AddActions);

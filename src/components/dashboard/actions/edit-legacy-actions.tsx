@@ -1,7 +1,7 @@
 import { Punishment } from "@/types/moderation";
 import { useState } from "react";
-import AddPunishment from "@/components/dashboard/punishments/add-punishment";
-import ListPunishments from "@/components/dashboard/punishments/list-punishments";
+import AddPunishment from "@/components/dashboard/actions/add-actions";
+import ListActions from "@/components/dashboard/actions/list-actions";
 
 interface Props {
   punishments: Punishment[];
@@ -9,7 +9,7 @@ interface Props {
   isFinal?: boolean;
 }
 
-function EditLegacyPunishments({ punishments, onChange, isFinal }: Props) {
+function EditLegacyActions({ punishments, onChange, isFinal }: Props) {
   const [actionState, setActionState] = useState<Punishment[]>([...punishments]);
 
   function customSetActions(actions: Punishment[] | ((actions: Punishment[]) => Punishment[])) {
@@ -23,10 +23,10 @@ function EditLegacyPunishments({ punishments, onChange, isFinal }: Props) {
 
   return (
     <>
-      <ListPunishments punishments={actionState} setPunishments={customSetActions} />
+      <ListActions punishments={actionState} setPunishments={customSetActions} />
       <AddPunishment className="mt-2.5" isFinal={isFinal} punishments={actionState} setPunishments={customSetActions} />
     </>
   );
 }
 
-export default EditLegacyPunishments;
+export default EditLegacyActions;

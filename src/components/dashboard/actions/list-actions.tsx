@@ -1,5 +1,5 @@
 import { UseState } from "@/types/react";
-import Punishment from "@/components/dashboard/punishments/punishment";
+import Punishment from "@/components/dashboard/actions/action";
 import type { Punishment as PunishmentType } from "@/types/moderation";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   setPunishments: UseState<PunishmentType[]>;
 }
 
-function ListPunishments({ punishments, setPunishments }: Props) {
+function ListActions({ punishments, setPunishments }: Props) {
   return (
     <div>
       {punishments.map((action, index) => (
@@ -23,4 +23,4 @@ function ListPunishments({ punishments, setPunishments }: Props) {
   );
 }
 
-export default ListPunishments;
+export default ListActions;

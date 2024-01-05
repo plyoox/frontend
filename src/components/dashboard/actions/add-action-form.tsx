@@ -23,7 +23,7 @@ interface Props {
   isFinal?: boolean;
 }
 
-function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, className }: Props) {
+function AddActionForm({ setPunishments, setOpen, punishments, isFinal, className }: Props) {
   const form = useForm<PunishmentValues>({
     initialValues: {
       check: null,
@@ -134,7 +134,7 @@ function AddPunishmentForm({ setPunishments, setOpen, punishments, isFinal, clas
   );
 }
 
-export default AddPunishmentForm;
+export default AddActionForm;
 
 function toAutomoderationAction(value: PunishmentValues) {
   const punishment: Punishment = {} as any;

@@ -8,9 +8,9 @@ import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite";
 import { removeModerationRule } from "@/lib/requests";
 import { useContext, useMemo, useState } from "react";
-import AddPunishment from "@/components/dashboard/punishments/add-punishment";
+import AddPunishment from "@/components/dashboard/actions/add-actions";
 import Link from "next/link";
-import ListPunishments from "@/components/dashboard/punishments/list-punishments";
+import ListActions from "@/components/dashboard/actions/list-actions";
 import axios from "axios";
 
 function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
@@ -33,7 +33,7 @@ function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
 
   return (
     <>
-      <ListPunishments punishments={punishments} setPunishments={setPunishments} />
+      <ListActions punishments={punishments} setPunishments={setPunishments} />
       <AddPunishment className="mt-2.5" punishments={punishments} setPunishments={setPunishments} />
 
       <div className={"mt-2.5 flex justify-end gap-2.5"}>
