@@ -1,14 +1,14 @@
+import { Action } from "@/types/moderation";
 import { ActionIcon, Badge, Tooltip } from "@mantine/core";
 import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react";
-import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
 import { actionToText } from "@/lib/utils";
 
 interface Props {
   index: number;
   count: number;
-  punishment: Punishment;
-  setPunishments: UseState<Punishment[]>;
+  punishment: Action;
+  setPunishments: UseState<Action[]>;
 }
 
 function ActionView({ punishment, index, setPunishments, count }: Props) {

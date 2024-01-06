@@ -1,3 +1,4 @@
+import { Action } from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
 import { Button, NumberInput, Select, Slider } from "@mantine/core";
 import {
@@ -9,7 +10,6 @@ import {
   TIME_MARKS,
 } from "@/config/select-values";
 import { IconDatabasePlus } from "@tabler/icons-react";
-import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
 import { useForm } from "@mantine/form";
 import DurationPicker from "@/components/duration-picker";
@@ -17,8 +17,8 @@ import InfoHeading from "@/components/dashboard/info-heading";
 
 interface Props {
   className?: string;
-  setPunishments: UseState<Punishment[]>;
-  punishments: Punishment[];
+  setPunishments: UseState<Action[]>;
+  punishments: Action[];
   setOpen: UseState<boolean>;
   isFinal?: boolean;
 }
@@ -126,7 +126,7 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
       )}
 
       <div className={"mt-4 flex justify-end"}>
-        <Button color="green" leftSection={<IconDatabasePlus />} type={"submit"} variant="outline">
+        <Button color="violet" leftSection={<IconDatabasePlus />} type={"submit"} variant={"light"}>
           Add action
         </Button>
       </div>
@@ -137,7 +137,7 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
 export default AddActionForm;
 
 function toAutomoderationAction(value: PunishmentValues) {
-  const punishment: Punishment = {} as any;
+  const punishment: Action = {} as any;
 
   const duration = TIME_MARKS.find((t) => t.value === value.punishmentDuration)!.seconds;
 

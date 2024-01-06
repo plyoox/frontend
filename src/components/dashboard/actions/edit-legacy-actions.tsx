@@ -1,18 +1,18 @@
-import { Punishment } from "@/types/moderation";
+import { Action } from "@/types/moderation";
 import { useState } from "react";
 import AddPunishment from "@/components/dashboard/actions/add-actions";
 import ListActions from "@/components/dashboard/actions/list-actions";
 
 interface Props {
-  punishments: Punishment[];
-  onChange: (actions: Punishment[]) => void;
+  punishments: Action[];
+  onChange: (actions: Action[]) => void;
   isFinal?: boolean;
 }
 
 function EditLegacyActions({ punishments, onChange, isFinal }: Props) {
-  const [actionState, setActionState] = useState<Punishment[]>([...punishments]);
+  const [actionState, setActionState] = useState<Action[]>([...punishments]);
 
-  function customSetActions(actions: Punishment[] | ((actions: Punishment[]) => Punishment[])) {
+  function customSetActions(actions: Action[] | ((actions: Action[]) => Action[])) {
     if (typeof actions === "function") {
       actions = actions(actionState);
     }

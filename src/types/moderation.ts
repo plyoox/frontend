@@ -8,28 +8,28 @@ export interface ModerationConfig {
   ignored_roles: string[];
   logging_channel: MaybeWebhook | null;
   notify_user: boolean;
-  point_actions: Punishment[];
+  point_actions: Action[];
 
   invite_active: boolean;
   invite_exempt_channels: string[];
   invite_exempt_roles: string[];
   invite_exempt_guilds: string[];
-  invite_actions: Punishment[];
+  invite_actions: Action[];
 
   link_active: boolean;
   link_exempt_channels: string[];
   link_exempt_roles: string[];
   link_allow_list: string[];
-  link_actions: Punishment[];
+  link_actions: Action[];
   link_is_whitelist: boolean;
 
   caps_active: boolean;
   caps_exempt_channels: string[];
   caps_exempt_roles: string[];
-  caps_actions: Punishment[];
+  caps_actions: Action[];
 }
 
-export interface Punishment {
+export interface Action {
   punishment: PunishmentAction;
   check: PunishmentCheck;
 }
@@ -38,7 +38,7 @@ export interface ModerationRule {
   guild_id: string;
   rule_id: string;
   reason: string | null;
-  actions: Punishment[];
+  actions: Action[];
 }
 
 export interface TempActionValue {
@@ -70,7 +70,7 @@ type PunishmentCheck = AccountAgeCheck | JoinDateCheck | ActionCheckKind.NoAvata
 export interface RuleMigration {
   enabled: boolean;
   type: "invite" | "link-wl" | "link-bl";
-  actions: Punishment[];
+  actions: Action[];
   exemptRoles: string[];
   exemptChannels: string[];
   keywordFilter?: string[];
@@ -88,4 +88,22 @@ export interface CreateAutoModerationRule {
   keyword_filter: string[];
   regex_patterns: string[];
   allow_list: string[];
+}
+
+export interface Punishment {
+  id: number;
+  guild_id: string;
+  enabled: boolean;
+  name: string;
+  reason: string | null;
+  actions: Action[];
+}
+
+export interface UpsertPunishment {
+  id?: number;
+  guild_id?: string;
+  enabled: boolean;
+  name: string;
+  reason: string | null;
+  actions: Action[];
 }

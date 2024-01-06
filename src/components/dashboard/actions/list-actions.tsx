@@ -1,6 +1,6 @@
 import { UseState } from "@/types/react";
 import Punishment from "@/components/dashboard/actions/action";
-import type { Punishment as PunishmentType } from "@/types/moderation";
+import type { Action as PunishmentType } from "@/types/moderation";
 
 interface Props {
   punishments: PunishmentType[];

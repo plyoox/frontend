@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { API_URL } from "@/environment";
 import { DiscordModerationRule, Guild } from "@/discord/types";
 import {
   GuildDataResponse,
@@ -10,6 +10,7 @@ import {
 } from "@/types/responses";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { MaybeWebhook } from "@/types/webhook";
+import { Punishment, type UpsertPunishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { UserStoreContext } from "@/stores/user-store";
 import {
@@ -19,13 +20,15 @@ import {
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
+  fetchPunishments,
   fetchSettingsData,
   fetchWebhooks,
   fetchWelcomeData,
 } from "@/lib/requests";
 import { useContext, useEffect } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -77,6 +80,18 @@ export function useModerationData() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
+  return { data, error, isLoading };
+}
+
+export function useModerationPunishments() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<Punishment[], AxiosError>({
+    queryKey: ["moderation", id, "punishments"],
+    queryFn: () => fetchPunishments(id),
+    refetchOnMount: "always",
+  });
 
   return { data, error, isLoading };
 }
@@ -177,6 +192,52 @@ export function useUserGuilds({ enabled }: { enabled: boolean }) {
   }
 
   return { data, error, isLoading };
+}
+
+export function useUpdatePunishment() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ punishmentId, payload }: { punishmentId: number; payload: UpsertPunishment }) => {
+      return axios.put<Punishment>(`${API_URL}/guild/${id}/moderation/punishments/${punishmentId}`, payload, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (response, data) => {
+      queryClient.setQueryData<Punishment[]>(["moderation", id, "punishments"], (oldData) => {
+        if (!oldData) return [response.data];
+
+        if (data.punishmentId === 0) {
+          return [...oldData, response.data];
+        }
+
+        const filteredPunishments = oldData.filter((punishment) => punishment.id !== data.punishmentId);
+
+        return [...filteredPunishments, response.data];
+      });
+    },
+  });
+}
+
+export function useDeletePunishment() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (punishmentId: number) => {
+      return axios.delete<void>(`${API_URL}/guild/${id}/moderation/punishments/${punishmentId}`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (_, punishmentId) => {
+      queryClient.setQueryData<Punishment[]>(["moderation", id, "punishments"], (oldData) => {
+        if (!oldData) return oldData;
+
+        return oldData.filter((punishment) => punishment.id !== punishmentId);
+      });
+    },
+  });
 }
 
 interface RequestGuildData {

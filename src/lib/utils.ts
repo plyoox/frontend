@@ -1,4 +1,4 @@
-import { AccountAgeCheck, JoinDateCheck, PointAction, Punishment, TempActionValue } from "@/types/moderation";
+import { AccountAgeCheck, Action, JoinDateCheck, PointAction, TempActionValue } from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/config/enums";
 import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/config/select-values";
@@ -6,7 +6,7 @@ import { GuildStore } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";
 
-export function getPunishmentKind(data: Punishment): ActionPunishmentKind {
+export function getPunishmentKind(data: Action): ActionPunishmentKind {
   const value = data.punishment;
 
   if (typeof value === "string") {
@@ -16,7 +16,7 @@ export function getPunishmentKind(data: Punishment): ActionPunishmentKind {
   return Object.keys(value)[0] as ActionPunishmentKind;
 }
 
-export function getCheckKind(data: Punishment): ActionCheckKind | null {
+export function getCheckKind(data: Action): ActionCheckKind | null {
   const value = data.check;
 
   if (!value) {
@@ -30,7 +30,7 @@ export function getCheckKind(data: Punishment): ActionCheckKind | null {
   return Object.keys(value)[0] as ActionCheckKind;
 }
 
-export function actionToText(punishment: Punishment): string {
+export function actionToText(punishment: Action): string {
   let str = "";
 
   const punishmentKind = getPunishmentKind(punishment);

@@ -9,11 +9,11 @@ import { saveModerationData } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useModerationData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
-import ConfigurePointsLink from "./configure-points-link";
 import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
 import LegacyRuleLink from "./legacy-rule-link";
 import LogConfig from "./log-config";
 import RequestError from "@/components/dashboard/request-error";
+import RequirePointsHandlerLink from "@/components/dashboard/moderation/require-points-handler-link";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
 
@@ -92,7 +92,8 @@ function ModerationSettings() {
         value={config.ignored_roles}
       />
 
-      <ConfigurePointsLink config={config} />
+      <RequirePointsHandlerLink config={config} label={"Point Actions"} link={"moderation/edit"} />
+      <RequirePointsHandlerLink config={config} label={"Punishment Templates"} link={"moderation/punishments"} />
       <LegacyRuleLink />
 
       <Accordion

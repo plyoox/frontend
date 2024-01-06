@@ -10,7 +10,7 @@ import {
 } from "@/types/responses";
 import { LoggingData } from "@/types/logging";
 import { MaybeWebhook } from "@/types/webhook";
-import { ModerationConfig } from "@/types/moderation";
+import { ModerationConfig, Punishment } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
 
@@ -54,6 +54,14 @@ export async function fetchGuildData(id: string, params: string, redirect: any) 
 
 export async function fetchModerationData(id: string) {
   const response = await axios.get<ModerationResponse>(`${API_URL}/guild/${id}/moderation`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function fetchPunishments(id: string) {
+  const response = await axios.get<Punishment[]>(`${API_URL}/guild/${id}/moderation/punishments`, {
+    withCredentials: true,
+  });
 
   return response.data;
 }

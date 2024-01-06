@@ -1,8 +1,8 @@
 import { API_URL } from "@/environment";
+import { Action, ModerationRule } from "@/types/moderation";
 import { Button, Tooltip } from "@mantine/core";
 import { DiscordModerationRule } from "@/discord/types";
 import { IconAlertCircle, IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
-import { ModerationRule, Punishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite";
@@ -29,7 +29,7 @@ function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
         };
   }, [discordRule.id, discordRule.guild_id, guildStore.moderationRules]);
 
-  const [punishments, setPunishments] = useState<Punishment[]>([...currentRule.actions]);
+  const [punishments, setPunishments] = useState<Action[]>([...currentRule.actions]);
 
   return (
     <>
@@ -126,6 +126,6 @@ async function deleteModerationRule(guildId: string, ruleId: string) {
 }
 
 interface SetModerationRuleDto {
-  actions: Punishment[] | null;
+  actions: Action[] | null;
   reason: string | null;
 }

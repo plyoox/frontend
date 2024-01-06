@@ -1,8 +1,8 @@
+import { Action } from "@/types/moderation";
 import { Badge, Collapse, ThemeIcon } from "@mantine/core";
 import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconPlus } from "@tabler/icons-react";
-import { Punishment } from "@/types/moderation";
 import { UseState } from "@/types/react";
 import { amountToColor } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
@@ -10,8 +10,8 @@ import { useContext, useState } from "react";
 import AddActionForm from "@/components/dashboard/actions/add-action-form";
 
 interface Props {
-  punishments: Punishment[];
-  setPunishments: UseState<Punishment[]>;
+  punishments: Action[];
+  setPunishments: UseState<Action[]>;
   isFinal?: boolean;
   className?: string;
 }
