@@ -1,4 +1,4 @@
-import { Button, Popover, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Popover, Tooltip } from "@mantine/core";
 import { IconTemplate } from "@tabler/icons-react";
 import { RefObject, useState } from "react";
 import { TemplateString } from "@/types/welcome";
@@ -24,7 +24,14 @@ function TextareaTemplate({ textarea, template }: Props) {
   return (
     <Popover withArrow onClose={() => setOpen(false)} opened={open} position="left" shadow="md" width="250px">
       <Popover.Target>
-        <IconTemplate onClick={() => setOpen(!open)} style={{ cursor: "pointer" }} />
+        <ActionIcon
+          aria-label={"Open message placeholder"}
+          color={"blue"}
+          onClick={() => setOpen(!open)}
+          variant={"light"}
+        >
+          <IconTemplate />
+        </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown>
         {template.map((t) => {
