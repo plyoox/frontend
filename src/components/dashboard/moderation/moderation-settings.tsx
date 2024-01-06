@@ -92,8 +92,18 @@ function ModerationSettings() {
         value={config.ignored_roles}
       />
 
-      <RequirePointsHandlerLink config={config} label={"Point Actions"} link={"moderation/edit"} />
-      <RequirePointsHandlerLink config={config} label={"Punishment Templates"} link={"moderation/punishments"} />
+      <RequirePointsHandlerLink
+        config={config}
+        description={"Define what happens when a user reaches 10 points."}
+        label={"Point Actions"}
+        link={"moderation/edit"}
+      />
+      <RequirePointsHandlerLink
+        config={config}
+        description={"Set predefined actions for specific violations."}
+        label={"Punishment Templates"}
+        link={"moderation/punishments"}
+      />
       <LegacyRuleLink />
 
       <Accordion

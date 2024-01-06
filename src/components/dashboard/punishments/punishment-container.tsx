@@ -7,7 +7,10 @@ import { useState } from "react";
 import EditPunishmentModal from "@/components/modals/edit-punishment-modal";
 import PunishmentList from "@/components/dashboard/punishments/punishment-list";
 import RequestError from "@/components/dashboard/request-error";
+import dynamic from "next/dynamic";
 import type { UpsertPunishment } from "@/types/moderation";
+
+const Guide = dynamic(() => import("@/components/help/help-punishment-templates"));
 
 function PunishmentContainer() {
   const [open, setOpen] = useState<Partial<UpsertPunishment> | null>(null);
@@ -48,7 +51,10 @@ function PunishmentContainer() {
 
   return (
     <>
-      <div className={"flex justify-end"}>{button}</div>
+      <div className={"flex justify-end gap-2"}>
+        <Guide />
+        {button}
+      </div>
 
       <PunishmentList className={"my-2"} editPunishment={setOpen} punishments={punishments.data} />
       <EditPunishmentModal open={open} setOpen={setOpen} />

@@ -21,8 +21,20 @@ function EditPunishmentModal({ open, setOpen }: Props) {
   const [actions, setActions] = useState(open?.actions ?? []);
   const [actionErrorMessages, setActionErrorMessages] = useState<string | null>(null);
   const form = useForm<UpsertPunishment>({
+    // Those are essentially useless, but react cries because the values will be changed to undefined
+    // when the modal is closed.
+    initialValues: {
+      id: 0,
+      guild_id: undefined,
+      actions: [],
+      reason: "",
+      name: "",
+      enabled: false,
+    },
     validate: {
       name: (value) => {
+        if (!value) return "Name is required.";
+
         if (value.length < 1) {
           return "Name has to be at least 1 character long.";
         }
@@ -62,10 +74,12 @@ function EditPunishmentModal({ open, setOpen }: Props) {
       enabled: open?.enabled ?? false,
       reason: open?.reason ?? "",
       name: open?.name ?? "",
-      id: open?.id ?? undefined,
+      id: open?.id ?? 0,
       guild_id: open?.guild_id ?? undefined,
       actions: [],
     });
+
+    // Infinity loop when adding form as dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -80,17 +94,16 @@ function EditPunishmentModal({ open, setOpen }: Props) {
       size={"xl"}
       title="Edit Punishments"
     >
-      <form>
+      <form onSubmit={() => {}}>
         <Switch
+          checked={form.values.enabled}
           color={"teal"}
           label={"Enabled"}
-          maxLength={50}
-          mb={5}
-          minLength={1}
-          offLabel={<IconX color={"red"} size="1rem" stroke={3} />}
-          onLabel={<IconCheck color={"lime"} size="1rem" stroke={3} />}
-          {...form.getInputProps("enabled")}
           labelPosition={"left"}
+          mb={5}
+          offLabel={<IconX color={"red"} size="1rem" stroke={3} />}
+          onChange={(event) => form.setFieldValue("enabled", event.currentTarget.checked)}
+          onLabel={<IconCheck color={"lime"} size="1rem" stroke={3} />}
         />
 
         <TextInput
@@ -129,7 +142,6 @@ function EditPunishmentModal({ open, setOpen }: Props) {
             }
 
             if (!actions.some((action) => action.check === null)) {
-              console.log(actions);
               setActionErrorMessages("There has to be at least one action, that affects everyone.");
               return;
             }
@@ -137,11 +149,11 @@ function EditPunishmentModal({ open, setOpen }: Props) {
             setLoading(true);
 
             updatePunishment
-              .mutateAsync({ punishmentId: open?.id ?? 0, payload: { ...form.values, actions } })
+              .mutateAsync({ punishmentId: form.values.id ?? 0, payload: { ...form.values, actions } })
               .then(() => {
                 setLoading(false);
-                form.reset();
                 setOpen(null);
+                form.reset();
               })
               .catch((e) => {
                 setLoading(false);
