@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, ComboboxItemGroup, LoadingOverlay, Select } from "@mantine/core";
+import { Accordion, ComboboxItemGroup } from "@mantine/core";
 import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingData, LoggingSetting, MassWebhookKind } from "@/types/logging";
@@ -14,7 +14,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import LoggingSettingContainer from "@/components/dashboard/logging/logging-setting-container";
+import MassLogChannelSelect from "@/components/dashboard/logging/mass-log-channel-select";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
@@ -87,7 +89,10 @@ function LoggingContainer() {
       if (typeof msg.data !== "string") return;
       const data = msg.data.split(":");
 
-      if (data.at(0) !== "other") return;
+      if (data.at(0) !== "other") {
+        webhookVariant.current = null;
+        return;
+      }
 
       const channelId = data.at(1);
       const webhookId = data.at(2);
@@ -134,6 +139,7 @@ function LoggingContainer() {
 
       if (Object.keys(settings).length !== Object.keys(LoggingKind).length) {
         console.log("not all settings were set");
+        webhookVariant.current = null;
         return;
       }
 
@@ -159,24 +165,14 @@ function LoggingContainer() {
   }
 
   if (loggingResponse.isLoading || !config) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   return (
     <>
       <ToggleActive active={config.config.active} onChange={(active) => handleChange({ config: { active } })} />
 
-      <Select
-        data={guildStore.textAsSelectable}
-        description={"Set a channel for specific log variants."}
-        label={"Set channel"}
-        mb={10}
-        onChange={(channel) => {
-          if (channel) {
-            openModal(channel);
-          }
-        }}
-      />
+      <MassLogChannelSelect openModal={openModal} />
 
       <Accordion
         multiple
