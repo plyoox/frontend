@@ -1,5 +1,5 @@
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { Button, LoadingOverlay, Title } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
 import { IconPlaylistAdd } from "@tabler/icons-react";
 import { RuleStoreContext } from "@/stores/rule-store";
@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { useDiscordRules } from "@/lib/hooks";
 import Link from "next/link";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import ModerationRule from "@/components/dashboard/rules/moderation-rule";
 import NoRulesAvailable from "@/components/dashboard/rules/no-rules";
 import RequestError from "@/components/dashboard/request-error";
@@ -16,7 +17,7 @@ function DiscordRuleOverview() {
 
   const { isLoading, error } = useDiscordRules();
 
-  if (isLoading) return <LoadingOverlay />;
+  if (isLoading) return <LoadingSkeleton />;
   if (error) return <RequestError error={error} />;
 
   const rulesWithConfig = ruleStore.discordRulesArray.filter((r) => ruleStore.moderationRules.has(r.id));
@@ -34,7 +35,7 @@ function DiscordRuleOverview() {
       )}
 
       <div className={"mb-2.5"}>
-        <Title order={5}>Unused Rules</Title>
+        <h5>Unused Rules</h5>
         {rulesWithoutConfig.length ? (
           rulesWithoutConfig.map((r) => <ModerationRule key={r.id} rule={r} />)
         ) : (

@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, LoadingOverlay, Tooltip } from "@mantine/core";
+import { Button, Tooltip } from "@mantine/core";
 import { IconCopyPlus } from "@tabler/icons-react";
 import { useGuildData, useModerationPunishments } from "@/lib/hooks";
 import { useState } from "react";
 import EditPunishmentModal from "@/components/modals/edit-punishment-modal";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import PunishmentList from "@/components/dashboard/punishments/punishment-list";
 import RequestError from "@/components/dashboard/request-error";
 import dynamic from "next/dynamic";
@@ -23,7 +24,7 @@ function PunishmentContainer() {
   }
 
   if (punishments.isLoading || !punishments.data) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   let button = (

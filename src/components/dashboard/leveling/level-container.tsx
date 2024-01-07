@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, LoadingOverlay } from "@mantine/core";
+import { Accordion } from "@mantine/core";
 import { DiscordPermission } from "@/discord/enums";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAlertTriangle } from "@tabler/icons-react";
@@ -15,6 +15,7 @@ import ExemptLevelObjects from "@/components/dashboard/leveling/exempt-level-obj
 import LevelGainMultiplier from "@/components/dashboard/leveling/level-gain-multiplier";
 import LevelRoleManager from "@/components/dashboard/leveling/level-role-manager";
 import LevelUpMessage from "@/components/dashboard/leveling/level-up-message";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
@@ -50,7 +51,7 @@ function LevelContainer() {
   }
 
   if (levelingResponse.isLoading || !config) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   const canManageRoles = guildStore.botHasPermission(DiscordPermission.ManageRoles);

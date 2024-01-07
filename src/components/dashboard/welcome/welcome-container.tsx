@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, LoadingOverlay } from "@mantine/core";
+import { Accordion } from "@mantine/core";
 import { WelcomeResponse } from "@/types/responses";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveWelcomeData } from "@/lib/requests";
@@ -10,6 +10,7 @@ import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
 import JoinConfig from "@/components/dashboard/welcome/join-config";
 import LeaveConfig from "@/components/dashboard/welcome/leave-config";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
@@ -43,7 +44,7 @@ function WelcomeContainer() {
   }
 
   if (welcomeResponse.isLoading || !config) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   return (

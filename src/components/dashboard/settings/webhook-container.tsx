@@ -1,9 +1,9 @@
 "use client";
 
-import { LoadingOverlay } from "@mantine/core";
 import { MaybeWebhook } from "@/types/webhook";
 import { useEffect, useState } from "react";
 import { useGuildData, useWebhooks } from "@/lib/hooks";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import WebhookView from "@/components/dashboard/settings/webhook-view";
 
@@ -26,7 +26,7 @@ function WebhookContainer({ className }: { className?: string }) {
   }
 
   if (webhooks.isLoading || !config) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, LoadingOverlay, MultiSelect } from "@mantine/core";
+import { Accordion, MultiSelect } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAt } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
@@ -11,6 +11,7 @@ import { useGuildData, useModerationData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
 import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
 import LegacyRuleLink from "./legacy-rule-link";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import LogConfig from "./log-config";
 import RequestError from "@/components/dashboard/request-error";
 import RequirePointsHandlerLink from "@/components/dashboard/moderation/require-points-handler-link";
@@ -50,7 +51,7 @@ function ModerationSettings() {
   }
 
   if (moderationResponse.isLoading || !config) {
-    return <LoadingOverlay />;
+    return <LoadingSkeleton />;
   }
 
   return (
