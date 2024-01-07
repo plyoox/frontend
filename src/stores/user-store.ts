@@ -13,6 +13,7 @@ export enum AuthStatus {
 export class UserStore {
   authStatus: AuthStatus = AuthStatus.Unauthenticated;
   user: AuthUser | null = null;
+
   fetchUser = flow(function* (this: UserStore) {
     try {
       this.authStatus = AuthStatus.Pending;
@@ -28,6 +29,7 @@ export class UserStore {
       }
     }
   });
+
   requestLogout = flow(function* (this: UserStore) {
     try {
       yield axios.delete(`${API_URL}/logout`, { withCredentials: true });

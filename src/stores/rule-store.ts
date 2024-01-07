@@ -19,10 +19,6 @@ class RuleStore {
     return this.#moderationRules;
   }
 
-  get discordRules() {
-    return this.#discordRules;
-  }
-
   get discordRulesArray() {
     return Array.from(this.#discordRules.values());
   }
