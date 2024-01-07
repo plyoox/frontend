@@ -97,7 +97,7 @@ function ModerationSettings() {
         config={config}
         description={"Define what happens when a user reaches 10 points."}
         label={"Point Actions"}
-        link={"moderation/edit"}
+        link={"moderation/edit-points"}
       />
       <RequirePointsHandlerLink
         config={config}
