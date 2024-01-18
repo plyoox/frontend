@@ -1,8 +1,9 @@
-import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
 import { HelperPermission } from "@/config/enums";
-import { LevelRole } from "@/types/leveling";
-import { LoggingConfig, LoggingSetting } from "@/types/logging";
-import { ModerationConfig, ModerationRule } from "@/types/moderation";
+import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
+import type { LevelRole } from "@/types/leveling";
+import type { LoggingConfig, LoggingSetting } from "@/types/logging";
+import type { ModerationConfig, ModerationRule } from "@/types/moderation";
+import type { TwitchNotificationResponse } from "@/types/notification";
 
 export interface GuildDataResponse {
   text: TextChannel[];
@@ -47,4 +48,8 @@ export interface LoggingResponse {
 
 export interface SettingsResponse {
   helper_permission: HelperPermission | null;
+}
+
+export interface NotificationResponse {
+  twitch: TwitchNotificationResponse;
 }

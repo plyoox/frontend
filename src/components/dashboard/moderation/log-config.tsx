@@ -29,8 +29,6 @@ function LogConfig({ config, handleChange }: Props) {
     const bc = new BroadcastChannel("webhook-creation");
     bc.onmessage = (msg) => {
       if (typeof msg.data === "string") {
-        console.log(msg.data);
-
         const data = msg.data.split(":");
         if (data.at(0) !== "moderation") return;
 

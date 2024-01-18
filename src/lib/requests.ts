@@ -5,6 +5,7 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
+  type NotificationResponse,
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
@@ -102,7 +103,7 @@ export async function fetchGuilds(): Promise<Guild[]> {
   return res.data;
 }
 
-export async function removeModerationRule(guildId: string, ruleId: string) {
+export async function removeModerationRule(guildId: string, ruleId: string): Promise<void> {
   await axios.delete(`${API_URL}/guild/${guildId}/moderation/rules/${ruleId}`, {
     withCredentials: true,
   });
@@ -114,7 +115,7 @@ export async function fetchAutoModerationRules(id: String): Promise<DiscordModer
   return response.data;
 }
 
-export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<any> {
+export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<void> {
   if (data.logging_channel) {
     // Backend only accepts the channel/webhook id
     // @ts-ignore
@@ -126,13 +127,13 @@ export async function saveModerationData(id: string, data: Partial<ModerationCon
   });
 }
 
-export async function saveWelcomeData(id: string, data: Partial<WelcomeResponse>): Promise<any> {
+export async function saveWelcomeData(id: string, data: Partial<WelcomeResponse>): Promise<void> {
   await axios.patch(`${API_URL}/guild/${id}/welcome`, data, {
     withCredentials: true,
   });
 }
 
-export async function saveLevelingData(id: string, data: Partial<LevelingResponse>): Promise<any> {
+export async function saveLevelingData(id: string, data: Partial<LevelingResponse>): Promise<void> {
   await axios.patch(`${API_URL}/guild/${id}/leveling`, data, {
     withCredentials: true,
   });
@@ -156,8 +157,16 @@ export async function saveLoggingConfig(id: string, data: Partial<LoggingData>):
   });
 }
 
-export async function saveSettingsData(id: string, data: Partial<SettingsResponse>): Promise<any> {
+export async function saveSettingsData(id: string, data: Partial<SettingsResponse>): Promise<void> {
   await axios.patch(`${API_URL}/guild/${id}/settings`, data, {
     withCredentials: true,
   });
+}
+
+export async function fetchNotifications(id: string) {
+  const response = await axios.get<NotificationResponse>(`${API_URL}/guild/${id}/notifications`, {
+    withCredentials: true,
+  });
+
+  return response.data;
 }

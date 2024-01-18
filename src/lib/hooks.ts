@@ -5,6 +5,7 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
+  type NotificationResponse,
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
@@ -20,6 +21,7 @@ import {
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
+  fetchNotifications,
   fetchPunishments,
   fetchSettingsData,
   fetchWebhooks,
@@ -29,6 +31,7 @@ import { useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
+import type { TwitchNotification } from "@/types/notification";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -236,6 +239,151 @@ export function useDeletePunishment() {
 
         return oldData.filter((punishment) => punishment.id !== punishmentId);
       });
+    },
+  });
+}
+
+export function useNotifications() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<NotificationResponse, AxiosError>({
+    queryKey: ["notifications", id],
+    queryFn: () => fetchNotifications(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
+export function useCreateNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (name: string) => {
+      return axios.post<TwitchNotification>(
+        `${API_URL}/guild/${id}/notifications/twitch`,
+        { name },
+        { withCredentials: true },
+      );
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData<NotificationResponse>(
+        ["notifications", id],
+        (oldData): NotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            twitch: {
+              user: oldData.twitch.user,
+              notifications: [...oldData.twitch.notifications, response.data],
+            },
+          };
+        },
+      );
+    },
+  });
+}
+
+export function useDeleteNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (userId: number) => {
+      return axios.delete<void>(`${API_URL}/guild/${id}/notifications/twitch/${userId}`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (_, userId) => {
+      queryClient.setQueryData<NotificationResponse>(
+        ["notifications", id],
+        (oldData): NotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            twitch: {
+              ...oldData.twitch,
+              notifications: oldData.twitch.notifications.filter(
+                (notification) => notification.user.user_id !== userId,
+              ),
+            },
+          };
+        },
+      );
+    },
+  });
+}
+
+export function useEditNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, channel, message }: { userId: number; channel: string | null; message: string | null }) => {
+      return axios.post<TwitchNotification>(
+        `${API_URL}/guild/${id}/notifications/twitch/${userId}`,
+        { channel, message },
+        {
+          withCredentials: true,
+        },
+      );
+    },
+    onSuccess: (_, { userId, channel, message }) => {
+      queryClient.setQueryData<NotificationResponse>(
+        ["notifications", id],
+        (oldData): NotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            twitch: {
+              ...oldData.twitch,
+              notifications: [
+                ...oldData.twitch.notifications.map((notification) => {
+                  if (notification.user.user_id === userId) {
+                    notification.channel = channel;
+                    notification.message = message;
+                  }
+
+                  return notification;
+                }),
+              ],
+            },
+          };
+        },
+      );
+    },
+  });
+}
+
+export function useRemoveUser() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => {
+      return axios.delete<TwitchNotification>(`${API_URL}/guild/${id}/notifications/twitch`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (_) => {
+      queryClient.setQueryData<NotificationResponse>(
+        ["notifications", id],
+        (oldData): NotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            twitch: {
+              ...oldData.twitch,
+              user: null,
+            },
+          };
+        },
+      );
     },
   });
 }
