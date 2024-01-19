@@ -8,7 +8,7 @@ import TwitchContainer from "@/components/dashboard/notifications/twitch-contain
 import type { TwitchNotificationResponse } from "@/types/notification";
 
 function NotificationsContainer() {
-  useGuildData({ text: true });
+  useGuildData({ text: true, premium: true });
   const notificationResponse = useNotifications();
 
   const [twitch, setTwitch] = useState<TwitchNotificationResponse | null>(null);

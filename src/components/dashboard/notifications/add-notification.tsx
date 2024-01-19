@@ -1,4 +1,4 @@
-import { Button, Modal, TextInput } from "@mantine/core";
+import { Button, Modal, TextInput, Tooltip } from "@mantine/core";
 import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useCreateNotification } from "@/lib/hooks";
@@ -12,7 +12,7 @@ interface AddUserForm {
 
 const TWITCH_REGEX = new RegExp(/^(?:https?:\/\/(?:www\.)?twitch\.tv\/)?([a-zA-Z0-9_]{4,25})$/);
 
-function AddNotification() {
+function AddNotification({ disabled }: { disabled: boolean }) {
   const [isOpen, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(false);
   const createNotification = useCreateNotification();
@@ -33,9 +33,22 @@ function AddNotification() {
   return (
     <>
       <div className={"flex justify-end"}>
-        <Button className={"mt-2"} color={"violet"} leftSection={<IconBrandTwitch />} onClick={open} variant={"light"}>
-          Add new twitch notification
-        </Button>
+        <Tooltip
+          id={"button-description"}
+          label={disabled ? "Your notification limit has been reached" : "Add a new notification"}
+        >
+          <Button
+            aria-describedby={"button-description"}
+            className={"mt-2"}
+            color={"violet"}
+            disabled={disabled}
+            leftSection={<IconBrandTwitch />}
+            onClick={open}
+            variant={"light"}
+          >
+            Add new twitch notification
+          </Button>
+        </Tooltip>
       </div>
 
       <Modal

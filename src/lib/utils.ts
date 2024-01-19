@@ -122,10 +122,13 @@ function formatSeconds(seconds: number, cutPrefix: boolean = false): string {
 
 export function amountToColor(amount: number, max: number): { from: string; to: string; deg?: number } {
   const ratio = amount / max;
+
+  if (ratio === 1) return { from: "red", to: "red" };
+
   if (amount === 0) return { from: "blue", to: "green" };
-  if (ratio <= 0.334 || amount === 0) return { from: "green", to: "yellow" };
+  if (ratio <= 0.334 || amount === 0) return { from: "green", to: "lime.5" };
   if (ratio <= 0.667) return { from: "#ec8c69", to: "#ed6ea0" };
-  return { from: "orange", to: "red" };
+  return { from: "#ed6ea0", to: "red" };
 }
 
 export function ensureUniqueness(values: string[]): string[] {
