@@ -8,10 +8,18 @@ function Page() {
 
   useEffect(() => {
     if (searchParams.has("data")) {
-      const data = window.atob(searchParams.get("data")!);
+      try {
+        const data = window.atob(searchParams.get("data")!);
 
+        const channel = new BroadcastChannel("twitch-login");
+        channel.postMessage(data);
+        channel.close();
+      } catch (e) {
+        sendError("Failed to deserialize data");
+      }
+    } else if (searchParams.has("error")) {
       const channel = new BroadcastChannel("twitch-login");
-      channel.postMessage(data);
+      channel.postMessage(`error:${searchParams.get("error")}`);
       channel.close();
     }
 
@@ -22,3 +30,9 @@ function Page() {
 }
 
 export default Page;
+
+function sendError(error: string) {
+  const channel = new BroadcastChannel("twitch-login");
+  channel.postMessage(`error:${error}`);
+  channel.close();
+}

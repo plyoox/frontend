@@ -31,7 +31,7 @@ import { useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
-import type { TwitchNotification } from "@/types/notification";
+import type { TwitchNotification, TwitchUser } from "@/types/notification";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -380,6 +380,33 @@ export function useRemoveUser() {
             twitch: {
               ...oldData.twitch,
               user: null,
+            },
+          };
+        },
+      );
+    },
+  });
+}
+
+export function useUpdateConnectedAccount() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (user: TwitchUser) => {
+      return Promise.resolve(user);
+    },
+    onSuccess: (user) => {
+      queryClient.setQueryData<NotificationResponse>(
+        ["notifications", id],
+        (oldData): NotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            twitch: {
+              ...oldData.twitch,
+              user: user,
             },
           };
         },

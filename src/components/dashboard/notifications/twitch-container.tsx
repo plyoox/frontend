@@ -1,7 +1,3 @@
-import { API_URL } from "@/environment";
-import { Button } from "@mantine/core";
-import { IconBrandTwitch } from "@tabler/icons-react";
-import { useGuildId } from "@/lib/hooks";
 import { useState } from "react";
 import AddNotification from "@/components/dashboard/notifications/add-notification";
 import EditNotificationModal from "@/components/dashboard/notifications/edit-notification-modal";
@@ -10,18 +6,7 @@ import TwitchUser from "@/components/dashboard/notifications/twitch-user";
 import type { TwitchNotification, TwitchNotificationResponse } from "@/types/notification";
 
 function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
-  const guildId = useGuildId();
-
   const [editNotification, setEditNotification] = useState<TwitchNotification | null>(null);
-
-  function openConnectModal() {
-    window.open(`${API_URL}/twitch?guild_id=${guildId}`, "Create Twitch Connection | Plyoox", "height=900,width=500");
-
-    const broadcastChannel = new BroadcastChannel("twitch-login");
-    broadcastChannel.addEventListener("message", (event) => {
-      console.log(event.data);
-    });
-  }
 
   const { user, notifications } = twitch;
 
@@ -32,19 +17,8 @@ function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
         This account is used for authentication when adding a new account or checking the live status. It can <b>not</b>{" "}
         do anything in your behalf.
       </span>
-      {user ? (
-        <TwitchUser {...user} />
-      ) : (
-        <Button
-          className={"my-1 block"}
-          color={"grape"}
-          leftSection={<IconBrandTwitch />}
-          onClick={openConnectModal}
-          variant={"light"}
-        >
-          Connect Twitch Account
-        </Button>
-      )}
+
+      <TwitchUser user={user} />
 
       <h3>Notifications</h3>
       {notifications.map((notification) => (
