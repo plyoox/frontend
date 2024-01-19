@@ -8,18 +8,30 @@ import ServerCard from "./server-card";
 import ServerLoading from "./server-loading";
 
 function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const searchParams = useSearchParams();
 
+  const [previousPage, setPreviousPage] = useState<string | null>(null);
   const [guilds, setGuilds] = useState<Guild[] | null>(parsedGuilds);
 
   const fetchedGuilds = useUserGuilds({ enabled: !guilds });
 
   useEffect(() => {
     if (searchParams.has("data")) {
-      push("/dashboard");
+      // Check if there is a previous redirect in session storage
+      // Only redirect if it's redirected from the server to prevent loops or other
+      // unwanted actions
+      const hasPrevious = sessionStorage.getItem("redirect-origin");
+      if (hasPrevious) {
+        setPreviousPage(hasPrevious);
+        sessionStorage.removeItem("redirect-origin");
+      } else {
+        replace("/dashboard");
+      }
+    } else if (previousPage) {
+      replace(previousPage);
     }
-  }, [searchParams, push]);
+  }, [searchParams, replace, previousPage]);
 
   useEffect(() => {
     if (fetchedGuilds.data) {

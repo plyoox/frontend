@@ -27,13 +27,8 @@ export async function fetchGuildData(id: string, params: string, redirect: any) 
       const responseCode = e.response?.status;
 
       if (responseCode === 401) {
-        notifications.show({
-          title: "Not logged in",
-          message: "You need to be logged in to access this server.",
-          color: "red",
-        });
-
-        redirect("/");
+        sessionStorage.setItem("redirect-origin", window.location.pathname);
+        redirect(`${API_URL}/discord/login`);
       } else if (responseCode === 403) {
         notifications.show({
           title: "No access",
