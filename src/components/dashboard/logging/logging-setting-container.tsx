@@ -7,6 +7,7 @@ import { addLoggingTextChannel } from "@/lib/utils";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
+import ChannelMultiSelect from "@/components/dashboard/channel-select";
 
 function LoggingSettingContainer({
   setting,
@@ -88,7 +89,7 @@ function LoggingSettingContainer({
 
       {showRoles && (
         <MultiSelect
-          data={textChannels}
+          data={guildStore.rolesAsSelectable}
           description={"Actions by users with these roles will not be logged."}
           label={"Exempt Roles"}
           maxValues={50}
@@ -98,8 +99,8 @@ function LoggingSettingContainer({
         />
       )}
       {showChannel && (
-        <MultiSelect
-          data={textChannels}
+        <ChannelMultiSelect
+          data={guildStore.textWithCategories}
           description={"Actions in these channels will not be logged."}
           label={"Exempt Channels"}
           maxValues={50}

@@ -1,14 +1,16 @@
-import { Button, ComboboxData, MultiSelect, Switch, TagsInput, Tooltip } from "@mantine/core";
+import { Button, ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput, Tooltip } from "@mantine/core";
 import { IconAt, IconCheck, IconHash, IconLink, IconPlaylistAdd, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { observer } from "mobx-react-lite";
 import { useContext, useMemo } from "react";
+import ChannelMultiSelect from "@/components/dashboard/channel-select";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import Link from "next/link";
+import type { SelectItem } from "@/types/utils";
 
 interface Props {
-  channels: ComboboxData;
+  channels: ComboboxItemGroup<SelectItem>[];
   roles: ComboboxData;
   config: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
@@ -32,9 +34,7 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         size="md"
       />
 
-      <MultiSelect
-        clearable
-        searchable
+      <ChannelMultiSelect
         data={channels}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}

@@ -1,10 +1,12 @@
-import { ComboboxData, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
+import { ComboboxData, type ComboboxItemGroup, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
 import { IconAt, IconCheck, IconChevronRight, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
+import ChannelMultiSelect from "@/components/dashboard/channel-select";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
+import type { SelectItem } from "@/types/utils";
 
 interface Props {
-  channels: ComboboxData;
+  channels: ComboboxItemGroup<SelectItem>[];
   roles: ComboboxData;
   data: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
@@ -38,10 +40,8 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         size="md"
       />
 
-      <MultiSelect
-        searchable
+      <ChannelMultiSelect
         data={channels}
-        defaultValue={data.caps_exempt_channels}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}
         maxValues={50}
@@ -49,6 +49,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
           handleChange({ caps_exempt_channels: val });
         }}
         placeholder="Select channels to exempt..."
+        value={data.caps_exempt_channels}
       />
 
       <MultiSelect

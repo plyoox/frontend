@@ -7,3 +7,10 @@ export interface ILink {
   link: string;
   beta?: boolean;
 }
+
+export interface SelectItem {
+  value: string;
+  label: string;
+  type: "text" | "category";
+  disabled?: boolean;
+}

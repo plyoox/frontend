@@ -1,9 +1,10 @@
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAt, IconHash } from "@tabler/icons-react";
 import { LevelingResponse } from "@/types/responses";
-import { MultiSelect, Select } from "@mantine/core";
+import { Select } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
+import ChannelMultiSelect from "@/components/dashboard/channel-select";
 
 function ExemptLevelObjects({
   config,
@@ -28,11 +29,8 @@ function ExemptLevelObjects({
         value={config.exempt_role}
       />
 
-      <MultiSelect
-        clearable
-        multiple
-        searchable
-        data={guildStore.channelsAsSelectable}
+      <ChannelMultiSelect
+        data={guildStore.textWithCategories}
         description="In this channels no one will receive any xp"
         label="No xp channels"
         leftSection={<IconHash size={16} />}

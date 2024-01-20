@@ -15,7 +15,7 @@ function LegacyRuleView({ data, handleChange }: Props) {
   const guildStore = useContext(GuildStoreContext);
 
   const roles = useMemo(() => guildStore.rolesAsSelectable, [guildStore.rolesAsSelectable]);
-  const channels = useMemo(() => guildStore.textAsSelectable, [guildStore.textAsSelectable]);
+  const channels = guildStore.textWithCategories;
 
   return (
     <Tabs defaultValue="caps" variant="pills">

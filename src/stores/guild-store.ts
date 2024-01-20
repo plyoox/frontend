@@ -4,6 +4,7 @@ import { DiscordPermission } from "@/discord/enums";
 import { GuildDataResponse } from "@/types/responses";
 import { action, makeAutoObservable, observable } from "mobx";
 import { createContext } from "react";
+import type { SelectItem } from "@/types/utils";
 
 export class GuildStore {
   guild: Guild | null = null;
@@ -59,6 +60,22 @@ export class GuildStore {
 
       if (!data[group]) data[group] = [{ label: channel.name, value: channel.id }];
       else data[group].push({ label: channel.name, value: channel.id });
+    }
+
+    return Object.entries(data).map(([group, items]) => ({ group: group, items }));
+  }
+
+  get textWithCategories(): ComboboxItemGroup<SelectItem>[] {
+    const data: Record<string, SelectItem[]> = { "": [], Categories: [] };
+    for (const channel of this.#textChannels.values()) {
+      const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+
+      if (!data[group]) data[group] = [{ label: channel.name, value: channel.id, type: "text" }];
+      else data[group].push({ label: channel.name, value: channel.id, type: "text" });
+    }
+
+    for (const category of this.#categories.values()) {
+      data["Categories"].push({ label: category.name, value: category.id, type: "category" });
     }
 
     return Object.entries(data).map(([group, items]) => ({ group: group, items }));
