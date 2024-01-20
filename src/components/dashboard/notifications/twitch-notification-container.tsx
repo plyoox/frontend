@@ -2,6 +2,7 @@ import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useDeleteNotification } from "@/lib/hooks";
+import { useState } from "react";
 import Image from "next/image";
 import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
@@ -14,6 +15,8 @@ function TwitchNotificationContainer({
   setEditNotification: UseState<TwitchNotification | null>;
 }) {
   const deleteNotification = useDeleteNotification();
+
+  const [deleting, setDeleting] = useState(false);
 
   const { user } = notification;
 
@@ -56,15 +59,32 @@ function TwitchNotificationContainer({
           <ActionIcon
             aria-label={"Delete Notification"}
             color={"red"}
+            loading={deleting}
             onClick={() => {
-              deleteNotification.mutateAsync(user.user_id).then(() => {
-                notifications.show({
-                  color: "green",
-                  icon: <IconCheck />,
-                  title: "Notification has been removed",
-                  message: "The Notification has been successfully removed.",
+              setDeleting(true);
+
+              deleteNotification
+                .mutateAsync(user.user_id)
+                .then(() => {
+                  notifications.show({
+                    color: "green",
+                    icon: <IconCheck />,
+                    title: "Notification has been removed",
+                    message: "The Notification has been successfully removed.",
+                  });
+
+                  setDeleting(false);
+                })
+                .catch((e) => {
+                  notifications.show({
+                    color: "red",
+                    icon: <IconCheck />,
+                    title: "Error",
+                    message: e.response?.data?.message,
+                  });
+
+                  setDeleting(false);
                 });
-              });
             }}
             variant={"light"}
           >
