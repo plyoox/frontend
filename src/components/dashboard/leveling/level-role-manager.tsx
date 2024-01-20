@@ -14,6 +14,7 @@ function LevelRoleManager({
     <>
       <CustomSwitch
         checked={config.remove_roles}
+        className={"my-2"}
         label={"Remove roles on level up"}
         labelPosition={"left"}
         onChange={(checked) => {

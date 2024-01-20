@@ -10,6 +10,7 @@ function CustomSwitch({
   color = "teal",
   onIconColor = "lime",
   labelPosition,
+  className,
 }: {
   checked: boolean;
   labelPosition?: "left" | "right";
@@ -17,11 +18,13 @@ function CustomSwitch({
   color?: string;
   onIconColor?: string;
   onChange: (active: boolean) => void;
+  className?: string;
 }) {
   return (
     <Switch
       checked={checked}
       classNames={{
+        root: className,
         body: "flex justify-between",
       }}
       color={color}
