@@ -141,7 +141,7 @@ function EditPunishmentModal({ open, setOpen }: Props) {
               return;
             }
 
-            if (!actions.some((action) => action.check === null)) {
+            if (!actions.some((action) => action.check === null || action.check === undefined)) {
               setActionErrorMessages("There has to be at least one action, that affects everyone.");
               return;
             }
