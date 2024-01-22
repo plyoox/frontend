@@ -28,8 +28,7 @@ function Configuration({ rule, setRule, setStep }: Props) {
 
   return (
     <div>
-      {/*{rule.trigger_type === AutoModerationTriggerType.Keyword && <KeywordConfig rule={partialRule} />}*/}
-      <KeywordConfig rule={partialRule} />
+      {rule.trigger_type === AutoModerationTriggerType.Keyword && <KeywordConfig rule={partialRule} />}
       {/*{rule.trigger_type === AutoModerationTriggerType.MentionSpam && <MentionConfig rule={partialRule} />}*/}
 
       <div className={"mt-2.5 flex justify-end gap-2"}>

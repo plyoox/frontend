@@ -3,6 +3,7 @@
 import { AutoModerationTriggerType } from "@/discord/enums";
 import { CreateAutoModerationRule, RuleMigration } from "@/types/moderation";
 import { INVITE_REGEX, LINK_REGEX } from "@/components/dashboard/create-rule/templates";
+import { IconAdjustmentsMinus, IconCircleCheck, IconSettings, IconTool } from "@tabler/icons-react";
 import { Stepper } from "@mantine/core";
 import { useDiscordRules, useGuildData } from "@/lib/hooks";
 import { useState } from "react";
@@ -43,14 +44,20 @@ function CreateRuleContainer() {
   useGuildData({ roles: true, text: true, category: true, premium: true });
 
   return (
-    <Stepper active={step} allowNextStepsSelect={false} onStepClick={setStep}>
-      <Stepper.Step label="Basic">
+    <Stepper
+      active={step}
+      allowNextStepsSelect={false}
+      color={"plyoox"}
+      completedIcon={<IconCircleCheck className={"size-6"} />}
+      onStepClick={setStep}
+    >
+      <Stepper.Step icon={<IconTool />} label="Basic">
         <BasicRule rule={rule} setRule={setRule} setStep={setStep} />
       </Stepper.Step>
-      <Stepper.Step description="" label="Exemptions">
+      <Stepper.Step icon={<IconAdjustmentsMinus />} label="Exemptions">
         <Exemptions rule={rule} setRule={setRule} setStep={setStep} />
       </Stepper.Step>
-      <Stepper.Step label="Configurations">
+      <Stepper.Step icon={<IconSettings />} label="Configurations">
         <Configuration rule={rule} setRule={setRule} setStep={setStep} />
       </Stepper.Step>
     </Stepper>

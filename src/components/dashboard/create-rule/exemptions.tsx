@@ -3,7 +3,8 @@ import { CreateAutoModerationRule } from "@/types/moderation";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { UseState } from "@/types/react";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { useForm } from "@mantine/form";
 
 interface Props {
   rule: Partial<CreateAutoModerationRule>;
@@ -11,73 +12,76 @@ interface Props {
   setStep: UseState<number>;
 }
 
+interface PartialRule {
+  exemptRoles: string[];
+  exemptChannels: string[];
+}
+
 function Exemptions({ rule, setRule, setStep }: Props) {
   const guildStore = useContext(GuildStoreContext);
+  const nextPage = useRef(2);
 
-  const channels = useMemo(() => guildStore.textAsSelectable, [guildStore.textAsSelectable]);
-  const roles = useMemo(() => guildStore.rolesAsSelectable, [guildStore.rolesAsSelectable]);
+  const form = useForm<PartialRule>({
+    initialValues: {
+      exemptChannels: [],
+      exemptRoles: [],
+    },
+  });
 
-  const [exemptChannels, setExemptChannels] = useState<string[]>(rule.exempt_channels ?? []);
-  const [exemptRoles, setExemptRoles] = useState<string[]>(rule.exempt_roles ?? []);
+  useEffect(() => {
+    form.setValues({
+      exemptRoles: rule.exempt_roles ?? [],
+      exemptChannels: rule.exempt_channels ?? [],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rule]);
 
   return (
-    <div>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        setRule((r) => ({ ...r, exempt_roles: values.exemptRoles, exempt_channels: values.exemptChannels }));
+
+        setStep(nextPage.current);
+      })}
+    >
       <MultiSelect
         clearable
         searchable
-        data={channels}
+        data={guildStore.textAsSelectable}
         description="Channels that are not affected."
         label="Exempt channels"
         max={50}
-        onChange={setExemptChannels}
         placeholder="Select exemptions..."
-        value={exemptChannels}
+        {...form.getInputProps("exemptChannels")}
       />
       <MultiSelect
         clearable
         searchable
-        data={roles}
+        data={guildStore.rolesAsSelectable}
         description="Roles that are not affected by the rule. Roles that have administrator permission are automatically exempt."
         label="Exempt roles"
         max={20}
-        onChange={setExemptRoles}
         placeholder="Select exemptions..."
-        value={exemptRoles}
+        {...form.getInputProps("exemptRoles")}
       />
 
-      <div className={"mt-2.5 flex justify-end gap-2"}>
+      <div className={"mt-2.5 flex flex-row-reverse gap-2"}>
+        <Button rightSection={<IconChevronRight />} type="submit" variant="subtle">
+          Next
+        </Button>
+
         <Button
           leftSection={<IconChevronLeft />}
           onClick={() => {
-            setRule((r) => ({
-              ...r,
-              exempt_roles: exemptRoles,
-              exempt_channels: exemptChannels,
-            }));
-
-            setStep(0);
+            nextPage.current = 0;
           }}
+          type="submit"
           variant="subtle"
         >
           Back
         </Button>
-        <Button
-          onClick={() => {
-            setRule((r) => ({
-              ...r,
-              exempt_roles: exemptRoles,
-              exempt_channels: exemptChannels,
-            }));
-
-            setStep(2);
-          }}
-          rightSection={<IconChevronRight />}
-          variant="subtle"
-        >
-          Next
-        </Button>
       </div>
-    </div>
+    </form>
   );
 }
 

@@ -1,5 +1,6 @@
-import { Chip } from "@mantine/core";
+import { Alert, Chip } from "@mantine/core";
 import { CreateAutoModerationRule } from "@/types/moderation";
+import { IconInfoCircle } from "@tabler/icons-react";
 import { UseRef, UseState } from "@/types/react";
 import { ensureUniqueness } from "@/lib/utils";
 
@@ -18,11 +19,11 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
     <>
       <h3 className={"text-lg font-medium"}>Templates</h3>
 
-      <div className={"mb-2.5 text-sm text-mt-dark-0"}>
+      <Alert className={"mb-2.5"} icon={<IconInfoCircle />}>
         Templates are pre-defined regex patterns that can be used to block specific links.
         <br />
         Specific exemption can be added in the allow list. It will also extend some of your input to be more viable.
-      </div>
+      </Alert>
 
       <Chip.Group
         multiple

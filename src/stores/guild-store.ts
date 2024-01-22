@@ -1,5 +1,5 @@
 import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
-import { ComboboxData, ComboboxItem, ComboboxItemGroup } from "@mantine/core";
+import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DiscordPermission } from "@/discord/enums";
 import { GuildDataResponse } from "@/types/responses";
 import { action, makeAutoObservable, observable } from "mobx";
@@ -81,33 +81,33 @@ export class GuildStore {
     return Object.entries(data).map(([group, items]) => ({ group: group, items }));
   }
 
-  get voiceAsSelectable(): ComboboxItemGroup[] {
-    const data: Record<string, ComboboxItem[]> = { "": [] };
-    for (const channel of this.#voiceChannels.values()) {
-      const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+  // get voiceAsSelectable(): ComboboxItemGroup[] {
+  //   const data: Record<string, ComboboxItem[]> = { "": [] };
+  //   for (const channel of this.#voiceChannels.values()) {
+  //     const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+  //
+  //     if (!data[group]) data[group] = [{ label: channel.name, value: channel.id }];
+  //     else data[group].push({ label: channel.name, value: channel.id });
+  //   }
+  //
+  //   return Object.entries(data).map(([group, items]) => ({ group: group, items }));
+  // }
 
-      if (!data[group]) data[group] = [{ label: channel.name, value: channel.id }];
-      else data[group].push({ label: channel.name, value: channel.id });
-    }
-
-    return Object.entries(data).map(([group, items]) => ({ group: group, items }));
-  }
-
-  get channelsAsSelectable(): ComboboxData {
-    const data: Record<string, any[]> = { "": [] };
-
-    this.textAsSelectable.forEach((group) => {
-      if (!data[group.group]) data[group.group] = group.items;
-      else data[group.group].push(...group.items);
-    });
-
-    this.voiceAsSelectable.forEach((group) => {
-      if (!data[group.group]) data[group.group] = group.items;
-      else data[group.group].push(...group.items);
-    });
-
-    return Object.entries(data).map(([group, items]) => ({ group: group, items }));
-  }
+  // get channelsAsSelectable(): ComboboxData {
+  //   const data: Record<string, any[]> = { "": [] };
+  //
+  //   this.textAsSelectable.forEach((group) => {
+  //     if (!data[group.group]) data[group.group] = group.items;
+  //     else data[group.group].push(...group.items);
+  //   });
+  //
+  //   this.voiceAsSelectable.forEach((group) => {
+  //     if (!data[group.group]) data[group.group] = group.items;
+  //     else data[group.group].push(...group.items);
+  //   });
+  //
+  //   return Object.entries(data).map(([group, items]) => ({ group: group, items }));
+  // }
 
   get rolesAsSelectable(): ComboboxItem[] {
     return this.#roles.map((r) => ({ label: r.name, value: r.id }));

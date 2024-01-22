@@ -1,14 +1,13 @@
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { CreateAutoModerationRule } from "@/types/moderation";
 import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
-import { Radio } from "@mantine/core";
+import { Radio, Tooltip } from "@mantine/core";
 import { RuleStoreContext } from "@/stores/rule-store";
-import { UseRef } from "@/types/react";
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useMemo } from "react";
 import { useGuildId } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 
-function RuleTypeSelect({ rule }: { rule: UseRef<Partial<CreateAutoModerationRule>> }) {
+function RuleTypeSelect({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const id = useGuildId();
   const { push } = useRouter();
 
@@ -18,43 +17,40 @@ function RuleTypeSelect({ rule }: { rule: UseRef<Partial<CreateAutoModerationRul
     () => ruleStore.discordRulesArray.some((r) => r.trigger_type === AutoModerationTriggerType.MentionSpam),
     [ruleStore.discordRulesArray],
   );
-  const keywordLimit = useMemo(
-    () =>
-      ruleStore.discordRulesArray.filter((r) => r.trigger_type === AutoModerationTriggerType.Keyword).length ===
-      DISCORD_KEYWORD_RULE_LIMIT,
-    [ruleStore.discordRulesArray],
-  );
 
   useEffect(() => {
+    const keywordLimit =
+      ruleStore.discordRulesArray.filter((r) => r.trigger_type === AutoModerationTriggerType.Keyword).length ===
+      DISCORD_KEYWORD_RULE_LIMIT;
+
     if (keywordLimit && hasMentionRule) {
       push(`/dashboard/${id}/moderation`);
       return;
     }
-
-    if (rule.current.trigger_type === undefined) rule.current.trigger_type = AutoModerationTriggerType.Keyword;
-  }, [hasMentionRule, id, keywordLimit, push, rule]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasMentionRule, ruleStore.discordRulesArray]);
 
   return (
     <Radio.Group
       withAsterisk
-      defaultValue={rule.current.trigger_type?.toString() ?? AutoModerationTriggerType.Keyword.toString()}
       description="The type of rule that should be created"
       label="Rule type"
       maw={900}
       mt={20}
-      onChange={(v) => {
-        rule.current.trigger_type = parseInt(v) as AutoModerationTriggerType;
-      }}
+      onChange={(v) => onChange(v)}
+      value={value}
     >
       <Radio label="Keyword rule" my={5} value={AutoModerationTriggerType.Keyword.toString()} />
-      <Radio
-        disabled={hasMentionRule}
-        label="Mention rule"
-        my={5}
-        value={AutoModerationTriggerType.MentionSpam.toString()}
-      />
+      <Tooltip label={hasMentionRule ? "Discord Limit reached" : ""}>
+        <Radio
+          disabled={hasMentionRule}
+          label="Mention rule"
+          my={5}
+          value={AutoModerationTriggerType.MentionSpam.toString()}
+        />
+      </Tooltip>
     </Radio.Group>
   );
 }
 
-export default RuleTypeSelect;
+export default observer(RuleTypeSelect);

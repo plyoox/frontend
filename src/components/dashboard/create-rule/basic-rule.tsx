@@ -2,7 +2,8 @@ import { Button, Switch, TextInput } from "@mantine/core";
 import { CreateAutoModerationRule } from "@/types/moderation";
 import { IconCheck, IconChevronRight, IconX } from "@tabler/icons-react";
 import { UseState } from "@/types/react";
-import { useRef, useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "@mantine/form";
 import RuleTypeSelect from "@/components/dashboard/create-rule/select-rule-type";
 
 interface Props {
@@ -11,78 +12,86 @@ interface Props {
   rule: Partial<CreateAutoModerationRule>;
 }
 
-function BasicRule({ setStep, setRule, rule }: Props) {
-  const partialRule = useRef<Partial<CreateAutoModerationRule>>(rule);
+interface PartialRule {
+  name: string;
+  enabled: boolean;
+  kind: string;
+}
 
-  const [enabled, setEnabled] = useState<boolean>(rule.enabled ?? false);
-  const [error, setError] = useState<string | null>(null);
+function BasicRule({ setStep, setRule, rule }: Props) {
+  const form = useForm<PartialRule>({
+    initialValues: {
+      enabled: false,
+      name: "",
+      kind: "1",
+    },
+    validate: {
+      name: (value) => {
+        console.log(value);
+
+        return (
+          (value.trim().length > 100 || value.trim().length === 0) &&
+          "Rule name must be between 1 and 100 characters long"
+        );
+      },
+    },
+  });
+
+  useEffect(() => {
+    form.setValues({
+      enabled: rule.enabled ?? false,
+      name: rule.name ?? "",
+      kind: rule.trigger_type?.toString() ?? "1",
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rule]);
 
   return (
-    <div>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        setRule((r) => ({
+          ...r,
+          enabled: values.enabled,
+          name: values.name,
+          trigger_type: parseInt(values.kind),
+        }));
+
+        setStep(1);
+      })}
+    >
       <TextInput
         withAsterisk
-        defaultValue={rule.name ?? ""}
         description="The rule name displayed in discord"
-        error={error}
         label="Rule name"
-        maxLength={100}
-        onChange={(el) => {
-          if (el.target.value.trim().length > 100 || el.target.value.trim().length === 0) {
-            setError("Rule name must be between 1 and 100 characters long");
-            return;
-          }
-
-          error && setError(null);
-
-          partialRule.current = { ...partialRule.current, name: el.target.value.trim() };
-        }}
         placeholder="Operation: Zero Dawn"
+        {...form.getInputProps("name")}
       />
 
       <Switch
+        checked={form.values.enabled}
         color="teal"
-        defaultChecked={enabled}
         label="Rule enabled"
         mt={20}
-        onChange={(el) => {
-          setEnabled(el.target.checked);
-        }}
         size="md"
         thumbIcon={
-          enabled ? (
+          form.values.enabled ? (
             <IconCheck color={"green"} size="0.8rem" stroke={3} />
           ) : (
             <IconX color={"red"} size="0.8rem" stroke={3} />
           )
         }
+        {...form.getInputProps("enabled")}
       />
 
-      <RuleTypeSelect rule={partialRule} />
+      <RuleTypeSelect onChange={(val) => form.setFieldValue("kind", val)} value={form.values.kind} />
 
       <div className={"flex justify-end"}>
-        <Button
-          onClick={() => {
-            if (!partialRule.current.name) {
-              setError("Rule name is required");
-              return;
-            }
-
-            setRule((r) => ({
-              ...r,
-              enabled,
-              name: partialRule.current.name,
-              trigger_type: partialRule.current.trigger_type,
-            }));
-
-            setStep(1);
-          }}
-          rightSection={<IconChevronRight />}
-          variant="subtle"
-        >
+        <Button rightSection={<IconChevronRight />} type="submit" variant="light">
           Next
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
 
