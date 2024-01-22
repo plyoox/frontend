@@ -1,12 +1,12 @@
 import SettingsContainer from "@/components/dashboard/settings/settings-container";
-import WebhookContainer from "@/components/dashboard/settings/webhook-container";
+import SettingsTabs from "@/components/dashboard/settings/settings-tabs";
 
 function Page() {
   return (
     <>
       <h1 className={"text-2xl font-semibold"}>Settings</h1>
       <SettingsContainer />
-      <WebhookContainer className={"mt-2"} />
+      <SettingsTabs className={"mt-5"} />
     </>
   );
 }

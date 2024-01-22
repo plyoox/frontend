@@ -229,3 +229,46 @@ export function addLoggingTextChannel({
     return [...channels];
   });
 }
+
+export function logKindToMessage(kind: number): string {
+  switch (kind) {
+    case 1:
+      return "Levels updated";
+    case 2:
+      return "Logging updated";
+    case 3:
+      return "Logging settings updated";
+    case 4:
+      return "Webhook deleted";
+    case 5:
+      return "Webhook created";
+    case 6:
+      return "Moderation updated";
+    case 7:
+      return "Moderation rule updated";
+    case 8:
+      return "Moderation rule deleted";
+    case 9:
+      return "Punishment template updated";
+    case 10:
+      return "Punishment template deleted";
+    case 11:
+      return "Created Discord rule";
+    case 12:
+      return "Deleted Discord rule";
+    case 13:
+      return "Welcome updated";
+    case 14:
+      return "Helper access changed";
+    case 15:
+      return "Notification removed";
+    case 16:
+      return "Notification added";
+    case 17:
+      return "Notification updated";
+    case 18:
+      return "Twitch account updated";
+    default:
+      return kind.toString();
+  }
+}

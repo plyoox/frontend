@@ -1,6 +1,6 @@
 import { API_URL } from "@/environment";
-import { DiscordModerationRule, Guild } from "@/discord/types";
 import {
+  type AuditLogResponse,
   GuildDataResponse,
   LevelingResponse,
   LoggingResponse,
@@ -9,12 +9,14 @@ import {
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
+import { DiscordModerationRule, Guild } from "@/discord/types";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { MaybeWebhook } from "@/types/webhook";
 import { Punishment, type UpsertPunishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { UserStoreContext } from "@/stores/user-store";
 import {
+  fetchAuditLogs,
   fetchAutoModerationRules,
   fetchGuildData,
   fetchGuilds,
@@ -413,6 +415,18 @@ export function useUpdateConnectedAccount() {
       );
     },
   });
+}
+
+export function useAuditLogs() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<AuditLogResponse, AxiosError>({
+    queryKey: ["audit-logs", id],
+    queryFn: () => fetchAuditLogs(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
 }
 
 interface RequestGuildData {

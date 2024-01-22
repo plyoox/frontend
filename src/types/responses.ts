@@ -1,4 +1,5 @@
 import { HelperPermission } from "@/config/enums";
+import type { AuditLog, SimpleUser } from "@/types/settings";
 import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
 import type { LevelRole } from "@/types/leveling";
 import type { LoggingConfig, LoggingSetting } from "@/types/logging";
@@ -52,4 +53,9 @@ export interface SettingsResponse {
 
 export interface NotificationResponse {
   twitch: TwitchNotificationResponse;
+}
+
+export interface AuditLogResponse {
+  users: SimpleUser[];
+  audit_logs: AuditLog[];
 }

@@ -2,13 +2,12 @@
 
 import { HELPER_PERMISSION_ITEMS } from "@/config/select-values";
 import { HelperPermission } from "@/config/enums";
-import { Select } from "@mantine/core";
+import { Select, Skeleton } from "@mantine/core";
 import { SettingsResponse } from "@/types/responses";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveSettingsData } from "@/lib/requests";
 import { useEffect, useRef, useState } from "react";
 import { useGuildData, useSettingsData } from "@/lib/hooks";
-import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
 
@@ -41,7 +40,7 @@ function SettingsContainer() {
   }
 
   if (settingsData.isLoading || !config) {
-    return <LoadingSkeleton />;
+    return <Skeleton height={56} width="100%" />;
   }
 
   return (

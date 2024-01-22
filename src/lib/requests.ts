@@ -1,6 +1,6 @@
 import { API_URL } from "@/environment";
-import { DiscordModerationRule, Guild } from "@/discord/types";
 import {
+  type AuditLogResponse,
   GuildDataResponse,
   LevelingResponse,
   LoggingResponse,
@@ -9,6 +9,7 @@ import {
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
+import { DiscordModerationRule, Guild } from "@/discord/types";
 import { LoggingData } from "@/types/logging";
 import { MaybeWebhook } from "@/types/webhook";
 import { ModerationConfig, Punishment } from "@/types/moderation";
@@ -160,6 +161,14 @@ export async function saveSettingsData(id: string, data: Partial<SettingsRespons
 
 export async function fetchNotifications(id: string) {
   const response = await axios.get<NotificationResponse>(`${API_URL}/guild/${id}/notifications`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+}
+
+export async function fetchAuditLogs(id: string) {
+  const response = await axios.get<AuditLogResponse>(`${API_URL}/guild/${id}/settings/audit-logs`, {
     withCredentials: true,
   });
 
