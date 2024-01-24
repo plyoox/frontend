@@ -10,7 +10,7 @@ function SettingsTabs({ className }: { className?: string }) {
     <Tabs className={className} defaultValue="webhooks">
       <Tabs.List>
         <Tabs.Tab leftSection={<IconWebhook />} value="webhooks">
-          Gallery
+          Webhooks
         </Tabs.Tab>
         <Tabs.Tab leftSection={<IconVersions />} value="audit-logs">
           Audit Logs
