@@ -18,8 +18,8 @@ function LegacyRuleView({ data, handleChange }: Props) {
   const channels = guildStore.textWithCategories;
 
   return (
-    <Tabs defaultValue="caps" variant="pills">
-      <Tabs.List>
+    <Tabs color={"plyoox"} defaultValue="caps" variant={"pills"}>
+      <Tabs.List grow>
         <Tabs.Tab value="caps">Caps</Tabs.Tab>
         <Tabs.Tab value="link">Links</Tabs.Tab>
         <Tabs.Tab value="invite">Invites</Tabs.Tab>

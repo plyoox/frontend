@@ -5,6 +5,7 @@ import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
 import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
 import { useEffect, useRef, useState } from "react";
+import LegacyRuleSettings from "@/components/dashboard/moderation/legacy-rule-settings";
 import LegacyRuleView from "@/components/dashboard/legacy-rules/legacy-rules-view";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
@@ -47,7 +48,12 @@ function LegacyRulesContainer() {
 
   return (
     <>
-      <LegacyRuleView data={config} handleChange={handleChange} />
+      <LegacyRuleSettings config={config} handleChange={handleChange} />
+
+      <section className={"mt-3"}>
+        <h2 className={"mb-1 text-lg"}>Configure Rules</h2>
+        <LegacyRuleView data={config} handleChange={handleChange} />
+      </section>
 
       <SaveNotification
         data={updatedConfig}

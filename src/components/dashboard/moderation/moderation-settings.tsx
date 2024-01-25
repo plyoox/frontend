@@ -79,21 +79,6 @@ function ModerationSettings() {
         value={config.moderation_roles}
       />
 
-      <MultiSelect
-        clearable
-        searchable
-        data={guildStore.rolesAsSelectable}
-        description="These roles will be ignored by the automod. Moderation roles are already ignored."
-        label="Ignored roles"
-        leftSection={<IconAt size={16} />}
-        maxValues={25}
-        mt={5}
-        nothingFoundMessage="This guild has no available roles."
-        onChange={(value) => handleChange({ ignored_roles: value })}
-        placeholder="Select roles..."
-        value={config.ignored_roles}
-      />
-
       <RequirePointsLink
         config={config}
         description={"Define what happens when a user reaches 10 points."}
