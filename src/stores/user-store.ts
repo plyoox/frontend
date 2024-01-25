@@ -31,13 +31,9 @@ export class UserStore {
   });
 
   requestLogout = flow(function* (this: UserStore) {
-    try {
-      yield axios.delete(`${API_URL}/user`, { withCredentials: true });
+    yield axios.delete(`${API_URL}/user`, { withCredentials: true });
 
-      this.logout();
-    } catch (e) {
-      console.error("e", e);
-    }
+    this.logout();
   });
 
   constructor() {
