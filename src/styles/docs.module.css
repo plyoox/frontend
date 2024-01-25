@@ -1,0 +1,8 @@
+.docsTable th {
+    @apply border border-mt-dark-4 p-1 bg-mt-dark-6;
+}
+
+.docsTable td {
+    @apply border border-mt-dark-4 p-1;
+}
+

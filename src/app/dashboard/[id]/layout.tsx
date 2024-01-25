@@ -7,7 +7,7 @@ import BreadCrumbs from "@/components/dashboard/bread-crumbs";
 import Header from "@/components/app-shell/header/header";
 import Sidenav from "@/components/app-shell/sidenav/sidenav";
 
-function Layout({ children }: { children: ReactNode }) {
+function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -25,9 +25,12 @@ function Layout({ children }: { children: ReactNode }) {
 
       <AppShell.Main>
         <GuildStoreContext.Provider value={GlobalGuildStore}>
-          <div className={"max-w-4xl p-5 pb-60 text-white"}>
+          <div className={"p-5 text-white"}>
             <BreadCrumbs />
-            {children}
+            <div className={"flex flex-row justify-between gap-5"}>
+              <div className={"w-[54rem] shrink-0"}>{children}</div>
+              {docs}
+            </div>
           </div>
         </GuildStoreContext.Provider>
       </AppShell.Main>

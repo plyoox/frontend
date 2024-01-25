@@ -1,6 +1,6 @@
 import PunishmentContainer from "@/components/dashboard/punishments/punishment-container";
 
-export function Page() {
+function Page() {
   return (
     <div>
       <h1 className={"text-2xl font-semibold"}>Command Punishments</h1>

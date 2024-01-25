@@ -119,16 +119,6 @@ function ModerationSettings() {
         onChange={(val) => localStorage.setItem("mod-acc-state", val.join(","))}
         variant="filled"
       >
-        <Accordion.Item value="logging">
-          <Accordion.Control>
-            <AccordionLabel description="Configure the logging on an action." label="Logging" />
-          </Accordion.Control>
-
-          <Accordion.Panel>
-            <LogConfig config={config} handleChange={handleChange} />
-          </Accordion.Panel>
-        </Accordion.Item>
-
         <Accordion.Item value="discord-rules">
           <Accordion.Control>
             <AccordionLabel description="Configure the discord auto moderation rules." label="Discord rules" />
@@ -136,6 +126,16 @@ function ModerationSettings() {
 
           <Accordion.Panel>
             <DiscordRuleOverview />
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item value="logging">
+          <Accordion.Control>
+            <AccordionLabel description="Configure the logging on an action." label="Logging" />
+          </Accordion.Control>
+
+          <Accordion.Panel>
+            <LogConfig config={config} handleChange={handleChange} />
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
