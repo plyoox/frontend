@@ -52,17 +52,25 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
 
       <TagsInput
         clearable
-        data={config.invite_exempt_guilds}
-        label="Allowed guilds"
+        description={"Invites from these guilds are ignored."}
+        label="Exempt guilds"
         leftSection={<IconFolderPlus size={16} />}
         maxTags={50}
         onChange={(val) => {
-          if (val.length > config.invite_exempt_guilds.length) return;
-          handleChange({ invite_exempt_guilds: val });
-        }}
-        onOptionSubmit={(val) => {
-          const int = BigInt(val);
-          if (int < Number.MAX_SAFE_INTEGER) return;
+          if (val.length < config.invite_exempt_guilds.length) handleChange({ invite_exempt_guilds: val });
+          else if (val.length === config.invite_exempt_guilds.length + 1) {
+            const last = val.at(-1)!;
+
+            try {
+              const int = BigInt(last);
+
+              if (int < Number.MAX_SAFE_INTEGER) return;
+
+              handleChange({ invite_exempt_guilds: val });
+            } catch {
+              return;
+            }
+          }
         }}
         placeholder="Add guild ids..."
         value={config.invite_exempt_guilds}
