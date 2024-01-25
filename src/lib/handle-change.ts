@@ -33,7 +33,7 @@ export function handleChangeHelper<T extends Record<keyof T, unknown>>(
     }
 
     // Remove empty objects
-    if (typeof value === "object" && value !== null && Object.keys(value).length === 0) {
+    if (typeof value === "object" && value !== null && Object.keys(value).length === 0 && !Array.isArray(value)) {
       delete conf[key];
     }
   }
