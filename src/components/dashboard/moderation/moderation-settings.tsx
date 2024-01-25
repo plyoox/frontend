@@ -15,6 +15,7 @@ import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import LogConfig from "./log-config";
 import RequestError from "@/components/dashboard/request-error";
 import RequirePointsHandlerLink from "@/components/dashboard/moderation/require-points-handler-link";
+import RequirePointsLink from "@/components/dashboard/moderation/require-points-link";
 import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
 
@@ -93,7 +94,7 @@ function ModerationSettings() {
         value={config.ignored_roles}
       />
 
-      <RequirePointsHandlerLink
+      <RequirePointsLink
         config={config}
         description={"Define what happens when a user reaches 10 points."}
         label={"Point Actions"}
