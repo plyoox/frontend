@@ -1,11 +1,12 @@
 import { API_URL } from "@/environment";
-import { ComboboxItemGroup, Select, Switch } from "@mantine/core";
+import { ComboboxItemGroup, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconCheck, IconHash, IconX } from "@tabler/icons-react";
+import { IconHash } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { useGuildId } from "@/lib/hooks";
+import CustomSwitch from "@/components/custom-switch";
 
 interface Props {
   config: ModerationConfig;
@@ -17,7 +18,6 @@ function LogConfig({ config, handleChange }: Props) {
   const guildStore = useContext(GuildStoreContext);
 
   const [textChannels, setTextChannels] = useState<ComboboxItemGroup[]>([]);
-  const [notifyUser, setNotifyUser] = useState<boolean>(config.notify_user);
 
   const createWebhook = (channelId: string) => {
     window.open(
@@ -100,23 +100,15 @@ function LogConfig({ config, handleChange }: Props) {
         value={config.logging_channel?.id ?? null}
       />
 
-      <Switch
-        checked={notifyUser}
+      <CustomSwitch
+        checked={config.notify_user}
+        className={"mt-4"}
         color="teal"
         label="Notify user on action"
-        mt={15}
-        onChange={(event) => {
-          handleChange({ notify_user: event.currentTarget.checked });
-          setNotifyUser(event.currentTarget.checked);
+        labelPosition="left"
+        onChange={(checked) => {
+          handleChange({ notify_user: checked });
         }}
-        size="md"
-        thumbIcon={
-          notifyUser ? (
-            <IconCheck color="teal.5" size="0.8rem" stroke={3} />
-          ) : (
-            <IconX color="red.6" size="0.8rem" stroke={3} />
-          )
-        }
       />
     </>
   );
