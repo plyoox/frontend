@@ -138,7 +138,6 @@ function LoggingContainer() {
       }
 
       if (Object.keys(settings).length !== Object.keys(LoggingKind).length) {
-        console.log("not all settings were set");
         webhookVariant.current = null;
         return;
       }

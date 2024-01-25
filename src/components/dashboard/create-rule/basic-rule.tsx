@@ -27,8 +27,6 @@ function BasicRule({ setStep, setRule, rule }: Props) {
     },
     validate: {
       name: (value) => {
-        console.log(value);
-
         return (
           (value.trim().length > 100 || value.trim().length === 0) &&
           "Rule name must be between 1 and 100 characters long"
