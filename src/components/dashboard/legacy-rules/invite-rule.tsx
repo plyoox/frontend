@@ -1,12 +1,8 @@
-import { Button, ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput, Tooltip } from "@mantine/core";
-import { IconAt, IconCheck, IconFolderPlus, IconHash, IconPlaylistAdd, IconX } from "@tabler/icons-react";
+import { type ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput } from "@mantine/core";
+import { IconAt, IconCheck, IconFolderPlus, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { observer } from "mobx-react-lite";
-import { useContext, useMemo } from "react";
 import ChannelMultiSelect from "@/components/dashboard/channel-select";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
-import Link from "next/link";
 import type { SelectItem } from "@/types/utils";
 
 interface Props {
@@ -17,10 +13,6 @@ interface Props {
 }
 
 function InviteRule({ channels, roles, config, handleChange }: Props) {
-  const ruleStore = useContext(RuleStoreContext);
-
-  const canCreateRule = useMemo(() => ruleStore.canCreateKeywordRule(), [ruleStore]);
-
   return (
     <>
       <Switch
@@ -36,6 +28,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
 
       <ChannelMultiSelect
         data={channels}
+        description={"Messages in these channels are ignored and won't be punished."}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}
         maxValues={50}
@@ -48,6 +41,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         clearable
         searchable
         data={roles}
+        description={"Messages sent by these roles are ignored and won't be punished."}
         label="Exempt Roles"
         leftSection={<IconAt size={16} />}
         maxValues={50}
@@ -83,40 +77,8 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         }}
         punishments={config.invite_actions}
       />
-
-      <div className={"mt-2.5 flex justify-end"}>
-        <Tooltip label={canCreateRule ? "Use the Discord built in rules" : "Discord's rule limit reached"}>
-          <Button
-            color="violet"
-            // @ts-ignore
-            component={canCreateRule ? Link : "button"}
-            disabled={!canCreateRule}
-            href="create-rule"
-            leftSection={<IconPlaylistAdd />}
-            onClick={() => {
-              if (!canCreateRule) {
-                return;
-              }
-
-              localStorage.setItem(
-                "migrate-rule",
-                JSON.stringify({
-                  type: "invite",
-                  enabled: config.invite_active,
-                  actions: config.invite_actions,
-                  exemptChannels: config.invite_exempt_channels,
-                  exemptRoles: config.invite_exempt_roles,
-                }),
-              );
-            }}
-            variant="light"
-          >
-            Migrate to discord
-          </Button>
-        </Tooltip>
-      </div>
     </>
   );
 }
 
-export default observer(InviteRule);
+export default InviteRule;

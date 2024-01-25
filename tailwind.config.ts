@@ -36,7 +36,7 @@ const config: Config = {
           4: "hsl(40,6%,16%)",
         },
         pl: {
-          text: "#FBEFEF",
+          text: "#FFF",
           primary: "#41BCBE",
           accent: "#40BA7F",
           "accent-light": "#64DEA3",

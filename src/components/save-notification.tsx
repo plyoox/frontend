@@ -17,23 +17,25 @@ interface Props<T = any> {
 function SaveNotification({ data, fn, onSave }: Props) {
   const id = useGuildId();
   const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   const [className, setClassName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    // To prevent the first render, which would cause a flicker
-    if (!className && !data) return;
-
     if (data) {
+      setVisible(true);
       setClassName(classes.fadeIn);
     } else {
       setClassName(classes.fadeOut);
 
+      // Only hide after animation finished
       setTimeout(() => {
-        ref.current!.classList.add("hidden");
+        setVisible(false);
       }, 250);
     }
   }, [data, className]);
+
+  if (!visible) return null;
 
   return (
     <div className={`${classes.notificationBarWrapper} ${className} pointer-events-none flex justify-center`} ref={ref}>

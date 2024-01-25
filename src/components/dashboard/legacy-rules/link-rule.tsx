@@ -1,12 +1,8 @@
-import { Button, ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput, Tooltip } from "@mantine/core";
-import { IconAt, IconCheck, IconHash, IconLink, IconPlaylistAdd, IconX } from "@tabler/icons-react";
+import { ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput } from "@mantine/core";
+import { IconAt, IconCheck, IconHash, IconLink, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { observer } from "mobx-react-lite";
-import { useContext, useMemo } from "react";
 import ChannelMultiSelect from "@/components/dashboard/channel-select";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
-import Link from "next/link";
 import type { SelectItem } from "@/types/utils";
 
 interface Props {
@@ -17,10 +13,6 @@ interface Props {
 }
 
 function LinkRule({ channels, roles, config, handleChange }: Props) {
-  const ruleStore = useContext(RuleStoreContext);
-
-  const canCreateRule = useMemo(() => ruleStore.canCreateKeywordRule(), [ruleStore]);
-
   return (
     <>
       <Switch
@@ -36,6 +28,7 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
 
       <ChannelMultiSelect
         data={channels}
+        description={"Messages sent in these channels are ignored and won't be punished."}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}
         maxValues={50}
@@ -48,6 +41,7 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         clearable
         searchable
         data={roles}
+        description={"Messages sent by these roles are ignored and won't be punished."}
         label="Exempt Roles"
         leftSection={<IconAt size={16} />}
         maxValues={50}
@@ -95,49 +89,8 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         onChange={(punishments) => handleChange({ link_actions: punishments })}
         punishments={config.link_actions}
       />
-
-      <div className={"mt-2.5 flex justify-end"}>
-        <Tooltip label={canCreateRule ? "Use the Discord built in rules" : "Discord's rule limit reached"}>
-          <Button
-            color="violet"
-            // @ts-ignore
-            component={canCreateRule ? Link : "button"}
-            disabled={!canCreateRule}
-            href={`create-rule`}
-            leftSection={<IconPlaylistAdd />}
-            onClick={() => {
-              if (!canCreateRule) {
-                return;
-              }
-
-              const value = config.link_is_whitelist
-                ? {
-                    type: "link-wl",
-                    exemptChannels: config.link_exempt_channels,
-                    exemptRoles: config.link_exempt_roles,
-                    enabled: config.link_active,
-                    actions: config.link_actions,
-                    allowList: config.link_allow_list,
-                  }
-                : {
-                    type: "link-bl",
-                    exemptChannels: config.link_exempt_channels,
-                    exemptRoles: config.link_exempt_roles,
-                    enabled: config.link_active,
-                    actions: config.link_actions,
-                    keywordFilter: config.link_allow_list.map((l) => `*${l}*`),
-                  };
-
-              localStorage.setItem("migrate-rule", JSON.stringify(value));
-            }}
-            variant="light"
-          >
-            Migrate to discord
-          </Button>
-        </Tooltip>
-      </div>
     </>
   );
 }
 
-export default observer(LinkRule);
+export default LinkRule;

@@ -25,11 +25,11 @@ function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
 
       <AppShell.Main>
         <GuildStoreContext.Provider value={GlobalGuildStore}>
-          <div className={"p-5 text-white"}>
+          <div className={"container mx-auto p-5 pb-0 text-white"}>
             <BreadCrumbs />
-            <div className={"flex flex-row justify-between gap-5"}>
-              <div className={"w-[54rem] shrink-0"}>{children}</div>
-              {docs}
+            <div className={"mb-5 grid grid-cols-5 gap-5"}>
+              <div className={"col-span-5 lg:col-span-3"}>{children}</div>
+              <div className={"sticky top-[95px] col-span-5 self-start lg:col-span-2"}>{docs}</div>
             </div>
           </div>
         </GuildStoreContext.Provider>

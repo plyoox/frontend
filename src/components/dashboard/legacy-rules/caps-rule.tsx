@@ -1,5 +1,5 @@
-import { ComboboxData, type ComboboxItemGroup, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
-import { IconAt, IconCheck, IconChevronRight, IconHash, IconX } from "@tabler/icons-react";
+import { Alert, ComboboxData, type ComboboxItemGroup, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
+import { IconAt, IconCheck, IconChevronRight, IconHash, IconInfoCircle, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import ChannelMultiSelect from "@/components/dashboard/channel-select";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
@@ -15,17 +15,19 @@ interface Props {
 function CapsRule({ channels, roles, data, handleChange }: Props) {
   return (
     <>
-      <span className={"mt-2 font-medium"}>The Caps Moderation rule prevents users from using only CAPS.</span>
-      <List
-        icon={
-          <ThemeIcon radius="lg" size={20} variant={"transparent"}>
-            <IconChevronRight size={16} />
-          </ThemeIcon>
-        }
-      >
-        <List.Item className={"text-sm"}>Message longer than 15 characters</List.Item>
-        <List.Item className={"text-sm"}>Message contains at least 70% upper case characters</List.Item>
-      </List>
+      <Alert className="my-2" icon={<IconInfoCircle />} title={"Info"}>
+        <span className={"mt-2 font-medium"}>The Caps Moderation rule prevents users from using only CAPS.</span>
+        <List
+          icon={
+            <ThemeIcon radius="lg" size={20} variant={"transparent"}>
+              <IconChevronRight size={16} />
+            </ThemeIcon>
+          }
+        >
+          <List.Item className={"text-sm"}>Message longer than 15 characters</List.Item>
+          <List.Item className={"text-sm"}>Message contains at least 70% upper case characters</List.Item>
+        </List>
+      </Alert>
 
       <Switch
         color="teal"
@@ -42,6 +44,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
 
       <ChannelMultiSelect
         data={channels}
+        description={"Messages in these channels are ignored and won't be punished."}
         label="Exempt Channels"
         leftSection={<IconHash size={16} />}
         maxValues={50}
@@ -55,6 +58,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
       <MultiSelect
         data={roles}
         defaultValue={data.caps_exempt_roles}
+        description={"Messages sent by these roles are ignored and won't be punished."}
         label="Exempt Roles"
         leftSection={<IconAt size={16} />}
         maxValues={50}
