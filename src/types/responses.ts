@@ -59,3 +59,8 @@ export interface AuditLogResponse {
   users: SimpleUser[];
   audit_logs: AuditLog[];
 }
+
+export interface ErrorResponse {
+  message: string;
+  code: string;
+}

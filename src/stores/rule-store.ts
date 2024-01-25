@@ -1,5 +1,3 @@
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
 import { DiscordModerationRule } from "@/discord/types";
 import { ModerationRule } from "@/types/moderation";
 import { createContext } from "react";
@@ -9,7 +7,6 @@ import { removeModerationRule } from "@/lib/requests";
 class RuleStore {
   #discordRules: Map<string, DiscordModerationRule> = observable.map();
   #moderationRules: Map<string, ModerationRule> = observable.map();
-  #loadedRules = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -27,8 +24,8 @@ class RuleStore {
     this.#moderationRules.set(rule.rule_id, rule);
   }
 
-  removeModerationRule(rule_id: string) {
-    this.#moderationRules.delete(rule_id);
+  removeModerationRule(ruleId: string) {
+    this.#moderationRules.delete(ruleId);
   }
 
   setModerationRules(rules: ModerationRule[]) {
@@ -38,9 +35,9 @@ class RuleStore {
   }
 
   setDiscordRules(rules: DiscordModerationRule[]) {
-    this.#loadedRules = true;
-
     for (const rule of rules) {
+      if (sessionStorage.getItem(rule.id)) continue;
+
       this.#discordRules.set(rule.id, rule);
     }
 
@@ -51,16 +48,9 @@ class RuleStore {
     this.#discordRules.set(rule.id, rule);
   }
 
-  removeDiscordRule(rule_id: string) {
-    this.#discordRules.delete(rule_id);
-  }
-
-  canCreateKeywordRule() {
-    const keywordLength = this.discordRulesArray.filter(
-      (rule) => rule.trigger_type === AutoModerationTriggerType.Keyword,
-    ).length;
-
-    return this.#loadedRules && keywordLength < DISCORD_KEYWORD_RULE_LIMIT;
+  removeDiscordRule(ruleId: string) {
+    this.#discordRules.delete(ruleId);
+    this.#moderationRules.delete(ruleId);
   }
 
   /**

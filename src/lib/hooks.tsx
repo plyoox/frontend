@@ -1,6 +1,7 @@
 import { API_URL } from "@/environment";
 import {
   type AuditLogResponse,
+  type ErrorResponse,
   GuildDataResponse,
   LevelingResponse,
   LoggingResponse,
@@ -11,6 +12,7 @@ import {
 } from "@/types/responses";
 import { DiscordModerationRule, Guild } from "@/discord/types";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { MaybeWebhook } from "@/types/webhook";
 import { Punishment, type UpsertPunishment } from "@/types/moderation";
 import { RuleStoreContext } from "@/stores/rule-store";
@@ -29,6 +31,7 @@ import {
   fetchWebhooks,
   fetchWelcomeData,
 } from "@/lib/requests";
+import { notifications } from "@mantine/notifications";
 import { useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
@@ -120,6 +123,37 @@ export function useDiscordRules() {
   }, [data]);
 
   return { data, error, isLoading };
+}
+
+export function useDeleteDiscordRule() {
+  const id = useGuildId();
+  const rules = useContext(RuleStoreContext);
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (ruleId: string) => {
+      return axios.delete(`${API_URL}/guild/${id}/moderation/rules/${ruleId}/purge`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (_, ruleId) => {
+      queryClient.setQueryData<DiscordModerationRule[]>(["discord-rules", id], (oldData) => {
+        rules.removeDiscordRule(ruleId);
+
+        if (!oldData) return oldData;
+
+        return [...oldData.filter((r) => r.id !== ruleId)];
+      });
+    },
+    onError: (e: AxiosError<ErrorResponse>) => {
+      notifications.show({
+        title: "Failed to delete rule",
+        message: e.response?.data.message ?? e.message,
+        color: "red",
+        icon: <IconAlertCircle />,
+      });
+    },
+  });
 }
 
 export function useWelcomeData() {
