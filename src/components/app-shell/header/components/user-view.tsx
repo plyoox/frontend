@@ -29,6 +29,7 @@ function UserView() {
             ref={buttonRef}
           >
             <Image
+              unoptimized
               alt="avatar"
               className="mr-2 rounded-full"
               height={36}
