@@ -28,3 +28,6 @@ export const LEVEL_GAIN_MULTIPLIER_MARKS = [
   { value: 1.8, label: "1.8" },
   { value: 2, label: "2" },
 ];
+
+export const NO_CHANNELS_AVAILABLE = "No channels available.";
+export const NO_ROLES_AVAILABLE = "There are no roles to assign.";

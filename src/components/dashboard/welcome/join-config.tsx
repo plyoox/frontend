@@ -1,8 +1,9 @@
 import { DiscordPermission } from "@/discord/enums";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAt, IconBlockquote, IconHash } from "@tabler/icons-react";
-import { MultiSelect, Select, Textarea } from "@mantine/core";
-import { WELCOME_TEMPLATES } from "@/config/constants";
+import { IconBlockquote, IconHash } from "@tabler/icons-react";
+import { MultiRoleSelect } from "@/components/selects";
+import { NO_CHANNELS_AVAILABLE, WELCOME_TEMPLATES } from "@/config/constants";
+import { Select, Textarea } from "@mantine/core";
 import { WelcomeResponse } from "@/types/responses";
 import { observer } from "mobx-react-lite";
 import { useContext, useRef } from "react";
@@ -18,19 +19,14 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
 
   return (
     <>
-      <MultiSelect
-        clearable
-        searchable
+      <MultiRoleSelect
         data={guildStore.manageableRolesAsSelectable}
-        description="The role the user will receive when joining the server"
-        disabled={!manageRolePermission}
-        label="Join role"
-        leftSection={<IconAt size={16} />}
-        max={20}
-        mt={5}
-        nothingFoundMessage={'No roles available. Make sure the bot has the "Manage Roles" permission.'}
+        description={"A list of roles that the user will receive after joining."}
+        label={"Join roles"}
+        maxValues={10}
+        missingPermission={!manageRolePermission}
         onChange={(value) => handleChange({ join_roles: value })}
-        placeholder={"Select role..."}
+        placeholder={"Select roles..."}
         value={data.join_roles}
       />
 
@@ -42,7 +38,7 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
         label="Join message channel"
         leftSection={<IconHash size={16} />}
         mt={5}
-        nothingFoundMessage={'No channels available. Make sure the bot has the "Send Messages" permission.'}
+        nothingFoundMessage={NO_CHANNELS_AVAILABLE}
         onChange={(value) => handleChange({ join_channel: value ?? "" })}
         placeholder="Select channel..."
         value={data.join_channel}
@@ -54,10 +50,10 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
         label="Join message"
         leftSection={<IconBlockquote size={16} />}
         maxLength={1900}
-        minRows={3}
+        minRows={2}
         mt={5}
         onChange={(e) => handleChange({ join_message: e.target.value })}
-        placeholder="Write join message..."
+        placeholder="{user.mention} has joined the guild as #{guild.member_count} member! 🎉"
         ref={textFieldRef}
         rightSection={<TextareaTemplate template={WELCOME_TEMPLATES} textarea={textFieldRef} />}
         value={data.join_message}

@@ -1,13 +1,13 @@
-import { ComboboxItemGroup, MultiSelect, Select } from "@mantine/core";
+import { ComboboxItemGroup, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
+import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import { UNNECESSARY_ROLE_FIELD } from "@/components/dashboard/logging/available-fields";
 import { UseState } from "@/types/react";
 import { addLoggingTextChannel } from "@/lib/utils";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
-import ChannelMultiSelect from "@/components/dashboard/channel-select";
 
 function LoggingSettingContainer({
   setting,
@@ -88,7 +88,7 @@ function LoggingSettingContainer({
       />
 
       {showRoles && (
-        <MultiSelect
+        <MultiRoleSelect
           data={guildStore.rolesAsSelectable}
           description={"Actions by users with these roles will not be logged."}
           label={"Exempt Roles"}
@@ -99,7 +99,7 @@ function LoggingSettingContainer({
         />
       )}
       {showChannel && (
-        <ChannelMultiSelect
+        <MultiChannelSelect
           data={guildStore.textWithCategories}
           description={"Actions in these channels will not be logged."}
           label={"Exempt Channels"}

@@ -23,23 +23,23 @@ function LevelUpMessage({
         clearable
         searchable
         data={guildStore.writeableAsSelectable}
-        description="The bot will sent the message in this channel. If no channel is set, the bot will sent the message in the current channel"
+        description="The bot will sent the message in this channel. If no channel is set, the bot will sent the message in the current channel."
         label="Message channel"
         leftSection={<IconHash size={16} />}
         onChange={(value) => handleChange({ channel: value })}
-        placeholder="Select channel..."
+        placeholder="Select channel to sent message to..."
         value={config.channel}
       />
 
       <Textarea
         autosize
-        description="The message that will be sent when a user levels up"
+        description="The message that will be sent when a user levels up."
         label="Level message"
         leftSection={<IconBlockquote />}
         maxLength={1900}
-        minRows={3}
+        minRows={1}
         onChange={(e) => handleChange({ message: e.target.value })}
-        placeholder="Write level message..."
+        placeholder="🎉 {user.mention} has reached level {level}!"
         ref={levelRef}
         rightSection={<TextareaTemplate template={LEVEL_TEMPLATES} textarea={levelRef} />}
         value={config?.message}

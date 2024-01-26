@@ -14,3 +14,10 @@ export interface SelectItem {
   type: "text" | "category";
   disabled?: boolean;
 }
+
+export interface RoleItem {
+  value: string;
+  label: string;
+  color: string;
+  disabled?: boolean;
+}

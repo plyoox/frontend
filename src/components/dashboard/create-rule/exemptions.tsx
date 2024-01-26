@@ -50,17 +50,18 @@ function Exemptions({ rule, setRule, setStep }: Props) {
         data={guildStore.textAsSelectable}
         description="Channels that are not affected."
         label="Exempt channels"
-        max={50}
+        maxValues={50}
         placeholder="Select exemptions..."
         {...form.getInputProps("exemptChannels")}
       />
+
       <MultiSelect
         clearable
         searchable
         data={guildStore.rolesAsSelectable}
         description="Roles that are not affected by the rule. Roles that have administrator permission are automatically exempt."
         label="Exempt roles"
-        max={20}
+        maxValues={20}
         placeholder="Select exemptions..."
         {...form.getInputProps("exemptRoles")}
       />

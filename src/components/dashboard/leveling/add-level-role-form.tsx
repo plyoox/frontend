@@ -65,17 +65,20 @@ function AddLevelRoleForm({
         required
         searchable
         data={availableRoles}
+        description={"The role that should be added for a reaching the level."}
         label="Select role"
+        nothingFoundMessage={"No roles available"}
         {...form.getInputProps("role")}
-        placeholder={"Select role..."}
+        placeholder={"Select role to assign"}
       />
       <Select
         required
         searchable
         data={availableLevels}
+        description={"The level, when the role should be added."}
         label="Select level"
         {...form.getInputProps("level")}
-        placeholder={"Select level..."}
+        placeholder={"Select when to assign"}
       />
 
       <div className={"mt-2.5 flex justify-end"}>

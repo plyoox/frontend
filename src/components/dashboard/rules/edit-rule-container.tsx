@@ -1,5 +1,8 @@
 "use client";
 
+import { AutoModerationTriggerType } from "@/discord/enums";
+import { Kbd, Tooltip } from "@mantine/core";
+import { clsx } from "clsx";
 import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
@@ -26,7 +29,30 @@ export function EditRuleContainer() {
     return <RequestError error={(rules.error || config.error)!} />;
   }
 
-  return <EditPunishments rule={rule} />;
+  return (
+    <>
+      <div className={"flex items-center justify-between gap-2"}>
+        <div className={"flex items-center gap-2"}>
+          <Tooltip label={rule.enabled ? "Enabled" : "Disabled"}>
+            <div className={clsx("size-5 cursor-help rounded-full", rule.enabled ? "bg-red-500" : "bg-green-500")} />
+          </Tooltip>
+          <Kbd className={"text-base"}>{rule.name}</Kbd>
+        </div>
+
+        <div className={"text-sm text-mt-dark-0"}>
+          {rule.trigger_type === AutoModerationTriggerType.Keyword ? (
+            <span>
+              Triggers: {rule.trigger_metadata.keyword_filter.length + rule.trigger_metadata.regex_patterns.length}
+            </span>
+          ) : (
+            <span>Mentions: {rule.trigger_metadata.mention_total_limit}</span>
+          )}
+        </div>
+      </div>
+
+      <EditPunishments rule={rule} />
+    </>
+  );
 }
 
 export default EditRuleContainer;

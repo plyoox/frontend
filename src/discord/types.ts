@@ -46,7 +46,7 @@ export interface VoiceChannel extends Channel {
 export interface Role {
   id: string;
   name: string;
-  color: string;
+  color: number;
   icon: string;
   hoist: boolean;
   position: number;

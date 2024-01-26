@@ -1,7 +1,7 @@
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconBlockquote, IconHash } from "@tabler/icons-react";
+import { NO_CHANNELS_AVAILABLE, WELCOME_TEMPLATES } from "@/config/constants";
 import { Select, Textarea } from "@mantine/core";
-import { WELCOME_TEMPLATES } from "@/config/constants";
 import { WelcomeResponse } from "@/types/responses";
 import { observer } from "mobx-react-lite";
 import { useContext, useRef } from "react";
@@ -25,7 +25,7 @@ function LeaveConfig({ data, handleChange }: { data: Config; handleChange: (data
         label="Leave message channel"
         leftSection={<IconHash size={16} />}
         mt={5}
-        nothingFoundMessage={'No channels available. Make sure the bot has the "Send Messages" permission.'}
+        nothingFoundMessage={NO_CHANNELS_AVAILABLE}
         onChange={(value) => handleChange({ leave_channel: value ?? "" })}
         placeholder="Select channel..."
         value={data.leave_channel}
@@ -40,7 +40,7 @@ function LeaveConfig({ data, handleChange }: { data: Config; handleChange: (data
         minRows={3}
         mt={5}
         onChange={(e) => handleChange({ leave_message: e.target.value })}
-        placeholder="Write leave message..."
+        placeholder="{user.name} has left the server <:sadlinus:696328264888746024>"
         ref={textFieldRef}
         rightSection={<TextareaTemplate template={WELCOME_TEMPLATES} textarea={textFieldRef} />}
         value={data.leave_message}

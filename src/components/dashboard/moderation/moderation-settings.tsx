@@ -1,9 +1,9 @@
 "use client";
 
-import { Accordion, MultiSelect } from "@mantine/core";
+import { Accordion } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAt } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
+import { MultiRoleSelect } from "@/components/selects";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -59,23 +59,18 @@ function ModerationSettings() {
     <>
       <ToggleActive active={config.active} onChange={(active) => handleChange({ active })} />
 
-      <MultiSelect
-        clearable
-        searchable
+      <MultiRoleSelect
         data={guildStore.rolesAsSelectable}
         description="These roles will be granted permission to use the moderation commands."
         label="Moderation roles"
-        leftSection={<IconAt size={16} />}
         maxValues={10}
-        mt={5}
-        nothingFoundMessage="This guild has no available roles."
         onChange={(value) =>
           handleChange({
             moderation_roles: value,
             ignored_roles: config.ignored_roles.filter((r) => !value.includes(r)),
           })
         }
-        placeholder="Select roles..."
+        placeholder="Select moderation roles..."
         value={config.moderation_roles}
       />
 

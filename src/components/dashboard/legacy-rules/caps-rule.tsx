@@ -1,13 +1,13 @@
-import { Alert, ComboboxData, type ComboboxItemGroup, List, MultiSelect, Switch, ThemeIcon } from "@mantine/core";
-import { IconAt, IconCheck, IconChevronRight, IconHash, IconInfoCircle, IconX } from "@tabler/icons-react";
+import { Alert, type ComboboxItemGroup, List, Switch, ThemeIcon } from "@mantine/core";
+import { IconCheck, IconChevronRight, IconHash, IconInfoCircle, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import ChannelMultiSelect from "@/components/dashboard/channel-select";
+import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
-import type { SelectItem } from "@/types/utils";
+import type { RoleItem, SelectItem } from "@/types/utils";
 
 interface Props {
   channels: ComboboxItemGroup<SelectItem>[];
-  roles: ComboboxData;
+  roles: RoleItem[];
   data: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
 }
@@ -42,7 +42,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         size="md"
       />
 
-      <ChannelMultiSelect
+      <MultiChannelSelect
         data={channels}
         description={"Messages in these channels are ignored and won't be punished."}
         label="Exempt Channels"
@@ -55,17 +55,16 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         value={data.caps_exempt_channels}
       />
 
-      <MultiSelect
+      <MultiRoleSelect
         data={roles}
-        defaultValue={data.caps_exempt_roles}
         description={"Messages sent by these roles are ignored and won't be punished."}
         label="Exempt Roles"
-        leftSection={<IconAt size={16} />}
         maxValues={50}
         onChange={(val) => {
           handleChange({ caps_exempt_roles: val });
         }}
         placeholder="Select roles to exempt..."
+        value={data.caps_exempt_roles}
       />
 
       <h3 className={"mt-3 text-xl font-medium"}>Configure Actions</h3>

@@ -272,3 +272,11 @@ export function logKindToMessage(kind: number): string {
       return kind.toString();
   }
 }
+
+export function colorToHexString(color: number): string {
+  if (color === 0) {
+    return "#99AAB5";
+  }
+
+  return "#" + color.toString(16).padStart(6, "0");
+}

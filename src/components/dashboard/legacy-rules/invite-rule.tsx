@@ -1,13 +1,14 @@
-import { type ComboboxData, type ComboboxItemGroup, MultiSelect, Switch, TagsInput } from "@mantine/core";
-import { IconAt, IconCheck, IconFolderPlus, IconHash, IconX } from "@tabler/icons-react";
+import { type ComboboxItemGroup, Switch, TagsInput } from "@mantine/core";
+import { IconCheck, IconFolderPlus, IconHash, IconX } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
-import ChannelMultiSelect from "@/components/dashboard/channel-select";
+import { MultiRoleSelect } from "@/components/selects";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
-import type { SelectItem } from "@/types/utils";
+import MultiChannelSelect from "@/components/selects/multi-channel-select";
+import type { RoleItem, SelectItem } from "@/types/utils";
 
 interface Props {
   channels: ComboboxItemGroup<SelectItem>[];
-  roles: ComboboxData;
+  roles: RoleItem[];
   config: ModerationConfig;
   handleChange: (data: Partial<ModerationConfig>) => void;
 }
@@ -26,7 +27,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         size="md"
       />
 
-      <ChannelMultiSelect
+      <MultiChannelSelect
         data={channels}
         description={"Messages in these channels are ignored and won't be punished."}
         label="Exempt Channels"
@@ -37,13 +38,10 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         value={config.invite_exempt_channels}
       />
 
-      <MultiSelect
-        clearable
-        searchable
+      <MultiRoleSelect
         data={roles}
         description={"Messages sent by these roles are ignored and won't be punished."}
         label="Exempt Roles"
-        leftSection={<IconAt size={16} />}
         maxValues={50}
         onChange={(val) => handleChange({ invite_exempt_roles: val })}
         placeholder="Select roles to exempt..."

@@ -3,8 +3,9 @@ import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DiscordPermission } from "@/discord/enums";
 import { GuildDataResponse } from "@/types/responses";
 import { action, makeAutoObservable, observable } from "mobx";
+import { colorToHexString } from "@/lib/utils";
 import { createContext } from "react";
-import type { SelectItem } from "@/types/utils";
+import type { RoleItem, SelectItem } from "@/types/utils";
 
 export class GuildStore {
   guild: Guild | null = null;
@@ -109,21 +110,27 @@ export class GuildStore {
   //   return Object.entries(data).map(([group, items]) => ({ group: group, items }));
   // }
 
-  get rolesAsSelectable(): ComboboxItem[] {
-    return this.#roles.map((r) => ({ label: r.name, value: r.id }));
+  get rolesAsSelectable(): RoleItem[] {
+    return this.#roles.map((r) => ({
+      label: r.name,
+      value: r.id,
+      color: colorToHexString(r.color),
+    }));
   }
 
   get botHighestRole(): Role | undefined {
     return this.#roles.find((r) => r.id === this.guild!.highest_role);
   }
 
-  get manageableRolesAsSelectable(): ComboboxItem[] {
+  get manageableRolesAsSelectable(): RoleItem[] {
     const highestRole = this.botHighestRole;
     if (highestRole === undefined) return [];
 
+    console.log(Array.from(this.#roles));
+
     return [...this.#roles]
       .filter((r) => !r.managed && highestRole.position > r.position)
-      .map((r) => ({ label: r.name, value: r.id }));
+      .map((r) => ({ label: r.name, value: r.id, color: colorToHexString(r.color) }));
   }
 
   setData(data: GuildDataResponse) {

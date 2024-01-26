@@ -1,4 +1,13 @@
-import { CheckIcon, Combobox, ComboboxItemGroup, Pill, PillsInput, ScrollArea, useCombobox } from "@mantine/core";
+import {
+  CheckIcon,
+  CloseButton,
+  Combobox,
+  ComboboxItemGroup,
+  Pill,
+  PillsInput,
+  ScrollArea,
+  useCombobox,
+} from "@mantine/core";
 import { IconHash, IconListDetails, IconVolume } from "@tabler/icons-react";
 import { type ReactNode, useMemo, useState } from "react";
 import type { SelectItem } from "@/types/utils";
@@ -20,7 +29,7 @@ interface Props {
   onChange: (value: string[]) => void;
 }
 
-export function ChannelMultiSelect({
+export function MultiChannelSelect({
   data,
   maxValues,
   placeholder,
@@ -96,6 +105,18 @@ export function ChannelMultiSelect({
           label={label}
           leftSection={leftSection}
           onClick={() => combobox.openDropdown()}
+          rightSection={
+            value.length !== 0 ? (
+              <CloseButton
+                aria-label="Clear value"
+                onClick={() => onChange([])}
+                onMouseDown={(event) => event.preventDefault()}
+                size="sm"
+              />
+            ) : (
+              <Combobox.Chevron />
+            )
+          }
         >
           <Pill.Group>
             {values}
@@ -133,4 +154,4 @@ export function ChannelMultiSelect({
   );
 }
 
-export default ChannelMultiSelect;
+export default MultiChannelSelect;
