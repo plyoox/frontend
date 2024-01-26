@@ -37,7 +37,7 @@ function LeaveConfig({ data, handleChange }: { data: Config; handleChange: (data
         label="Leave message"
         leftSection={<IconBlockquote size={16} />}
         maxLength={1900}
-        minRows={3}
+        minRows={2}
         mt={5}
         onChange={(e) => handleChange({ leave_message: e.target.value })}
         placeholder="{user.name} has left the server <:sadlinus:696328264888746024>"
