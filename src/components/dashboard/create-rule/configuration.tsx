@@ -10,6 +10,7 @@ import { showNotification } from "@mantine/notifications";
 import { useContext, useRef } from "react";
 import { useGuildId } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import ConfigureMention from "@/components/dashboard/create-rule/configure-mention";
 import KeywordConfig from "@/components/dashboard/create-rule/configure-keyword";
 import axios from "axios";
 
@@ -29,7 +30,7 @@ function Configuration({ rule, setRule, setStep }: Props) {
   return (
     <div>
       {rule.trigger_type === AutoModerationTriggerType.Keyword && <KeywordConfig rule={partialRule} />}
-      {/*{rule.trigger_type === AutoModerationTriggerType.MentionSpam && <MentionConfig rule={partialRule} />}*/}
+      {rule.trigger_type === AutoModerationTriggerType.MentionSpam && <ConfigureMention rule={partialRule} />}
 
       <div className={"mt-2.5 flex justify-end gap-2"}>
         <Button

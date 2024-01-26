@@ -27,7 +27,6 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
 
       <Chip.Group
         multiple
-        defaultValue={regexPatterns}
         onChange={(val) => {
           if (val.includes(TWITCH_CHANNEL) && !val.includes(TWITCH_CLIPS)) {
             if (allowList.length < 100) setAllowList((list) => ensureUniqueness([...list, "*clips.twitch.tv/*"]));
@@ -74,6 +73,7 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
           setRegexPatterns(val);
           rule.current.regex_patterns = val;
         }}
+        value={regexPatterns}
       >
         <div className={"flex flex-wrap gap-2"}>
           <Chip color="indigo" disabled={hasLink} value={INVITE_REGEX} variant="light">
