@@ -126,8 +126,6 @@ export class GuildStore {
     const highestRole = this.botHighestRole;
     if (highestRole === undefined) return [];
 
-    console.log(Array.from(this.#roles));
-
     return [...this.#roles]
       .filter((r) => !r.managed && highestRole.position > r.position)
       .map((r) => ({ label: r.name, value: r.id, color: colorToHexString(r.color) }));
