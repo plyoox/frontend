@@ -2,16 +2,13 @@ import { Badge } from "@mantine/core";
 import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { amountToColor } from "@/lib/utils";
-import { useContext, useState } from "react";
-import AddNotification from "@/components/dashboard/notifications/add-notification";
-import EditNotificationModal from "@/components/dashboard/notifications/edit-notification-modal";
-import TwitchNotificationContainer from "@/components/dashboard/notifications/twitch-notification-container";
+import { useContext } from "react";
+import TwitchNotificationList from "@/components/dashboard/notifications/twitch-notification-list";
 import TwitchUser from "@/components/dashboard/notifications/twitch-user";
-import type { TwitchNotification, TwitchNotificationResponse } from "@/types/notification";
+import type { TwitchNotificationResponse } from "@/types/notification";
 
 function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
   const guildContext = useContext(GuildStoreContext);
-  const [editNotification, setEditNotification] = useState<TwitchNotification | null>(null);
 
   const { user, notifications } = twitch;
 
@@ -28,23 +25,14 @@ function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
       <TwitchUser user={user} />
 
       <div className={"mt-3 flex justify-between"}>
-        <h3>Notifications</h3>
+        <h3 className={"font-semibold"}>Notifications</h3>
 
         <Badge gradient={amountToColor(notifications.length, limit)} variant={"gradient"}>
           {notifications.length}/{limit} Streams
         </Badge>
       </div>
-      {notifications.map((notification) => (
-        <TwitchNotificationContainer
-          key={notification.user.user_id}
-          notification={notification}
-          setEditNotification={setEditNotification}
-        />
-      ))}
 
-      <AddNotification disabled={notifications.length >= limit} />
-
-      <EditNotificationModal editNotification={editNotification} setEditNotification={setEditNotification} />
+      <TwitchNotificationList disabled={notifications.length >= limit} notifications={notifications} />
     </div>
   );
 }
