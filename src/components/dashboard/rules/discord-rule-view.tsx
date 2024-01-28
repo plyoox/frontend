@@ -7,17 +7,17 @@ import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { useDiscordRules } from "@/lib/hooks";
 import Link from "next/link";
-import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import ModerationRule from "@/components/dashboard/rules/moderation-rule";
 import NoRulesAvailable from "@/components/dashboard/rules/no-rules";
 import RequestError from "@/components/dashboard/request-error";
+import RulesLoading from "@/components/dashboard/rules/rules-loading";
 
 function DiscordRuleOverview() {
   const ruleStore = useContext(RuleStoreContext);
 
   const { isLoading, error } = useDiscordRules();
 
-  if (isLoading) return <LoadingSkeleton />;
+  if (isLoading) return <RulesLoading />;
   if (error) return <RequestError error={error} />;
 
   const rulesWithConfig = ruleStore.discordRulesArray.filter((r) => ruleStore.moderationRules.has(r.id));
