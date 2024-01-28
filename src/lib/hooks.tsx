@@ -46,7 +46,7 @@ export function useGuildId() {
 
 export function useGuildData(resources: RequestGuildData) {
   const id = useGuildId();
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const guildStore = useContext(GuildStoreContext);
 
   const urlParams = new URLSearchParams();
@@ -60,7 +60,7 @@ export function useGuildData(resources: RequestGuildData) {
 
   const { data, error, isLoading } = useQuery<GuildDataResponse, AxiosError>({
     queryKey: ["guild", id, params],
-    queryFn: () => fetchGuildData(id, params, push),
+    queryFn: () => fetchGuildData(id, params, replace),
   });
 
   useEffect(() => {
