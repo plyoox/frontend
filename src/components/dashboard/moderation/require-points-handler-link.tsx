@@ -39,7 +39,7 @@ function RequirePointsHandlerLink({
 
   return (
     <Link
-      className="my-2.5 flex h-16 w-full items-center justify-between rounded-md bg-mt-dark-6 p-4 duration-300 hover:bg-mt-dark-5"
+      className="my-2.5 flex min-h-[4rem] w-full items-center justify-between rounded-md bg-mt-dark-6 px-4 py-2 duration-300 hover:bg-mt-dark-5"
       href={link}
     >
       <div>

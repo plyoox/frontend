@@ -21,10 +21,10 @@ function ModerationRule({ rule }: Props) {
     );
 
   return (
-    <div className="bg-dark-7 my-1 flex max-h-[60px] flex-nowrap justify-between rounded-md bg-mt-dark-6 p-1 pl-5">
-      <div className={"flex items-center justify-between gap-2"}>
-        <span>{rule.name}</span>
-        <>
+    <div className="bg-dark-7 my-1 flex min-h-[60px] flex-nowrap justify-between gap-2 rounded-md bg-mt-dark-6 p-1 pl-5">
+      <div className={"flex items-center justify-between gap-2 p-2"}>
+        <span className={"line-clamp-1 flex-shrink"}>{rule.name}</span>
+        <div className={"flex flex-wrap items-center gap-2"}>
           {!rule.enabled && (
             <Tooltip label="This rule is disabled. It can be enabled in the Discord Server Settings">
               <Badge gradient={{ from: "yellow", to: "orange" }} variant="gradient">
@@ -39,9 +39,9 @@ function ModerationRule({ rule }: Props) {
               </Badge>
             </Tooltip>
           )}
-        </>
+        </div>
       </div>
-      <div className={"flex w-32 items-center justify-between gap-2"}>
+      <div className={"flex w-28 flex-shrink-0 items-center justify-between"}>
         <Tooltip withArrow label="Configure rule">
           <Link href={`moderation/edit-rule/${rule.id}`}>
             <ActionIcon color="green" variant="light">
