@@ -1,7 +1,7 @@
 import { AccountAgeCheck, Action, JoinDateCheck, PointAction, TempActionValue } from "@/types/moderation";
-import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/lib/enums";
 import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
-import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/config/select-values";
+import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/lib/select-values";
 import { GuildStore } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";

@@ -1,4 +1,4 @@
-import { ActionCheckKind, ActionPunishmentKind, HelperPermission } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind, HelperPermission } from "@/lib/enums";
 import { ComboboxItem } from "@mantine/core";
 
 export const TIME_CHECKS = [ActionCheckKind.JoinDate, ActionCheckKind.AccountAge];

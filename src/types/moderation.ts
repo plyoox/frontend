@@ -1,4 +1,4 @@
-import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind } from "@/lib/enums";
 import { AutoModerationTriggerType } from "@/discord/enums";
 import { MaybeWebhook } from "@/types/webhook";
 

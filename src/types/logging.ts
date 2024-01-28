@@ -1,4 +1,4 @@
-import { LoggingKind } from "@/config/enums";
+import { LoggingKind } from "@/lib/enums";
 import { MaybeWebhook } from "@/types/webhook";
 
 export type MassWebhookKind = "all" | "empty";

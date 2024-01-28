@@ -1,5 +1,5 @@
 import { Action } from "@/types/moderation";
-import { ActionCheckKind, ActionPunishmentKind } from "@/config/enums";
+import { ActionCheckKind, ActionPunishmentKind } from "@/lib/enums";
 import { Button, NumberInput, Select, Slider } from "@mantine/core";
 import {
   DURATION_PUNISHMENTS,
@@ -8,7 +8,7 @@ import {
   PunishmentCheckItems,
   TIME_CHECKS,
   TIME_MARKS,
-} from "@/config/select-values";
+} from "@/lib/select-values";
 import { IconDatabasePlus } from "@tabler/icons-react";
 import { UseState } from "@/types/react";
 import { useForm } from "@mantine/form";

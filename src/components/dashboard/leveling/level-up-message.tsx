@@ -1,6 +1,6 @@
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconBlockquote, IconHash } from "@tabler/icons-react";
-import { LEVEL_TEMPLATES } from "@/config/constants";
+import { LEVEL_TEMPLATES } from "@/lib/constants";
 import { LevelingResponse } from "@/types/responses";
 import { Select, Textarea } from "@mantine/core";
 import { observer } from "mobx-react-lite";

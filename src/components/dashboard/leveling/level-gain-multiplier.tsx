@@ -1,4 +1,4 @@
-import { LEVEL_GAIN_MULTIPLIER_MARKS } from "@/config/constants";
+import { LEVEL_GAIN_MULTIPLIER_MARKS } from "@/lib/constants";
 import { LevelingResponse } from "@/types/responses";
 import { Slider } from "@mantine/core";
 import InfoHeading from "@/components/dashboard/info-heading";

@@ -3,7 +3,7 @@ import { Button, Tooltip } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import { DiscordPermission } from "@/discord/enums";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingKind } from "@/config/enums";
+import { LoggingKind } from "@/lib/enums";
 import { useContext, useMemo } from "react";
 import { useGuildId } from "@/lib/hooks";
 

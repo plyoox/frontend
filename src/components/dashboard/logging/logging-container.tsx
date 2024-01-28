@@ -1,10 +1,10 @@
 "use client";
 
 import { Accordion, ComboboxItemGroup } from "@mantine/core";
-import { DEFAULT_LOGGING_SETTING } from "@/config/defaults";
+import { DEFAULT_LOGGING_SETTING } from "@/lib/defaults";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { LoggingData, LoggingSetting, MassWebhookKind } from "@/types/logging";
-import { LoggingKind } from "@/config/enums";
+import { LoggingKind } from "@/lib/enums";
 import { capitalize, setLoggingTextChannels } from "@/lib/utils";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { modals } from "@mantine/modals";

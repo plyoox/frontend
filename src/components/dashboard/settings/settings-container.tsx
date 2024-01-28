@@ -1,7 +1,7 @@
 "use client";
 
-import { HELPER_PERMISSION_ITEMS } from "@/config/select-values";
-import { HelperPermission } from "@/config/enums";
+import { HELPER_PERMISSION_ITEMS } from "@/lib/select-values";
+import { HelperPermission } from "@/lib/enums";
 import { Select, Skeleton } from "@mantine/core";
 import { SettingsResponse } from "@/types/responses";
 import { handleChangeHelper } from "@/lib/handle-change";

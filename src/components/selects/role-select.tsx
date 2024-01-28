@@ -1,5 +1,5 @@
 import { CheckIcon, Combobox, Pill, PillsInput, useCombobox } from "@mantine/core";
-import { NO_ROLES_AVAILABLE } from "@/config/constants";
+import { NO_ROLES_AVAILABLE } from "@/lib/constants";
 import { useState } from "react";
 import type { RoleItem } from "@/types/utils";
 

@@ -1,5 +1,5 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
-import { ActionPunishmentKind } from "@/config/enums";
+import { ActionPunishmentKind } from "@/lib/enums";
 import { IconAlertTriangle, IconChevronRight } from "@tabler/icons-react";
 import { RuleStoreContext } from "@/stores/rule-store";
 import { getPunishmentKind } from "@/lib/utils";

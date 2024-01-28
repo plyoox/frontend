@@ -1,4 +1,4 @@
-import { HelperPermission } from "@/config/enums";
+import { HelperPermission } from "@/lib/enums";
 import type { AuditLog, SimpleUser } from "@/types/settings";
 import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
 import type { LevelRole } from "@/types/leveling";

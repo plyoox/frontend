@@ -2,7 +2,7 @@ import { DiscordPermission } from "@/discord/enums";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconBlockquote, IconHash } from "@tabler/icons-react";
 import { MultiRoleSelect } from "@/components/selects";
-import { NO_CHANNELS_AVAILABLE, WELCOME_TEMPLATES } from "@/config/constants";
+import { NO_CHANNELS_AVAILABLE, WELCOME_TEMPLATES } from "@/lib/constants";
 import { Select, Textarea } from "@mantine/core";
 import { WelcomeResponse } from "@/types/responses";
 import { observer } from "mobx-react-lite";
