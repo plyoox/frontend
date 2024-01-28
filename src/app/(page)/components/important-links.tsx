@@ -12,22 +12,27 @@ function ImportantLinks({ className }: Props) {
 
       <ul className="mt-2">
         <li>
-          <Link className={classes.importantLink} href={""}>
+          <Link className={classes.importantLink} href={"https://wiki.plyoox.net"} target={"_blank"}>
             Documentation
           </Link>
         </li>
         <li className="mt-1">
-          <Link className={classes.importantLink} href={""}>
+          <Link className={classes.importantLink} href={"https://discord.gg/5qPPvQe"} target={"_blank"}>
             Support Server
           </Link>
         </li>
         <li className="mt-1">
-          <Link className={classes.importantLink} href={""}>
+          <Link
+            className={classes.importantLink}
+            href={
+              "https://discord.com/oauth2/authorize?client_id=505433541916622850&scope=bot+applications.commands&permissions=275146828846"
+            }
+          >
             Invite the Bot
           </Link>
         </li>
         <li className="mt-1">
-          <Link className={classes.importantLink} href={""}>
+          <Link className={classes.importantLink} href={"https://github.com/plyoox/plyoox-v3"} target={"_blank"}>
             Source Code
           </Link>
         </li>
