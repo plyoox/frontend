@@ -1,0 +1,22 @@
+.legal {
+}
+
+.legal h1 {
+    @apply text-2xl mt-2 underline;
+}
+
+.legal h2 {
+    @apply text-xl mt-1;
+}
+
+.legal h3 {
+    @apply text-lg mt-1;
+}
+
+.legal a {
+    @apply text-blue-500 hover:text-blue-700;
+}
+
+.legal ul {
+    @apply list-disc pl-5;
+}
