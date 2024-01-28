@@ -27,14 +27,18 @@ function ModerationRule({ rule }: Props) {
         <div className={"flex flex-wrap items-center gap-2"}>
           {!rule.enabled && (
             <Tooltip label="This rule is disabled. It can be enabled in the Discord Server Settings">
-              <Badge gradient={{ from: "yellow", to: "orange" }} variant="gradient">
+              <Badge
+                className={"cursor-help select-none"}
+                gradient={{ from: "yellow", to: "orange" }}
+                variant="gradient"
+              >
                 Disabled
               </Badge>
             </Tooltip>
           )}
           {!validTrigger && (
             <Tooltip label="Rules require Block Message">
-              <Badge color="red" variant="filled">
+              <Badge className={"cursor-help select-none"} color="red" variant="filled">
                 Invalid Trigger
               </Badge>
             </Tooltip>
