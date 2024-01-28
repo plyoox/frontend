@@ -21,7 +21,7 @@ function ModerationRule({ rule }: Props) {
     );
 
   return (
-    <div className="bg-dark-7 my-1 flex min-h-[60px] flex-nowrap justify-between gap-2 rounded-md bg-mt-dark-6 p-1 pl-5">
+    <div className="my-1 flex min-h-[60px] flex-nowrap justify-between gap-2 rounded-md bg-mt-dark-6 p-1 pl-5">
       <div className={"flex items-center justify-between gap-2 p-2"}>
         <span className={"line-clamp-1 flex-shrink"}>{rule.name}</span>
         <div className={"flex flex-wrap items-center gap-2"}>
