@@ -9,7 +9,7 @@ interface NavbarProps {
 
 function Header({ setOpen, open }: NavbarProps) {
   return (
-    <nav className="border-b border-b-dark-4 bg-mt-dark-7 px-2">
+    <nav className="bg-mt-dark-7 px-2">
       <div className="container mx-auto flex h-[70px] items-center justify-between">
         <div className={"flex items-center gap-2"}>
           <MobileToggle open={open} setOpen={setOpen} />
