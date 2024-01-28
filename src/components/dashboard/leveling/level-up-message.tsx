@@ -37,7 +37,7 @@ function LevelUpMessage({
         label="Level message"
         leftSection={<IconBlockquote />}
         maxLength={1900}
-        minRows={1}
+        minRows={2}
         onChange={(e) => handleChange({ message: e.target.value })}
         placeholder="🎉 {user.mention} has reached level {level}!"
         ref={levelRef}
