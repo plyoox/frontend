@@ -226,9 +226,11 @@ export function useUserGuilds({ enabled }: { enabled: boolean }) {
     enabled: enabled,
   });
 
-  if (error?.response?.status) {
-    userStore.logout();
-  }
+  useEffect(() => {
+    if (error?.response?.status === 401) {
+      userStore.logout();
+    }
+  }, [error, userStore]);
 
   return { data, error, isLoading };
 }

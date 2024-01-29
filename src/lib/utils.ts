@@ -2,6 +2,7 @@ import { AccountAgeCheck, Action, JoinDateCheck, PointAction, TempActionValue } 
 import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/lib/enums";
 import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/lib/select-values";
+import { Guild } from "@/discord/types";
 import { GuildStore } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
 import { UseState } from "@/types/react";
@@ -279,4 +280,18 @@ export function colorToHexString(color: number): string {
   }
 
   return "#" + color.toString(16).padStart(6, "0");
+}
+
+export function parseGuilds(data: string): Guild[] | null {
+  try {
+    const guilds: Guild[] = JSON.parse(atob(data));
+
+    return guilds.sort((a, b) => {
+      if (a.has_bot && !b.has_bot) return -1;
+      if (!a.has_bot && b.has_bot) return 1;
+      return 0;
+    });
+  } catch (e) {
+    return null;
+  }
 }

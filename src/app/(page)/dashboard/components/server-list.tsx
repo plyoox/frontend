@@ -1,6 +1,9 @@
 "use client";
 
 import { Guild } from "@/discord/types";
+import { IconBrandTwitch } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
+import { parseGuilds } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserGuilds } from "@/lib/hooks";
@@ -32,6 +35,37 @@ function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
       replace(previousPage);
     }
   }, [searchParams, replace, previousPage]);
+
+  useEffect(() => {
+    const channel = new BroadcastChannel("bot-invite");
+    channel.addEventListener("message", (event) => {
+      if (typeof event.data != "string") return;
+
+      if (event.data.startsWith("error:")) {
+        const errorMessage = event.data.replace("error:", "");
+
+        notifications.show({
+          title: "Error while connecting twitch account",
+          color: "red",
+          icon: <IconBrandTwitch />,
+          message: errorMessage,
+        });
+        return;
+      } else {
+        try {
+          setGuilds(parseGuilds(event.data));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+
+    return () => {
+      channel.close();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (fetchedGuilds.data) {
