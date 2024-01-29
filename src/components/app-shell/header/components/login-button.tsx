@@ -5,8 +5,12 @@ import Link from "next/link";
 function LoginButton() {
   return (
     <Link href={`${API_URL}/discord/login`}>
-      <button className="flex h-12 items-center justify-center gap-4 rounded-lg bg-pl-accent-dark px-6 text-xl font-bold text-pl-text duration-200 hover:bg-pl-accent hover:shadow-pl-button sm:w-40">
-        <span className="hidden sm:inline">Login</span>
+      <button
+        className={
+          "hover:shadow-ring flex h-12 items-center justify-center gap-4 rounded-lg bg-pl-accent-dark text-white duration-200 hover:bg-pl-accent hover:shadow-pl-accent/80 sm:w-40"
+        }
+      >
+        <span className="hidden text-xl font-bold sm:block">Login</span>
         <IconLogin stroke={2} />
       </button>
     </Link>
