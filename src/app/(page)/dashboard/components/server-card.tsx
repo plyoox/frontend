@@ -35,7 +35,6 @@ function ServerCard({ guild }: Props) {
       <Link
         className={`my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-button`}
         href={`/dashboard/${guild.id}`}
-        onClick={openInviteWindow}
       >
         {guildData}
       </Link>
