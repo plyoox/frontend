@@ -32,7 +32,7 @@ function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
         </Badge>
       </div>
 
-      <TwitchNotificationList disabled={notifications.length >= limit} notifications={notifications} />
+      <TwitchNotificationList disabled={notifications.length >= limit || !user} notifications={notifications} />
     </div>
   );
 }
