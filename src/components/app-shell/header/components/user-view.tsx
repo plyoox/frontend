@@ -2,12 +2,11 @@ import { IconChevronDown, IconListSearch, IconLogout } from "@tabler/icons-react
 import { Menu } from "@headlessui/react";
 import { UserStoreContext } from "@/stores/user-store";
 import { observer } from "mobx-react-lite";
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 function UserView() {
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const store = useContext(UserStoreContext);
 
   const avatar = useMemo(() => {
@@ -26,7 +25,6 @@ function UserView() {
             className={`flex items-center justify-center rounded-lg bg-transparent p-1.5 px-2 outline-none duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button ${
               open ? "shadow-pl-button" : ""
             }`}
-            ref={buttonRef}
           >
             <Image
               unoptimized
@@ -43,8 +41,8 @@ function UserView() {
           </Menu.Button>
 
           <Menu.Items
-            className="absolute right-0 z-20 mt-2 w-44 rounded-md bg-mt-dark-7 p-2 text-sm text-gray-200 shadow-pl-accent-light drop-shadow-2xl"
-            style={{ width: buttonRef.current?.clientWidth }}
+            className="absolute right-0 z-20 mt-2 w-48 rounded-md bg-mt-dark-7 p-2 text-sm text-gray-200 shadow-pl-accent-light drop-shadow-2xl"
+            style={{ left: "-17px" }}
           >
             <Menu.Item
               as={Link}
@@ -60,11 +58,23 @@ function UserView() {
               className="mt-0.5 flex cursor-pointer rounded-md p-2 duration-200 hover:bg-red-400/20 hover:text-white"
               href="/"
               onClick={() => {
-                store.requestLogout();
+                store.requestLogout(false);
               }}
             >
               <IconLogout className="mr-2 text-red-400" size={18} />
               Logout
+            </Menu.Item>
+
+            <Menu.Item
+              as={Link}
+              className="mt-0.5 flex cursor-pointer rounded-md p-2 duration-200 hover:bg-red-400/20 hover:text-white"
+              href="/"
+              onClick={() => {
+                store.requestLogout(true);
+              }}
+            >
+              <IconLogout className="mr-2 text-red-400" size={18} />
+              Logout everywhere
             </Menu.Item>
           </Menu.Items>
         </>

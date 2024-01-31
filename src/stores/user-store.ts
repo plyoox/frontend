@@ -30,8 +30,8 @@ export class UserStore {
     }
   });
 
-  requestLogout = flow(function* (this: UserStore) {
-    yield axios.delete(`${API_URL}/user`, { withCredentials: true });
+  requestLogout = flow(function* (this: UserStore, allDevices) {
+    yield axios.delete(`${API_URL}/user?all=${allDevices}`, { withCredentials: true });
 
     this.logout();
   });
