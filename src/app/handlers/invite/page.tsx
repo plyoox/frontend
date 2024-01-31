@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 
 function Page() {
   const searchParams = useSearchParams();
 
+  const called = useRef(false);
+
   useEffect(() => {
+    if (called.current) return;
+    called.current = true;
+
     if (searchParams.has("error")) {
       const channel = new BroadcastChannel("bot-invite");
       channel.postMessage(`error:${searchParams.get("error")}`);

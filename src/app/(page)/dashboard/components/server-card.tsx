@@ -1,6 +1,7 @@
 import { API_URL } from "@/environment";
 import { Avatar } from "@mantine/core";
 import { IconLayoutDashboard, IconUserPlus } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import Link from "next/link";
 import type { Guild } from "@/discord/types";
 
@@ -33,7 +34,10 @@ function ServerCard({ guild }: Props) {
   if (guild.has_bot) {
     return (
       <Link
-        className={`my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-button`}
+        className={clsx(
+          `my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-button`,
+          guild.is_new && "shadow-ring-sm shadow-amber-300",
+        )}
         href={`/dashboard/${guild.id}`}
       >
         {guildData}

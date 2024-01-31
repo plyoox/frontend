@@ -52,11 +52,15 @@ function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
         });
         return;
       } else {
-        try {
-          setGuilds(parseGuilds(event.data));
-        } catch (e) {
-          console.error(e);
-        }
+        setGuilds((currentGuilds) => {
+          const newGuilds = parseGuilds(event.data);
+          if (!newGuilds) return guilds;
+          if (!currentGuilds) return currentGuilds;
+
+          return newGuilds.map((g) => {
+            return { ...g, is_new: !currentGuilds.find((og) => og.id === g.id)?.has_bot && g.has_bot };
+          });
+        });
       }
     });
 

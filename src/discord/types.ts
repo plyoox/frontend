@@ -17,6 +17,7 @@ export interface Guild {
   vanityURLCode: string | null;
   has_bot: boolean;
   highest_role: string;
+  is_new?: boolean;
 }
 
 export interface Channel {

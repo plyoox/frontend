@@ -14,7 +14,8 @@ const config: Config = {
       boxShadow: {
         "pl-button": "0 20px 80px -10px #40BA7F",
         "pl-primary": "0 20px 80px -10px #5865F2",
-        ring: "0px 0px 47px 0px rgba(0,0,0,0.5)",
+        ring: "0 0 47px 0 rgba(0,0,0,0.5)",
+        "ring-sm": "0 0 10px 1px rgba(0,0,0,0.5)",
       },
       colors: {
         "mt-dark": {
