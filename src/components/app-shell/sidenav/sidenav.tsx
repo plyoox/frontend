@@ -26,7 +26,6 @@ const LINKS: ILink[] = [
     icon: <IconBrandTwitch size={20} />,
     label: "Twitch",
     link: "twitch",
-    beta: true,
   },
   {
     color: "blue",
