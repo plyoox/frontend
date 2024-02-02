@@ -1,7 +1,8 @@
 import { type ComboboxItemGroup, Switch, TagsInput } from "@mantine/core";
-import { IconCheck, IconHash, IconLink, IconX } from "@tabler/icons-react";
+import { IconHash, IconLink } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
+import CustomSwitch from "@/components/custom-switch";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import type { RoleItem, SelectItem } from "@/types/utils";
 
@@ -15,15 +16,12 @@ interface Props {
 function LinkRule({ channels, roles, config, handleChange }: Props) {
   return (
     <>
-      <Switch
+      <CustomSwitch
         checked={config.link_active}
+        className={"mt-2"}
         color="teal"
         label="Enabled"
-        my={10}
-        offLabel={<IconX color={"red"} size="1rem" stroke={2.5} />}
-        onChange={(el) => handleChange({ link_active: el.target.checked })}
-        onLabel={<IconCheck color={"green"} size="1rem" stroke={2.5} />}
-        size="md"
+        onChange={(checked) => handleChange({ link_active: checked })}
       />
 
       <MultiChannelSelect

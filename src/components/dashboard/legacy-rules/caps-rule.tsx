@@ -1,7 +1,8 @@
-import { Alert, type ComboboxItemGroup, List, Switch, ThemeIcon } from "@mantine/core";
-import { IconCheck, IconChevronRight, IconHash, IconInfoCircle, IconX } from "@tabler/icons-react";
+import { Alert, type ComboboxItemGroup, List, ThemeIcon } from "@mantine/core";
+import { IconChevronRight, IconHash, IconInfoCircle } from "@tabler/icons-react";
 import { ModerationConfig } from "@/types/moderation";
 import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
+import CustomSwitch from "@/components/custom-switch";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import type { RoleItem, SelectItem } from "@/types/utils";
 
@@ -29,17 +30,14 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         </List>
       </Alert>
 
-      <Switch
+      <CustomSwitch
+        checked={data.caps_active}
+        className={"mt-2"}
         color="teal"
-        defaultChecked={data.caps_active}
         label="Enabled"
-        my={10}
-        offLabel={<IconX color={"red"} size="1rem" stroke={2.5} />}
-        onChange={(el) => {
-          handleChange({ caps_active: el.target.checked });
+        onChange={(checked) => {
+          handleChange({ caps_active: checked });
         }}
-        onLabel={<IconCheck color={"green"} size="1rem" stroke={2.5} />}
-        size="md"
       />
 
       <MultiChannelSelect
