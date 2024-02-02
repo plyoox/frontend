@@ -23,8 +23,8 @@ function LevelRoleItem({ levelRole, onRemove }: { levelRole: LevelRole; onRemove
   }, [role, guildStore.botHighestRole]);
 
   const displayText = (
-    <span>
-      Adding <Kbd>{role?.name ?? "Deleted Role"}</Kbd> when reaching level <Kbd>{levelRole.level}</Kbd>
+    <span className={"text-regular"}>
+      Adding <Kbd>{role?.name ?? "Deleted Role"}</Kbd> when reaching level <Kbd>{levelRole.level}</Kbd>.
     </span>
   );
 
