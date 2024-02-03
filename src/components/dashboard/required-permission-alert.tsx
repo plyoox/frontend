@@ -14,6 +14,7 @@ PERMISSION_NAME_MAP.set(BigInt(0x2), "Kick Members");
 PERMISSION_NAME_MAP.set(BigInt(0x4), "Ban Members");
 PERMISSION_NAME_MAP.set(BigInt(0x2000), "Manage Messages");
 PERMISSION_NAME_MAP.set(BigInt(0x10000000000), "Moderate Members");
+PERMISSION_NAME_MAP.set(BigInt(0x20), "Manager Server");
 
 function RequiredPermissionAlert({ permissions }: { permissions: bigint[] }) {
   const guildStore = useContext(GuildStoreContext);
