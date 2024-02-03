@@ -31,6 +31,10 @@ export class GuildStore {
     return this.#premium;
   }
 
+  get loaded() {
+    return !!this.guild;
+  }
+
   get writeableAsSelectable(): ComboboxItemGroup[] {
     if (this.guild === null) return [];
 

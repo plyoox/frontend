@@ -1,5 +1,6 @@
 "use client";
 
+import { ACTION_PERMISSIONS } from "@/lib/defaults";
 import { ModerationConfig } from "@/types/moderation";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
@@ -9,6 +10,7 @@ import LegacyRuleSettings from "@/components/dashboard/moderation/legacy-rule-se
 import LegacyRuleView from "@/components/dashboard/legacy-rules/legacy-rules-view";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
+import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
 import SaveNotification from "@/components/save-notification";
 
 type Config = ModerationConfig;
@@ -48,6 +50,8 @@ function LegacyRulesContainer() {
 
   return (
     <>
+      <RequiredPermissionAlert permissions={ACTION_PERMISSIONS} />
+
       <LegacyRuleSettings config={config} handleChange={handleChange} />
 
       <section className={"mt-3"}>

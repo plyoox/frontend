@@ -4,7 +4,7 @@ import { ModerationConfig } from "@/types/moderation";
 import { handleChangeHelper } from "@/lib/handle-change";
 import { saveModerationData } from "@/lib/requests";
 import { useEffect, useRef, useState } from "react";
-import { useModerationData } from "@/lib/hooks";
+import { useGuildData, useModerationData } from "@/lib/hooks";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
@@ -25,6 +25,7 @@ function EditPointsContainer() {
   const oldConfig = useRef<Config>({} as Config);
 
   const { data, isLoading, error } = useModerationData();
+  useGuildData({ category: true, roles: true, text: true, premium: true });
 
   useEffect(() => {
     if (!data) return;
