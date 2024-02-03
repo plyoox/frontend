@@ -35,6 +35,7 @@ function CapsRule({ channels, roles, data, handleChange }: Props) {
         className={"mt-2"}
         color="teal"
         label="Enabled"
+        labelPosition={"left"}
         onChange={(checked) => {
           handleChange({ caps_active: checked });
         }}

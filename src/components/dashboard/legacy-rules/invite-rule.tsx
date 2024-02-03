@@ -22,6 +22,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         className={"mt-2"}
         color="teal"
         label="Enabled"
+        labelPosition={"left"}
         onChange={(checked) => handleChange({ invite_active: checked })}
       />
 
