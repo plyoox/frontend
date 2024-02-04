@@ -26,22 +26,14 @@ export interface Channel {
   position: number;
   parent_id: string | null;
   category?: CategoryChannel | null;
-  type: string;
 }
 
 export interface TextChannel extends Channel {
-  topic: string | null;
-  nsfw: boolean;
-  rate_limit_per_user: number;
   permissions: string;
-  permissions_locked: boolean;
 }
 
 export interface VoiceChannel extends Channel {
   permissions: string;
-  permissions_locked: boolean;
-  user_limit: number;
-  bitrate: number;
 }
 
 export interface Role {
@@ -60,10 +52,7 @@ export interface CategoryChannel {
   id: string;
   name: string;
   position: number;
-  type: string;
-  viewable: boolean;
   permissions: string;
-  permissions_locked: boolean;
 }
 
 export interface DiscordModerationRule {
