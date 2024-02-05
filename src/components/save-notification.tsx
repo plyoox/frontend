@@ -12,9 +12,10 @@ interface Props<T = any> {
   onSave: () => void;
   fn: (id: string, data: T) => Promise<void>;
   data: Partial<T> | null;
+  disabled?: boolean;
 }
 
-function SaveNotification({ data, fn, onSave }: Props) {
+function SaveNotification({ data, fn, onSave, disabled }: Props) {
   const id = useGuildId();
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -44,6 +45,7 @@ function SaveNotification({ data, fn, onSave }: Props) {
           <span className={"pr-3"}>You have some unsaved settings. Save to keep them.</span>
           <Button
             color="green"
+            disabled={disabled}
             leftSection={<IconCircleCheck />}
             loading={loading}
             onClick={() => {
