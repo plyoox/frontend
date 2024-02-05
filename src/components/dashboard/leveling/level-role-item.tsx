@@ -30,24 +30,23 @@ function LevelRoleItem({ levelRole, onRemove }: { levelRole: LevelRole; onRemove
 
   return (
     <div className="my-1 flex h-[60px] items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
-      <div className={"flex items-center justify-between gap-2"}>
+      <div className={"flex items-center gap-2"}>
         <span>{displayText}</span>
+
         {showWarning && (
           <Tooltip withArrow label="The bot has no permission to assign this role.">
-            <Badge color="red" style={{ cursor: "pointer" }} variant="filled">
+            <Badge className={"cursor-help select-none"} color="red" variant="filled">
               Missing Permission
             </Badge>
           </Tooltip>
         )}
       </div>
 
-      <div className={"flex items-center gap-2"}>
-        <Tooltip withArrow label="Remove action">
-          <ActionIcon color="red" onClick={() => onRemove(levelRole)} variant="light">
-            <IconX size={18} />
-          </ActionIcon>
-        </Tooltip>
-      </div>
+      <Tooltip withArrow label="Remove action">
+        <ActionIcon color="red" onClick={() => onRemove(levelRole)} variant="light">
+          <IconX size={18} />
+        </ActionIcon>
+      </Tooltip>
     </div>
   );
 }
