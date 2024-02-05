@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link href="/favicon.svg" rel="shortcut icon" />
+        <link href="/favicon.ico" rel="shortcut icon" />
         <meta content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no" name="viewport" />
         <title>Plyoox.net - Discord Bot</title>
       </head>
