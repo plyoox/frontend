@@ -28,8 +28,12 @@ function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
           <div className={"container mx-auto p-5 pb-0 text-white"}>
             <BreadCrumbs />
             <div className={"mb-5 grid grid-cols-5 gap-5"}>
-              <div className={"col-span-5 lg:col-span-3 lg:mb-60"}>{children}</div>
-              <div className={"sticky top-[95px] col-span-5 self-start lg:col-span-2"}>{docs}</div>
+              <div className={"col-span-5 lg:col-span-3 lg:mb-60"} id={"main-content"}>
+                {children}
+              </div>
+              <div className={"sticky top-[95px] col-span-5 self-start lg:col-span-2"} id={"docs-content"}>
+                {docs}
+              </div>
             </div>
           </div>
         </GuildStoreContext.Provider>

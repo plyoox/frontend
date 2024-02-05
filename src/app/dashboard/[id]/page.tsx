@@ -6,11 +6,14 @@ import {
   IconUserPlus,
   IconUserUp,
 } from "@tabler/icons-react";
+import FullView from "@/components/dashboard/full-view";
 import InfoBox from "@/components/dashboard/home/info-box";
 
 function Page() {
   return (
     <div>
+      <FullView />
+
       <h1 className={"text-2xl font-semibold"}>Available Settings</h1>
 
       <div className={"flex flex-wrap gap-2"}>
