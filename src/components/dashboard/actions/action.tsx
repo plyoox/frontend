@@ -18,7 +18,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
   const downDisabled = index === count - 1;
 
   return (
-    <div className="my-1 flex h-[60px] items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
+    <div className="my-1 flex items-center justify-between gap-2 rounded-md bg-mt-dark-6 p-2 pl-2.5">
       <div className={"flex items-center justify-between gap-2"}>
         <span>{actionToText(punishment)}</span>
         {showWarning && (

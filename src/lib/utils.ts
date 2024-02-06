@@ -83,7 +83,7 @@ export function actionToText(punishment: Action): string {
     if (data.expires_in == null) {
       str += " that will expire never";
     } else {
-      str += ` that will expire ${formatSeconds(data.expires_in)}`;
+      str += ` that will expire after ${formatSeconds(data.expires_in, true)}`;
     }
   }
 

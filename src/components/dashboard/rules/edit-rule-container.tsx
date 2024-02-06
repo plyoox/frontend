@@ -34,7 +34,7 @@ export function EditRuleContainer() {
       <div className={"flex items-center justify-between gap-2"}>
         <div className={"flex items-center gap-2"}>
           <Tooltip label={rule.enabled ? "Enabled" : "Disabled"}>
-            <div className={clsx("size-5 cursor-help rounded-full", rule.enabled ? "bg-red-500" : "bg-green-500")} />
+            <div className={clsx("size-5 cursor-help rounded-full", rule.enabled ? "bg-green-500" : "bg-red-500")} />
           </Tooltip>
           <Kbd className={"text-base"}>{rule.name}</Kbd>
         </div>

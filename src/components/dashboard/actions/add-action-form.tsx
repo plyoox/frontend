@@ -30,7 +30,7 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
       checkTime: 86400, // 3 days
       punishment: ActionPunishmentKind.Kick,
       points: 3,
-      pointExpiration: 1209600, // 14 days
+      pointExpiration: null, // 14 days
       punishmentDuration: 5, // 6 hours
     },
   });
@@ -39,9 +39,7 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
     <form
       className={className}
       onSubmit={form.onSubmit((values) => {
-        const pointExpiration = TIME_MARKS.find((t) => t.value === values.punishmentDuration)!.seconds;
-
-        setPunishments([...punishments, toAutomoderationAction({ ...values, pointExpiration })]);
+        setPunishments([...punishments, toAutomoderationAction(values)]);
 
         setOpen(false);
         form.reset();
@@ -149,7 +147,9 @@ function toAutomoderationAction(value: PunishmentValues) {
       punishment.punishment = { [value.punishment]: { duration } };
       break;
     case ActionPunishmentKind.Point:
-      punishment.punishment = { [value.punishment]: { points: value.points, expires_in: value.pointExpiration } };
+      punishment.punishment = {
+        [value.punishment]: { points: value.points, expires_in: value.pointExpiration || null },
+      };
       break;
     case ActionPunishmentKind.Ban:
     case ActionPunishmentKind.Kick:
@@ -185,5 +185,5 @@ interface PunishmentValues {
   check: ActionCheckKind | null;
   checkTime: number;
   points: number;
-  pointExpiration: number;
+  pointExpiration: number | null;
 }

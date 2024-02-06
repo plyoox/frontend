@@ -1,12 +1,12 @@
 import { NumberInput, Select } from "@mantine/core";
 import InfoHeading from "@/components/dashboard/info-heading";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface DurationPickerProps {
   label: string;
   description: string;
   value?: number;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
   max?: number;
   min?: number;
   hideControls?: boolean;
@@ -14,9 +14,11 @@ interface DurationPickerProps {
   allowDecimal?: boolean;
   defaultValue?: number;
   defaultUnit?: keyof DurationOptions;
+  required?: boolean;
 }
 
 const DURATION_OPTIONS: DurationOptions = {
+  Never: { conversion: 0, defaultValue: 0, label: "Never" },
   Seconds: { conversion: 1, defaultValue: 300, label: "Seconds" },
   Minutes: { conversion: 60, defaultValue: 5, label: "Minutes" },
   Hours: { conversion: 3600, defaultValue: 1, label: "Hours" },
@@ -26,7 +28,7 @@ const DURATION_OPTIONS: DurationOptions = {
 };
 
 function DurationPicker({
-  value = 1,
+  value,
   onChange,
   min,
   max,
@@ -36,11 +38,12 @@ function DurationPicker({
   label,
   description,
   allowDecimal,
-  defaultValue,
+  required,
 }: DurationPickerProps) {
+  const [disabled, setDisabled] = useState(false);
   const [conversion, setConversion] = useState<DurationOption>(DURATION_OPTIONS[defaultUnit ?? "Days"]);
-  const [duration, setDuration] = useState<number>(
-    (value ?? defaultValue) / DURATION_OPTIONS[defaultUnit ?? "Days"].conversion,
+  const [duration, setDuration] = useState<number | null>(
+    value ? value / DURATION_OPTIONS[defaultUnit ?? "Days"].conversion : null,
   );
 
   const duration_options: DurationOptions = useMemo(() => {
@@ -62,15 +65,26 @@ function DurationPicker({
     return options;
   }, [max, min]);
 
+  useEffect(() => {
+    if (value == null) {
+      setDuration(0);
+      setDisabled(true);
+      setConversion(duration_options["Never"]);
+      onChange(null);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
     <div>
       <InfoHeading description={description} label={label} />
 
       <div className={"flex gap-2"}>
         <NumberInput
-          required
           allowDecimal={allowDecimal}
           className={"flex-grow"}
+          disabled={disabled}
           error={error}
           hideControls={hideControls}
           onChange={(event) => {
@@ -91,29 +105,43 @@ function DurationPicker({
             setDuration(Math.floor(event));
             onChange(value);
           }}
-          value={duration}
+          required={required}
+          value={duration ?? undefined}
         />
 
         <Select
           allowDeselect={false}
-          data={Object.entries(duration_options).map(([key, value]) => ({ value: key, label: value.label }))}
+          data={Object.values(duration_options).map((value) => ({
+            value: value.conversion.toString(),
+            label: value.label,
+          }))}
           onChange={(cur: any) => {
-            const newConversion = duration_options[cur as keyof DurationOptions];
+            if (cur === "0") {
+              setDisabled(true);
+              setDuration(0);
+              onChange(null);
+              return;
+            }
 
-            if (newConversion.conversion === conversion.conversion) return;
+            const newConversion = Object.values(duration_options).find((v) => v.conversion.toString() === cur);
+            if (newConversion.conversion === conversion.conversion) {
+              return;
+            }
 
             const max = Math.max(min ?? 1, newConversion.conversion * newConversion.defaultValue);
-            const newDuration = Math.min(
-              min ? Math.floor(min / newConversion.conversion) : 1,
-              max ? Math.floor(max / newConversion.conversion) : 1,
-            );
+            const newDuration =
+              Math.min(
+                min ? Math.floor(min / newConversion.conversion) : 1,
+                max ? Math.floor(max / newConversion.conversion) : 1,
+              ) || 1;
 
             setDuration(newDuration || 1);
             setConversion(newConversion);
+            setDisabled(false);
             onChange(newConversion.conversion * newDuration);
           }}
           placeholder="Select duration"
-          value={conversion.label}
+          value={conversion.conversion.toString()}
         />
       </div>
     </div>
@@ -123,6 +151,7 @@ function DurationPicker({
 export default DurationPicker;
 
 interface DurationOptions {
+  Never: DurationOption;
   Seconds: DurationOption;
   Minutes: DurationOption;
   Hours: DurationOption;
