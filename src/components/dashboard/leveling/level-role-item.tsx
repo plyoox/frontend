@@ -29,7 +29,7 @@ function LevelRoleItem({ levelRole, onRemove }: { levelRole: LevelRole; onRemove
   );
 
   return (
-    <div className="my-1 flex h-[60px] items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
+    <div className="my-1 flex items-center justify-between rounded-md bg-mt-dark-6 p-2 pl-2.5">
       <div className={"flex items-center gap-2"}>
         <span>{displayText}</span>
 
