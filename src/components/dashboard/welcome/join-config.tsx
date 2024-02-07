@@ -55,7 +55,13 @@ function JoinConfig({ data, handleChange }: { data: Config; handleChange: (data:
         onChange={(e) => handleChange({ join_message: e.target.value })}
         placeholder="{user.mention} has joined the guild as #{guild.member_count} member! 🎉"
         ref={textFieldRef}
-        rightSection={<TextareaTemplate template={WELCOME_TEMPLATES} textarea={textFieldRef} />}
+        rightSection={
+          <TextareaTemplate
+            onChange={(value) => handleChange({ join_message: value })}
+            template={WELCOME_TEMPLATES}
+            textarea={textFieldRef}
+          />
+        }
         value={data.join_message}
       />
     </>

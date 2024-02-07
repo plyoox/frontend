@@ -6,9 +6,10 @@ import { TemplateString } from "@/types/welcome";
 interface Props {
   textarea: RefObject<HTMLTextAreaElement>;
   template: TemplateString[];
+  onChange: (value: string) => void;
 }
 
-function TextareaTemplate({ textarea, template }: Props) {
+function TextareaTemplate({ textarea, template, onChange }: Props) {
   const [open, setOpen] = useState<boolean>(false);
 
   function typeInTextarea(text: string): void {
@@ -18,7 +19,9 @@ function TextareaTemplate({ textarea, template }: Props) {
 
     textarea.current.setRangeText(text, start, end, "end");
     textarea.current.focus();
+
     setOpen(false);
+    onChange(textarea.current.value);
   }
 
   return (

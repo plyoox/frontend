@@ -42,7 +42,13 @@ function LeaveConfig({ data, handleChange }: { data: Config; handleChange: (data
         onChange={(e) => handleChange({ leave_message: e.target.value })}
         placeholder="{user.name} has left the server <:sadlinus:696328264888746024>"
         ref={textFieldRef}
-        rightSection={<TextareaTemplate template={WELCOME_TEMPLATES} textarea={textFieldRef} />}
+        rightSection={
+          <TextareaTemplate
+            onChange={(value) => handleChange({ leave_message: value })}
+            template={WELCOME_TEMPLATES}
+            textarea={textFieldRef}
+          />
+        }
         value={data.leave_message}
       />
     </>

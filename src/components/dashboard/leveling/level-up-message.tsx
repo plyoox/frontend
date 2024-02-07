@@ -41,7 +41,13 @@ function LevelUpMessage({
         onChange={(e) => handleChange({ message: e.target.value })}
         placeholder="🎉 {user.mention} has reached level {level}!"
         ref={levelRef}
-        rightSection={<TextareaTemplate template={LEVEL_TEMPLATES} textarea={levelRef} />}
+        rightSection={
+          <TextareaTemplate
+            onChange={(value) => handleChange({ message: value })}
+            template={LEVEL_TEMPLATES}
+            textarea={levelRef}
+          />
+        }
         value={config?.message}
       />
     </>
