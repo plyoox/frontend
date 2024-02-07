@@ -1,6 +1,5 @@
 "use client";
 
-import { ACTION_PERMISSIONS } from "@/lib/defaults";
 import { Button, Tooltip } from "@mantine/core";
 import { IconCopyPlus } from "@tabler/icons-react";
 import { useGuildData, useModerationPunishments } from "@/lib/hooks";
@@ -9,7 +8,6 @@ import EditPunishmentModal from "@/components/modals/edit-punishment-modal";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import PunishmentList from "@/components/dashboard/punishments/punishment-list";
 import RequestError from "@/components/dashboard/request-error";
-import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
 import type { UpsertPunishment } from "@/types/moderation";
 
 function PunishmentContainer() {
@@ -51,8 +49,6 @@ function PunishmentContainer() {
 
   return (
     <>
-      <RequiredPermissionAlert permissions={ACTION_PERMISSIONS} />
-
       <div className={"flex justify-end gap-2"}>{button}</div>
 
       <PunishmentList className={"my-2"} editPunishment={setOpen} punishments={punishments.data} />
