@@ -15,7 +15,10 @@ function Punishment({
     <div className={"flex items-center rounded-md bg-mt-dark-6 px-4 py-2"}>
       <div className={"flex items-center gap-2"}>
         <Tooltip label={punishment.enabled ? "Enabled" : "Disabled"}>
-          <span className={`size-4 rounded-full ${punishment.enabled ? "bg-green-500" : "bg-red-500"}`} />
+          <span
+            className={`size-4 cursor-help rounded-full ${punishment.enabled ? "bg-green-500" : "bg-red-500"}`}
+            title={`Rule ${punishment.enabled ? "enabled" : "disabled"}`}
+          />
         </Tooltip>
 
         <span>{punishment.name}</span>
