@@ -8,14 +8,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@mantine/core"],
   },
-  images: {
-    remotePatterns: [
-      {
-        hostname: "cdn.discordapp.com",
-        protocol: "https",
-      },
-    ],
-  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
