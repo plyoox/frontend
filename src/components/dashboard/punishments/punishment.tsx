@@ -12,7 +12,7 @@ function Punishment({
   onEdit: () => void;
 }) {
   return (
-    <div className={"flex items-center rounded-md bg-mt-dark-6 px-4 py-2"}>
+    <div className={"mt-2 flex items-center rounded-md bg-mt-dark-6 px-4 py-2"}>
       <div className={"flex items-center gap-2"}>
         <Tooltip label={punishment.enabled ? "Enabled" : "Disabled"}>
           <span
