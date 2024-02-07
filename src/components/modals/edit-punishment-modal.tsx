@@ -127,7 +127,7 @@ function EditPunishmentModal({ open, setOpen }: Props) {
 
       <div className={"mt-2"}>
         <ListActions punishments={actions} setPunishments={setActions} />
-        <AddActions isFinal={true} punishments={actions} setPunishments={setActions} />
+        <AddActions punishments={actions} setPunishments={setActions} />
         <span className={"text-sm text-red-400"}>{actionErrorMessages}</span>
       </div>
 
