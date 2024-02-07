@@ -1,6 +1,6 @@
-import { Action } from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind } from "@/lib/enums";
 import { Button, NumberInput, Select, Slider } from "@mantine/core";
+import { ContextModalProps } from "@mantine/modals";
 import {
   DURATION_PUNISHMENTS,
   DiscordRulePunishmentItems,
@@ -10,20 +10,20 @@ import {
   TIME_MARKS,
 } from "@/lib/select-values";
 import { IconDatabasePlus } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
+import { toAutomoderationAction } from "@/lib/utils";
 import { useForm } from "@mantine/form";
 import DurationPicker from "@/components/duration-picker";
 import InfoHeading from "@/components/dashboard/info-heading";
+import type { Action, PunishmentValues } from "@/types/moderation";
 
-interface Props {
-  className?: string;
-  setPunishments: UseState<Action[]>;
-  punishments: Action[];
-  setOpen: UseState<boolean>;
-  isFinal?: boolean;
-}
-
-function AddActionForm({ setPunishments, setOpen, punishments, isFinal, className }: Props) {
+function AddActionModal({
+  innerProps,
+  context,
+  id,
+}: ContextModalProps<{
+  isFinal: boolean;
+  onSubmit: (action: Action) => void;
+}>) {
   const form = useForm<PunishmentValues>({
     initialValues: {
       check: null,
@@ -37,16 +37,16 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
 
   return (
     <form
-      className={className}
       onSubmit={form.onSubmit((values) => {
-        setPunishments([...punishments, toAutomoderationAction(values)]);
+        innerProps.onSubmit(toAutomoderationAction(values));
 
-        setOpen(false);
         form.reset();
+
+        context.closeModal(id);
       })}
     >
       <Select
-        data={isFinal ? PointPunishmentItems : DiscordRulePunishmentItems}
+        data={innerProps.isFinal ? PointPunishmentItems : DiscordRulePunishmentItems}
         description="What should happen when something is detected."
         label="Action"
         {...form.getInputProps("punishment")}
@@ -123,67 +123,23 @@ function AddActionForm({ setPunishments, setOpen, punishments, isFinal, classNam
         />
       )}
 
-      <div className={"mt-4 flex justify-end"}>
-        <Button color="violet" leftSection={<IconDatabasePlus />} type={"submit"} variant={"light"}>
-          Add action
+      <div className={"mt-4 flex justify-end gap-2"}>
+        <Button
+          onClick={() => {
+            context.closeModal(id);
+          }}
+          type={"button"}
+          variant={"default"}
+        >
+          Cancel
+        </Button>
+
+        <Button color="plyoox" leftSection={<IconDatabasePlus />} type={"submit"} variant={"filled"}>
+          Add Action
         </Button>
       </div>
     </form>
   );
 }
 
-export default AddActionForm;
-
-function toAutomoderationAction(value: PunishmentValues) {
-  const punishment: Action = {} as any;
-
-  const duration = TIME_MARKS.find((t) => t.value === value.punishmentDuration)!.seconds;
-
-  switch (value.punishment) {
-    case ActionPunishmentKind.TempMute:
-      punishment.punishment = { [value.punishment]: { duration } };
-      break;
-    case ActionPunishmentKind.TempBan:
-      punishment.punishment = { [value.punishment]: { duration } };
-      break;
-    case ActionPunishmentKind.Point:
-      punishment.punishment = {
-        [value.punishment]: { points: value.points, expires_in: value.pointExpiration || null },
-      };
-      break;
-    case ActionPunishmentKind.Ban:
-    case ActionPunishmentKind.Kick:
-    case ActionPunishmentKind.Delete:
-      punishment.punishment = value.punishment;
-      break;
-  }
-
-  switch (value.check) {
-    case ActionCheckKind.NoRole:
-      punishment.check = value.check;
-      break;
-    case ActionCheckKind.NoAvatar:
-      punishment.check = value.check;
-      break;
-    case ActionCheckKind.AccountAge:
-      punishment.check = { [value.check]: { time: value.checkTime } };
-      break;
-    case ActionCheckKind.JoinDate:
-      punishment.check = { [value.check]: { time: value.checkTime } };
-      break;
-    case null:
-      punishment.check = null;
-      break;
-  }
-
-  return punishment;
-}
-
-interface PunishmentValues {
-  punishment: ActionPunishmentKind;
-  punishmentDuration: number;
-  check: ActionCheckKind | null;
-  checkTime: number;
-  points: number;
-  pointExpiration: number | null;
-}
+export default AddActionModal;

@@ -24,6 +24,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
         {showWarning && (
           <Tooltip withArrow label="This is a global action and should be last. Click to resolve">
             <Badge
+              className={"cursor-pointer select-none"}
               color="red"
               onClick={() => {
                 setPunishments((actions) => {
@@ -33,7 +34,6 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
                   return actions;
                 });
               }}
-              style={{ cursor: "pointer" }}
               variant="filled"
             >
               Blocking

@@ -1,7 +1,14 @@
-import { AccountAgeCheck, Action, JoinDateCheck, PointAction, TempActionValue } from "@/types/moderation";
+import {
+  AccountAgeCheck,
+  Action,
+  JoinDateCheck,
+  PointAction,
+  type PunishmentValues,
+  TempActionValue,
+} from "@/types/moderation";
 import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/lib/enums";
 import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
-import { DURATION_PUNISHMENTS, LegacyPunishmentItems } from "@/lib/select-values";
+import { DURATION_PUNISHMENTS, LegacyPunishmentItems, TIME_MARKS } from "@/lib/select-values";
 import { Guild } from "@/discord/types";
 import { GuildStore } from "@/stores/guild-store";
 import { LoggingSetting } from "@/types/logging";
@@ -294,4 +301,49 @@ export function parseGuilds(data: string): Guild[] | null {
   } catch (e) {
     return null;
   }
+}
+
+export function toAutomoderationAction(value: PunishmentValues) {
+  const punishment: Action = {} as any;
+
+  const duration = TIME_MARKS.find((t) => t.value === value.punishmentDuration)!.seconds;
+
+  switch (value.punishment) {
+    case ActionPunishmentKind.TempMute:
+      punishment.punishment = { [value.punishment]: { duration } };
+      break;
+    case ActionPunishmentKind.TempBan:
+      punishment.punishment = { [value.punishment]: { duration } };
+      break;
+    case ActionPunishmentKind.Point:
+      punishment.punishment = {
+        [value.punishment]: { points: value.points, expires_in: value.pointExpiration || null },
+      };
+      break;
+    case ActionPunishmentKind.Ban:
+    case ActionPunishmentKind.Kick:
+    case ActionPunishmentKind.Delete:
+      punishment.punishment = value.punishment;
+      break;
+  }
+
+  switch (value.check) {
+    case ActionCheckKind.NoRole:
+      punishment.check = value.check;
+      break;
+    case ActionCheckKind.NoAvatar:
+      punishment.check = value.check;
+      break;
+    case ActionCheckKind.AccountAge:
+      punishment.check = { [value.check]: { time: value.checkTime } };
+      break;
+    case ActionCheckKind.JoinDate:
+      punishment.check = { [value.check]: { time: value.checkTime } };
+      break;
+    case null:
+      punishment.check = null;
+      break;
+  }
+
+  return punishment;
 }

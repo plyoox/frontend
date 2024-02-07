@@ -107,3 +107,12 @@ export interface UpsertPunishment {
   reason: string | null;
   actions: Action[];
 }
+
+export interface PunishmentValues {
+  punishment: ActionPunishmentKind;
+  punishmentDuration: number;
+  check: ActionCheckKind | null;
+  checkTime: number;
+  points: number;
+  pointExpiration: number | null;
+}

@@ -1,13 +1,13 @@
 import { Action } from "@/types/moderation";
-import { Badge, Collapse, ThemeIcon } from "@mantine/core";
+import { Badge, ThemeIcon } from "@mantine/core";
 import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconPlus } from "@tabler/icons-react";
 import { UseState } from "@/types/react";
 import { amountToColor } from "@/lib/utils";
+import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
-import AddActionForm from "@/components/dashboard/actions/add-action-form";
+import { useContext } from "react";
 
 interface Props {
   punishments: Action[];
@@ -17,8 +17,22 @@ interface Props {
 }
 
 function AddActions({ punishments, setPunishments, isFinal, className }: Props) {
+  function openAddActionModal() {
+    modals.openContextModal({
+      modal: "addAction",
+      title: "Add new action",
+      size: "xl",
+      centered: true,
+      innerProps: {
+        isFinal,
+        onSubmit: (action: Action) => {
+          setPunishments((actions) => [...actions, action]);
+        },
+      },
+    });
+  }
+
   const guildStore = useContext(GuildStoreContext);
-  const [open, setOpen] = useState(false);
 
   const limit = guildStore.premium ? PREMIUM_LIMITS.MAX_RULE_PUNISHMENTS : DEFAULT_LIMITS.MAX_RULE_PUNISHMENTS;
 
@@ -29,29 +43,19 @@ function AddActions({ punishments, setPunishments, isFinal, className }: Props) 
         disabled:cursor-not-allowed disabled:bg-mt-dark-7 disabled:hover:bg-mt-dark-7`}
         disabled={punishments.length >= limit}
         onClick={() => {
-          setOpen(!open);
+          openAddActionModal();
         }}
       >
         <div className="flex items-center gap-3 font-semibold">
           <ThemeIcon color="green" size="md" variant="light">
             <IconPlus size={20} />
           </ThemeIcon>
-          <span className="mt-0.5 ">Add action</span>
+          <span className="mt-0.5">Add action</span>
         </div>
         <Badge gradient={amountToColor(punishments.length, limit)} variant="gradient">
           {punishments.length}/{limit} Rules
         </Badge>
       </button>
-
-      <Collapse className="rounded-b" in={open}>
-        <AddActionForm
-          className="mt-1 rounded-md bg-mt-dark-6 p-2"
-          isFinal={isFinal}
-          punishments={punishments}
-          setOpen={setOpen}
-          setPunishments={setPunishments}
-        />
-      </Collapse>
     </div>
   );
 }

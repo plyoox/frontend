@@ -1,10 +1,10 @@
 "use client";
 
 import { AppShell } from "@mantine/core";
-import { GlobalGuildStore, GuildStoreContext } from "@/stores/guild-store";
 import { ReactNode, useState } from "react";
 import BreadCrumbs from "@/components/dashboard/bread-crumbs";
 import Header from "@/components/app-shell/header/header";
+import Provider from "./_provider";
 import Sidenav from "@/components/app-shell/sidenav/sidenav";
 
 function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
@@ -24,7 +24,7 @@ function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <GuildStoreContext.Provider value={GlobalGuildStore}>
+        <Provider>
           <div className={"container mx-auto p-5 pb-0 text-white"}>
             <BreadCrumbs />
             <div className={"mb-5 grid grid-cols-5 gap-5"}>
@@ -36,7 +36,7 @@ function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
               </div>
             </div>
           </div>
-        </GuildStoreContext.Provider>
+        </Provider>
       </AppShell.Main>
     </AppShell>
   );

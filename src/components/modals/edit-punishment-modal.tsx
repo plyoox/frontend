@@ -126,14 +126,24 @@ function EditPunishmentModal({ open, setOpen }: Props) {
       </form>
 
       <div className={"mt-2"}>
-        <AddActions isFinal={true} punishments={actions} setPunishments={setActions} />
         <ListActions punishments={actions} setPunishments={setActions} />
+        <AddActions isFinal={true} punishments={actions} setPunishments={setActions} />
         <span className={"text-sm text-red-400"}>{actionErrorMessages}</span>
       </div>
 
       <div className={"mt-2 flex justify-end gap-2"}>
         <Button
-          color={"teal"}
+          onClick={() => {
+            form.reset();
+            setOpen(null);
+          }}
+          variant={"default"}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          color={"cyan"}
           leftSection={<IconCopyCheck />}
           loading={loading}
           onClick={() => {
@@ -167,18 +177,7 @@ function EditPunishmentModal({ open, setOpen }: Props) {
           }}
           variant={"filled"}
         >
-          Save
-        </Button>
-
-        <Button
-          color={"red"}
-          onClick={() => {
-            form.reset();
-            setOpen(null);
-          }}
-          variant={"light"}
-        >
-          Cancel
+          Save punishment
         </Button>
       </div>
     </Modal>
