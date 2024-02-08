@@ -17,7 +17,6 @@ function GettingStarted({ className }: Props) {
             <Link
               className="relative z-10 inline-flex flex-col justify-end font-bold text-white before:absolute before:-z-10 before:block before:h-1/3 before:w-full before:bg-pl-blurple before:duration-200 hover:before:h-1/2"
               href={`${API_URL}/discord/login`}
-              target="_blank"
             >
               Discord
             </Link>
