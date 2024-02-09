@@ -1,13 +1,15 @@
-import { Button, Modal, TextInput, Tooltip } from "@mantine/core";
+import { Button, Modal, Select, TextInput, Tooltip } from "@mantine/core";
+import { GuildStoreContext } from "@/stores/guild-store";
 import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import { useContext, useState } from "react";
 import { useCreateNotification } from "@/lib/hooks";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
 
 interface AddUserForm {
   name: string;
+  channel: string;
 }
 
 const TWITCH_REGEX = new RegExp(/^(?:https?:\/\/(?:www\.)?twitch\.tv\/)?([a-zA-Z0-9_]{4,25})$/);
@@ -16,10 +18,12 @@ function AddNotification({ disabled }: { disabled: boolean }) {
   const [isOpen, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(false);
   const createNotification = useCreateNotification();
+  const guildStore = useContext(GuildStoreContext);
 
   const form = useForm<AddUserForm>({
     initialValues: {
       name: "",
+      channel: "",
     },
     validate: {
       name: (value) => {
@@ -27,6 +31,7 @@ function AddNotification({ disabled }: { disabled: boolean }) {
 
         return !result && "Name must be between 1 and 25 characters";
       },
+      channel: (value) => !value?.length && "A notification channel is required.",
     },
   });
 
@@ -67,7 +72,7 @@ function AddNotification({ disabled }: { disabled: boolean }) {
             const name = regex[1];
 
             createNotification
-              .mutateAsync(name)
+              .mutateAsync({ channel: values.channel, name })
               .then(() => {
                 setLoading(false);
                 close();
@@ -85,7 +90,20 @@ function AddNotification({ disabled }: { disabled: boolean }) {
               });
           })}
         >
-          <TextInput {...form.getInputProps("name")} description={"Enter Channel url or name"} label={"Channel Url"} />
+          <TextInput
+            {...form.getInputProps("name")}
+            description={"Enter Twitch Channel url or name"}
+            label={"Twitch Channel"}
+          />
+
+          <Select
+            searchable
+            data={guildStore.writeableAsSelectable}
+            description={"The channel where the notification should be sent to."}
+            label={"Channel"}
+            placeholder={"Select a notification channel..."}
+            {...form.getInputProps("channel")}
+          />
 
           <div className={"mt-4 flex justify-end gap-2"}>
             <Button color={"red"} onClick={close} variant={"subtle"}>

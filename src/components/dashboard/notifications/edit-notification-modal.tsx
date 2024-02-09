@@ -20,8 +20,12 @@ function EditNotificationModal({
 
   const form = useForm<{ channel: string | null; message: string }>({
     initialValues: {
-      channel: null,
+      channel: "",
       message: "",
+    },
+    validate: {
+      channel: (value) => !value && "A notification channel is required.",
+      message: (value) => value.length > 1900 && "A message can be at maximum 1900 characters.",
     },
   });
 
@@ -75,7 +79,6 @@ function EditNotificationModal({
         })}
       >
         <Select
-          clearable
           searchable
           data={guildStore.writeableAsSelectable}
           description={"The channel where the notification should be sent."}

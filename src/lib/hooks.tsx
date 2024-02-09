@@ -298,12 +298,10 @@ export function useCreateNotification() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (name: string) => {
-      return axios.post<TwitchNotification>(
-        `${API_URL}/guild/${id}/notifications/twitch`,
-        { name },
-        { withCredentials: true },
-      );
+    mutationFn: (data: { name: string; channel: string }) => {
+      return axios.post<TwitchNotification>(`${API_URL}/guild/${id}/notifications/twitch`, data, {
+        withCredentials: true,
+      });
     },
     onSuccess: (response) => {
       queryClient.setQueryData<NotificationResponse>(
