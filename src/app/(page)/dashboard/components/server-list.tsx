@@ -45,7 +45,7 @@ function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
         const errorMessage = event.data.replace("error:", "");
 
         notifications.show({
-          title: "Error while connecting twitch account",
+          title: "Error while inviting bot",
           color: "red",
           icon: <IconBrandTwitch />,
           message: errorMessage,
