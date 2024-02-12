@@ -291,7 +291,9 @@ export function colorToHexString(color: number): string {
 
 export function parseGuilds(data: string): Guild[] | null {
   try {
-    const guilds: Guild[] = JSON.parse(atob(data));
+    const decodedData = new TextDecoder().decode(base64ToBytes(data));
+
+    const guilds: Guild[] = JSON.parse(decodedData);
 
     return guilds.sort((a, b) => {
       if (a.has_bot && !b.has_bot) return -1;
@@ -346,4 +348,11 @@ export function toAutomoderationAction(value: PunishmentValues) {
   }
 
   return punishment;
+}
+
+function base64ToBytes(data: string) {
+  const binString = atob(data);
+
+  // @ts-ignore
+  return Uint8Array.from(binString, (m) => m.codePointAt(0));
 }
