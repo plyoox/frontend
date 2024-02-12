@@ -23,6 +23,11 @@ function DiscordRuleOverview() {
   const rulesWithConfig = ruleStore.discordRulesArray.filter((r) => ruleStore.moderationRules.has(r.id));
   const rulesWithoutConfig = ruleStore.discordRulesArray.filter((r) => !ruleStore.moderationRules.has(r.id));
 
+  const disabled =
+    ruleStore.discordRulesArray.filter((r) => r.trigger_type === AutoModerationTriggerType.Keyword).length ===
+      DISCORD_KEYWORD_RULE_LIMIT &&
+    ruleStore.discordRulesArray.some((r) => r.trigger_type === AutoModerationTriggerType.MentionSpam);
+
   return (
     <>
       {rulesWithConfig.length !== 0 && (
@@ -46,14 +51,12 @@ function DiscordRuleOverview() {
       <div className="flex justify-end">
         <Button
           color="violet"
-          component={Link}
-          disabled={
-            ruleStore.discordRulesArray.filter((r) => r.trigger_type === AutoModerationTriggerType.Keyword).length ===
-              DISCORD_KEYWORD_RULE_LIMIT &&
-            ruleStore.discordRulesArray.some((r) => r.trigger_type === AutoModerationTriggerType.MentionSpam)
-          }
+          // @ts-ignore
+          component={disabled ? "button" : Link}
+          disabled={disabled}
           href={`moderation/create-rule`}
           leftSection={<IconPlaylistAdd />}
+          title={disabled ? "Maximum rules reached" : undefined}
           variant="light"
         >
           Create new rule
