@@ -15,7 +15,7 @@ function UserView() {
 
     return user.avatar
       ? `avatars/${user.id}/${user.avatar}.webp?size=256`
-      : `embed/avatars/${(BigInt(user.id) << BigInt(22)) % BigInt(6)}.webp`;
+      : `embed/avatars/${(BigInt(user.id) << BigInt(22)) % BigInt(6)}.png`;
   }, [store.user]);
 
   return (
