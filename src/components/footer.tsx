@@ -8,10 +8,10 @@ function Footer() {
         <p>© Copyright 2024 JohannesIBK</p>
 
         <div className={"flex gap-2 text-sm"}>
-          <Link className={"text-mt-dark-0 underline"} href={"privacy-policy"}>
+          <Link className={"text-mt-dark-0 underline"} href={"privacy"} prefetch={false}>
             Datenschutzerklärung
           </Link>
-          <Link className={"text-mt-dark-0 underline"} href={"legal-notice"}>
+          <Link className={"text-mt-dark-0 underline"} href={"legal-notice"} prefetch={false}>
             Impressum
           </Link>
         </div>
