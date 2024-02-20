@@ -37,6 +37,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import type {
+  AddYoutubeNotification,
   TwitchNotification,
   TwitchNotificationResponse,
   TwitchUser,
@@ -336,6 +337,29 @@ export function useCreateTwitchNotification() {
   });
 }
 
+export function useCreateYoutubeNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { youtube_url: string; channel: string }) => {
+      return axios.post<AddYoutubeNotification>(`${API_URL}/guild/${id}/notifications/youtube`, data, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData<YoutubeNotificationResponse>(
+        ["youtube", "notifications", id],
+        (oldData): YoutubeNotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return [...oldData, { ...response.data, message: null }];
+        },
+      );
+    },
+  });
+}
+
 export function useDeleteTwitchNotification() {
   const id = useGuildId();
   const queryClient = useQueryClient();
@@ -362,12 +386,35 @@ export function useDeleteTwitchNotification() {
   });
 }
 
+export function useDeleteYoutubeNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (channelId: string) => {
+      return axios.delete<void>(`${API_URL}/guild/${id}/notifications/youtube/${channelId}`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (_, channelId) => {
+      queryClient.setQueryData<YoutubeNotificationResponse>(
+        ["youtube", "notifications", id],
+        (oldData): YoutubeNotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return oldData.filter((notification) => notification.youtube_channel !== channelId);
+        },
+      );
+    },
+  });
+}
+
 export function useEditTwitchNotification() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, channel, message }: { userId: number; channel: string | null; message: string | null }) => {
+    mutationFn: ({ userId, channel, message }: { userId: number; channel: string; message: string | null }) => {
       return axios.post<TwitchNotification>(
         `${API_URL}/guild/${id}/notifications/twitch/${userId}`,
         { channel, message },
@@ -395,6 +442,40 @@ export function useEditTwitchNotification() {
               }),
             ],
           };
+        },
+      );
+    },
+  });
+}
+
+export function useEditYoutubeNotification() {
+  const id = useGuildId();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ channelId, channel, message }: { channelId: string; channel: string; message: string | null }) => {
+      return axios.post<TwitchNotification>(
+        `${API_URL}/guild/${id}/notifications/youtube/${channelId}`,
+        { channel, message },
+        {
+          withCredentials: true,
+        },
+      );
+    },
+    onSuccess: (_, { channelId, channel, message }) => {
+      queryClient.setQueryData<YoutubeNotificationResponse>(
+        ["youtube", "notifications", id],
+        (oldData): YoutubeNotificationResponse | undefined => {
+          if (!oldData) return oldData;
+
+          return oldData.map((notification) => {
+            if (notification.youtube_channel === channelId) {
+              notification.channel = channel;
+              notification.message = message;
+            }
+
+            return notification;
+          });
         },
       );
     },

@@ -8,7 +8,7 @@ import { useForm } from "@mantine/form";
 import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
 
-function EditNotificationModal({
+function EditTwitchNotificationModal({
   editNotification,
   setEditNotification,
 }: {
@@ -18,7 +18,7 @@ function EditNotificationModal({
   const guildStore = useContext(GuildStoreContext);
   const editNotificationReq = useEditTwitchNotification();
 
-  const form = useForm<{ channel: string | null; message: string }>({
+  const form = useForm<{ channel: string; message: string }>({
     initialValues: {
       channel: "",
       message: "",
@@ -115,4 +115,4 @@ function EditNotificationModal({
   );
 }
 
-export default EditNotificationModal;
+export default EditTwitchNotificationModal;

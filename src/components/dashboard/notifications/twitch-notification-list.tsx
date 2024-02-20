@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AddNotification from "@/components/dashboard/notifications/add-notification";
-import EditNotificationModal from "@/components/dashboard/notifications/edit-notification-modal";
+import AddTwitchNotification from "@/components/dashboard/notifications/add-twitch-notification";
+import EditTwitchNotificationModal from "@/components/dashboard/notifications/edit-twitch-notification-modal";
 import TwitchNotificationContainer from "@/components/dashboard/notifications/twitch-notification-container";
 import type { TwitchNotification } from "@/types/notification";
 
@@ -29,9 +29,9 @@ function TwitchNotificationList({
         </div>
       )}
 
-      <AddNotification disabled={disabled} />
+      <AddTwitchNotification disabled={disabled} />
 
-      <EditNotificationModal editNotification={editNotification} setEditNotification={setEditNotification} />
+      <EditTwitchNotificationModal editNotification={editNotification} setEditNotification={setEditNotification} />
     </div>
   );
 }

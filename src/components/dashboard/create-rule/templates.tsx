@@ -29,10 +29,11 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
         multiple
         onChange={(val) => {
           if (val.includes(TWITCH_CHANNEL) && !val.includes(TWITCH_CLIPS)) {
-            if (allowList.length < 100) setAllowList((list) => ensureUniqueness([...list, "*clips.twitch.tv/*"]));
-          } else if (allowList.includes("*clips.twitch.tv/*")) {
+            if (allowList.length < 100)
+              setAllowList((list) => ensureUniqueness([...list, "*clips.notifications.tv/*"]));
+          } else if (allowList.includes("*clips.notifications.tv/*")) {
             setAllowList((list) => {
-              const words = list.filter((x) => x !== "*clips.twitch.tv/*");
+              const words = list.filter((x) => x !== "*clips.notifications.tv/*");
 
               rule.current.allow_list = words;
               return words;
@@ -45,8 +46,8 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
                 ...list,
                 "*youtube.com/watch?v=*",
                 "*youtu.be/*",
-                "*twitch.tv/*",
-                "*clips.twitch.tv/*",
+                "*notifications.tv/*",
+                "*clips.notifications.tv/*",
                 "*discord.gg/*",
                 "*discord.com/invite/*",
               ]);
@@ -60,8 +61,8 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
                 (x) =>
                   x !== "*youtube.com/watch?v=*" &&
                   x !== "*youtu.be/*" &&
-                  x !== "*twitch.tv/*" &&
-                  x !== "*clips.twitch.tv/*" &&
+                  x !== "*notifications.tv/*" &&
+                  x !== "*clips.notifications.tv/*" &&
                   x !== "*discord.gg/*" &&
                   x !== "*discord.com/invite/*",
               );

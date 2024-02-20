@@ -49,7 +49,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
   function openConnectWindow() {
     window.open(`${API_URL}/twitch?guild_id=${guildId}`, "Create Twitch Connection | Plyoox", "height=900,width=500");
 
-    const broadcastChannel = new BroadcastChannel("twitch-login");
+    const broadcastChannel = new BroadcastChannel("notifications-login");
     broadcastChannel.addEventListener("message", (event) => {
       if (typeof event.data != "string") return;
 
@@ -58,7 +58,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
         const errorMessage = event.data.replace("error:", "");
 
         notifications.show({
-          title: "Error while connecting twitch account",
+          title: "Error while connecting notifications account",
           color: "red",
           icon: <IconBrandTwitch />,
           message: errorMessage,

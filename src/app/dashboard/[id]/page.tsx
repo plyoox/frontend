@@ -21,7 +21,7 @@ function Page() {
           Manage the Helper access and your webhooks as well as view the server&apos;s audit log.
         </InfoBox>
 
-        <InfoBox icon={<IconBrandTwitch />} link={"twitch"} title={"Notifications"}>
+        <InfoBox icon={<IconBrandTwitch />} link={"notifications"} title={"Notifications"}>
           Setup live notifications for streamers that the server should know about.
         </InfoBox>
 
