@@ -1,7 +1,7 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
-import { useDeleteNotification } from "@/lib/hooks";
+import { useDeleteTwitchNotification } from "@/lib/hooks";
 import { useState } from "react";
 import Image from "next/image";
 import type { TwitchNotification } from "@/types/notification";
@@ -14,7 +14,7 @@ function TwitchNotificationContainer({
   notification: TwitchNotification;
   setEditNotification: UseState<TwitchNotification | null>;
 }) {
-  const deleteNotification = useDeleteNotification();
+  const deleteNotification = useDeleteTwitchNotification();
 
   const [deleting, setDeleting] = useState(false);
 

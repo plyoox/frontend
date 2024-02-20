@@ -25,9 +25,9 @@ import {
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
-  fetchNotifications,
   fetchPunishments,
   fetchSettingsData,
+  fetchTwitchNotifications,
   fetchWebhooks,
   fetchWelcomeData,
 } from "@/lib/requests";
@@ -281,19 +281,19 @@ export function useDeletePunishment() {
   });
 }
 
-export function useNotifications() {
+export function useTwitchNotifications() {
   const id = useGuildId();
 
   const { data, error, isLoading } = useQuery<NotificationResponse, AxiosError>({
-    queryKey: ["notifications", id],
-    queryFn: () => fetchNotifications(id),
+    queryKey: ["twitch", "notifications", id],
+    queryFn: () => fetchTwitchNotifications(id),
     refetchOnMount: "always",
   });
 
   return { data, error, isLoading };
 }
 
-export function useCreateNotification() {
+export function useCreateTwitchNotification() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
@@ -305,7 +305,7 @@ export function useCreateNotification() {
     },
     onSuccess: (response) => {
       queryClient.setQueryData<NotificationResponse>(
-        ["notifications", id],
+        ["twitch", "notifications", id],
         (oldData): NotificationResponse | undefined => {
           if (!oldData) return oldData;
 
@@ -322,7 +322,7 @@ export function useCreateNotification() {
   });
 }
 
-export function useDeleteNotification() {
+export function useDeleteTwitchNotification() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
@@ -334,7 +334,7 @@ export function useDeleteNotification() {
     },
     onSuccess: (_, userId) => {
       queryClient.setQueryData<NotificationResponse>(
-        ["notifications", id],
+        ["twitch", "notifications", id],
         (oldData): NotificationResponse | undefined => {
           if (!oldData) return oldData;
 
@@ -353,7 +353,7 @@ export function useDeleteNotification() {
   });
 }
 
-export function useEditNotification() {
+export function useEditTwitchNotification() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
@@ -369,7 +369,7 @@ export function useEditNotification() {
     },
     onSuccess: (_, { userId, channel, message }) => {
       queryClient.setQueryData<NotificationResponse>(
-        ["notifications", id],
+        ["twitch", "notifications", id],
         (oldData): NotificationResponse | undefined => {
           if (!oldData) return oldData;
 
@@ -395,7 +395,7 @@ export function useEditNotification() {
   });
 }
 
-export function useRemoveUser() {
+export function useRemoveTwitchUser() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
@@ -407,7 +407,7 @@ export function useRemoveUser() {
     },
     onSuccess: (_) => {
       queryClient.setQueryData<NotificationResponse>(
-        ["notifications", id],
+        ["twitch", "notifications", id],
         (oldData): NotificationResponse | undefined => {
           if (!oldData) return oldData;
 
@@ -424,7 +424,7 @@ export function useRemoveUser() {
   });
 }
 
-export function useUpdateConnectedAccount() {
+export function useUpdateConnectedTwitchAccount() {
   const id = useGuildId();
   const queryClient = useQueryClient();
 
@@ -434,7 +434,7 @@ export function useUpdateConnectedAccount() {
     },
     onSuccess: (user) => {
       queryClient.setQueryData<NotificationResponse>(
-        ["notifications", id],
+        ["twitch", "notifications", id],
         (oldData): NotificationResponse | undefined => {
           if (!oldData) return oldData;
 

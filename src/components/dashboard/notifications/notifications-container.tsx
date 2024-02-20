@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useGuildData, useNotifications } from "@/lib/hooks";
+import { useGuildData, useTwitchNotifications } from "@/lib/hooks";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
 import TwitchContainer from "@/components/dashboard/notifications/twitch-container";
@@ -9,7 +9,7 @@ import type { TwitchNotificationResponse } from "@/types/notification";
 
 function NotificationsContainer() {
   useGuildData({ text: true, premium: true });
-  const notificationResponse = useNotifications();
+  const notificationResponse = useTwitchNotifications();
 
   const [twitch, setTwitch] = useState<TwitchNotificationResponse | null>(null);
 

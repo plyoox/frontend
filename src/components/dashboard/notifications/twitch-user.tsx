@@ -3,14 +3,14 @@ import { ActionIcon, Button, Tooltip } from "@mantine/core";
 import { IconAlertCircle, IconBrandTwitch, IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useGuildId, useRemoveUser, useUpdateConnectedAccount } from "@/lib/hooks";
+import { useGuildId, useRemoveTwitchUser, useUpdateConnectedTwitchAccount } from "@/lib/hooks";
 import Image from "next/image";
 import type { TwitchUser } from "@/types/notification";
 
 function TwitchUser({ user }: { user: TwitchUser | null }) {
   const guildId = useGuildId();
-  const removeUser = useRemoveUser();
-  const updateUser = useUpdateConnectedAccount();
+  const removeUser = useRemoveTwitchUser();
+  const updateUser = useUpdateConnectedTwitchAccount();
 
   const openConfirmModal = () =>
     modals.openConfirmModal({

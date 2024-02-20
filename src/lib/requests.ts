@@ -159,8 +159,8 @@ export async function saveSettingsData(id: string, data: Partial<SettingsRespons
   });
 }
 
-export async function fetchNotifications(id: string) {
-  const response = await axios.get<NotificationResponse>(`${API_URL}/guild/${id}/notifications`, {
+export async function fetchTwitchNotifications(id: string) {
+  const response = await axios.get<NotificationResponse>(`${API_URL}/guild/${id}/notifications/twitch`, {
     withCredentials: true,
   });
 

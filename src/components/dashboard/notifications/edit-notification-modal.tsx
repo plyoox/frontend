@@ -3,7 +3,7 @@ import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAlertCircle, IconBellCheck, IconCheck } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useContext, useEffect, useState } from "react";
-import { useEditNotification } from "@/lib/hooks";
+import { useEditTwitchNotification } from "@/lib/hooks";
 import { useForm } from "@mantine/form";
 import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
@@ -16,7 +16,7 @@ function EditNotificationModal({
   setEditNotification: UseState<TwitchNotification | null>;
 }) {
   const guildStore = useContext(GuildStoreContext);
-  const editNotificationReq = useEditNotification();
+  const editNotificationReq = useEditTwitchNotification();
 
   const form = useForm<{ channel: string | null; message: string }>({
     initialValues: {

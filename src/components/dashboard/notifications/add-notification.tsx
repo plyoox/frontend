@@ -3,7 +3,7 @@ import { GuildStoreContext } from "@/stores/guild-store";
 import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useContext, useState } from "react";
-import { useCreateNotification } from "@/lib/hooks";
+import { useCreateTwitchNotification } from "@/lib/hooks";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 
@@ -17,7 +17,7 @@ const TWITCH_REGEX = new RegExp(/^(?:https?:\/\/(?:www\.)?twitch\.tv\/)?([a-zA-Z
 function AddNotification({ disabled }: { disabled: boolean }) {
   const [isOpen, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(false);
-  const createNotification = useCreateNotification();
+  const createNotification = useCreateTwitchNotification();
   const guildStore = useContext(GuildStoreContext);
 
   const form = useForm<AddUserForm>({
