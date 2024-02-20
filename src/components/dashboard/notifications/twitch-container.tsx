@@ -1,14 +1,37 @@
-import { Badge } from "@mantine/core";
+import { Badge, ThemeIcon } from "@mantine/core";
 import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { IconBrandTwitch } from "@tabler/icons-react";
 import { amountToColor } from "@/lib/utils";
-import { useContext } from "react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
+import { useTwitchNotifications } from "@/lib/hooks";
+import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
+import RequestError from "@/components/dashboard/request-error";
 import TwitchNotificationList from "@/components/dashboard/notifications/twitch-notification-list";
 import TwitchUser from "@/components/dashboard/notifications/twitch-user";
 import type { TwitchNotificationResponse } from "@/types/notification";
 
-function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
+function TwitchContainer() {
   const guildContext = useContext(GuildStoreContext);
+
+  const notificationResponse = useTwitchNotifications();
+
+  const [twitch, setTwitch] = useState<TwitchNotificationResponse | null>(null);
+
+  useEffect(() => {
+    if (notificationResponse.data) {
+      setTwitch(notificationResponse.data);
+    }
+  }, [notificationResponse.data]);
+
+  if (notificationResponse.error) {
+    return <RequestError error={notificationResponse.error} />;
+  }
+
+  if (notificationResponse.isLoading || !twitch) {
+    return <LoadingSkeleton />;
+  }
 
   const { user, notifications } = twitch;
 
@@ -16,7 +39,15 @@ function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
 
   return (
     <div className={"rounded-md bg-mt-dark-7 p-2"}>
-      <h3 className={"mb-1 text-xl font-medium text-gray-50"}>Connected Account</h3>
+      <div className={"mb-2 flex items-center gap-2"}>
+        <ThemeIcon color={"grape"} radius={"md"} variant={"light"}>
+          <IconBrandTwitch size={24} />
+        </ThemeIcon>
+
+        <h1 className={"text-xl"}>Twitch</h1>
+      </div>
+
+      <h3 className={"mb-1 text-lg font-medium text-gray-50"}>Connected Account</h3>
       <span className={"text-sm leading-none text-mt-dark-0"}>
         This account is used for authentication when adding a new account or checking the live status. It can <b>not</b>{" "}
         do anything in your behalf.
@@ -37,4 +68,4 @@ function TwitchContainer({ twitch }: { twitch: TwitchNotificationResponse }) {
   );
 }
 
-export default TwitchContainer;
+export default observer(TwitchContainer);

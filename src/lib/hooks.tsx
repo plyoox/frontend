@@ -6,7 +6,6 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
-  type NotificationResponse,
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
@@ -30,13 +29,19 @@ import {
   fetchTwitchNotifications,
   fetchWebhooks,
   fetchWelcomeData,
+  fetchYoutubeNotifications,
 } from "@/lib/requests";
 import { notifications } from "@mantine/notifications";
 import { useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
-import type { TwitchNotification, TwitchUser } from "@/types/notification";
+import type {
+  TwitchNotification,
+  TwitchNotificationResponse,
+  TwitchUser,
+  YoutubeNotificationResponse,
+} from "@/types/notification";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -284,9 +289,21 @@ export function useDeletePunishment() {
 export function useTwitchNotifications() {
   const id = useGuildId();
 
-  const { data, error, isLoading } = useQuery<NotificationResponse, AxiosError>({
+  const { data, error, isLoading } = useQuery<TwitchNotificationResponse, AxiosError>({
     queryKey: ["twitch", "notifications", id],
     queryFn: () => fetchTwitchNotifications(id),
+    refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
+export function useYoutubeNotifications() {
+  const id = useGuildId();
+
+  const { data, error, isLoading } = useQuery<YoutubeNotificationResponse, AxiosError>({
+    queryKey: ["youtube", "notifications", id],
+    queryFn: () => fetchYoutubeNotifications(id),
     refetchOnMount: "always",
   });
 
@@ -304,17 +321,14 @@ export function useCreateTwitchNotification() {
       });
     },
     onSuccess: (response) => {
-      queryClient.setQueryData<NotificationResponse>(
+      queryClient.setQueryData<TwitchNotificationResponse>(
         ["twitch", "notifications", id],
-        (oldData): NotificationResponse | undefined => {
+        (oldData): TwitchNotificationResponse | undefined => {
           if (!oldData) return oldData;
 
           return {
-            ...oldData,
-            twitch: {
-              user: oldData.twitch.user,
-              notifications: [...oldData.twitch.notifications, response.data],
-            },
+            user: oldData.user,
+            notifications: [...oldData.notifications, response.data],
           };
         },
       );
@@ -333,19 +347,14 @@ export function useDeleteTwitchNotification() {
       });
     },
     onSuccess: (_, userId) => {
-      queryClient.setQueryData<NotificationResponse>(
+      queryClient.setQueryData<TwitchNotificationResponse>(
         ["twitch", "notifications", id],
-        (oldData): NotificationResponse | undefined => {
+        (oldData): TwitchNotificationResponse | undefined => {
           if (!oldData) return oldData;
 
           return {
-            ...oldData,
-            twitch: {
-              ...oldData.twitch,
-              notifications: oldData.twitch.notifications.filter(
-                (notification) => notification.user.user_id !== userId,
-              ),
-            },
+            user: oldData.user,
+            notifications: oldData.notifications.filter((notification) => notification.user.user_id !== userId),
           };
         },
       );
@@ -368,26 +377,23 @@ export function useEditTwitchNotification() {
       );
     },
     onSuccess: (_, { userId, channel, message }) => {
-      queryClient.setQueryData<NotificationResponse>(
+      queryClient.setQueryData<TwitchNotificationResponse>(
         ["twitch", "notifications", id],
-        (oldData): NotificationResponse | undefined => {
+        (oldData): TwitchNotificationResponse | undefined => {
           if (!oldData) return oldData;
 
           return {
-            ...oldData,
-            twitch: {
-              ...oldData.twitch,
-              notifications: [
-                ...oldData.twitch.notifications.map((notification) => {
-                  if (notification.user.user_id === userId) {
-                    notification.channel = channel;
-                    notification.message = message;
-                  }
+            user: oldData.user,
+            notifications: [
+              ...oldData.notifications.map((notification) => {
+                if (notification.user.user_id === userId) {
+                  notification.channel = channel;
+                  notification.message = message;
+                }
 
-                  return notification;
-                }),
-              ],
-            },
+                return notification;
+              }),
+            ],
           };
         },
       );
@@ -406,17 +412,14 @@ export function useRemoveTwitchUser() {
       });
     },
     onSuccess: (_) => {
-      queryClient.setQueryData<NotificationResponse>(
+      queryClient.setQueryData<TwitchNotificationResponse>(
         ["twitch", "notifications", id],
-        (oldData): NotificationResponse | undefined => {
+        (oldData): TwitchNotificationResponse | undefined => {
           if (!oldData) return oldData;
 
           return {
-            ...oldData,
-            twitch: {
-              ...oldData.twitch,
-              user: null,
-            },
+            notifications: oldData.notifications,
+            user: null,
           };
         },
       );
@@ -433,17 +436,14 @@ export function useUpdateConnectedTwitchAccount() {
       return Promise.resolve(user);
     },
     onSuccess: (user) => {
-      queryClient.setQueryData<NotificationResponse>(
+      queryClient.setQueryData<TwitchNotificationResponse>(
         ["twitch", "notifications", id],
-        (oldData): NotificationResponse | undefined => {
+        (oldData): TwitchNotificationResponse | undefined => {
           if (!oldData) return oldData;
 
           return {
-            ...oldData,
-            twitch: {
-              ...oldData.twitch,
-              user: user,
-            },
+            notifications: oldData.notifications,
+            user: user,
           };
         },
       );

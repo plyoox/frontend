@@ -5,7 +5,6 @@ import {
   LevelingResponse,
   LoggingResponse,
   ModerationResponse,
-  type NotificationResponse,
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
@@ -15,6 +14,7 @@ import { MaybeWebhook } from "@/types/webhook";
 import { ModerationConfig, Punishment } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
+import type { TwitchNotificationResponse, YoutubeNotificationResponse } from "@/types/notification";
 
 export async function fetchGuildData(id: string, params: string, redirect: any) {
   try {
@@ -160,7 +160,15 @@ export async function saveSettingsData(id: string, data: Partial<SettingsRespons
 }
 
 export async function fetchTwitchNotifications(id: string) {
-  const response = await axios.get<NotificationResponse>(`${API_URL}/guild/${id}/notifications/twitch`, {
+  const response = await axios.get<TwitchNotificationResponse>(`${API_URL}/guild/${id}/notifications/twitch`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+}
+
+export async function fetchYoutubeNotifications(id: string) {
+  const response = await axios.get<YoutubeNotificationResponse>(`${API_URL}/guild/${id}/notifications/youtube`, {
     withCredentials: true,
   });
 

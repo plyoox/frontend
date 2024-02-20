@@ -16,3 +16,8 @@ export interface TwitchNotificationResponse {
   user: TwitchUser | null;
   notifications: TwitchNotification[];
 }
+
+export interface YoutubeNotificationResponse {
+  user: TwitchUser | null;
+  notifications: TwitchNotification[];
+}
