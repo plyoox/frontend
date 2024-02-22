@@ -2,6 +2,7 @@ import { Button, Modal, Select, Textarea } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAlertCircle, IconBellCheck, IconCheck } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { useEditTwitchNotification } from "@/lib/hooks";
 import { useForm } from "@mantine/form";
@@ -115,4 +116,4 @@ function EditTwitchNotificationModal({
   );
 }
 
-export default EditTwitchNotificationModal;
+export default observer(EditTwitchNotificationModal);
