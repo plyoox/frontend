@@ -21,10 +21,26 @@ function ServerCard({ guild }: Props) {
 
   const iconUrl = guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=256` : null;
 
+  let textSize;
+  switch (acronym.length) {
+    case 1:
+      textSize = "text-2xl";
+      break;
+    case 2:
+      textSize = "text-xl";
+      break;
+    case 3:
+      textSize = "text-base";
+      break;
+    default:
+      textSize = "text-xs";
+      break;
+  }
+
   const guildData = (
     <>
       <Avatar alt={guild.name} color="gray" radius="xl" src={iconUrl}>
-        {acronym}
+        <span className={`whitespace-nowrap ${textSize}`}>{acronym}</span>
       </Avatar>
       <span className="ml-2 mt-1.5 text-lg">{guild.name}</span>
       {guild.has_bot ? <IconLayoutDashboard className={"ml-auto"} /> : <IconUserPlus className={"ml-auto"} />}
