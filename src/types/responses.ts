@@ -63,4 +63,5 @@ export interface AuditLogResponse {
 export interface ErrorResponse {
   message: string;
   code: string;
+  data: unknown;
 }

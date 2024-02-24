@@ -219,7 +219,7 @@ export function useLoggingData() {
 export function useUserGuilds({ enabled }: { enabled: boolean }) {
   const userStore = useContext(UserStoreContext);
 
-  const { data, error, isLoading } = useQuery<Guild[], AxiosError>({
+  const { data, error, isLoading } = useQuery<Guild[], AxiosError<ErrorResponse>>({
     queryKey: ["user-guilds"],
     queryFn: () => fetchGuilds(),
     refetchOnMount: "always",
@@ -227,6 +227,18 @@ export function useUserGuilds({ enabled }: { enabled: boolean }) {
   });
 
   useEffect(() => {
+    if (error?.response) {
+      let message = error.response.data?.message;
+
+      notifications.show({
+        title: "Failed to fetch guilds",
+        message: message,
+        color: "red",
+        withBorder: true,
+        autoClose: 10000,
+      });
+    }
+
     if (error?.response?.status === 401) {
       userStore.logout();
     }
