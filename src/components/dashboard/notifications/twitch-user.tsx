@@ -3,14 +3,14 @@ import { ActionIcon, Button, Tooltip } from "@mantine/core";
 import { IconAlertCircle, IconBrandTwitch, IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useGuildId, useRemoveUser, useUpdateConnectedAccount } from "@/lib/hooks";
+import { useGuildId, useRemoveTwitchUser, useUpdateConnectedTwitchAccount } from "@/lib/hooks";
 import Image from "next/image";
 import type { TwitchUser } from "@/types/notification";
 
 function TwitchUser({ user }: { user: TwitchUser | null }) {
   const guildId = useGuildId();
-  const removeUser = useRemoveUser();
-  const updateUser = useUpdateConnectedAccount();
+  const removeUser = useRemoveTwitchUser();
+  const updateUser = useUpdateConnectedTwitchAccount();
 
   const openConfirmModal = () =>
     modals.openConfirmModal({
@@ -49,7 +49,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
   function openConnectWindow() {
     window.open(`${API_URL}/twitch?guild_id=${guildId}`, "Create Twitch Connection | Plyoox", "height=900,width=500");
 
-    const broadcastChannel = new BroadcastChannel("twitch-login");
+    const broadcastChannel = new BroadcastChannel("notifications-login");
     broadcastChannel.addEventListener("message", (event) => {
       if (typeof event.data != "string") return;
 
@@ -58,7 +58,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
         const errorMessage = event.data.replace("error:", "");
 
         notifications.show({
-          title: "Error while connecting twitch account",
+          title: "Error while connecting notifications account",
           color: "red",
           icon: <IconBrandTwitch />,
           message: errorMessage,

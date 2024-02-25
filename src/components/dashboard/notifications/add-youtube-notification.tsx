@@ -1,33 +1,33 @@
 import { Button, Modal, Select, TextInput, Tooltip } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
+import { IconBellPlus, IconBrandYoutube, IconCopyX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useContext, useState } from "react";
-import { useCreateNotification } from "@/lib/hooks";
+import { useCreateYoutubeNotification } from "@/lib/hooks";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 
 interface AddUserForm {
-  name: string;
+  youtubeUrl: string;
   channel: string;
 }
 
-const TWITCH_REGEX = new RegExp(/^(?:https?:\/\/(?:www\.)?twitch\.tv\/)?([a-zA-Z0-9_]{4,25})$/);
+const YOUTUBE_REGEX = new RegExp(/youtube\.com\/(channel\/|user\/|c\/)?(@?[a-zA-Z0-9_-]+)/);
 
-function AddNotification({ disabled }: { disabled: boolean }) {
+function AddYoutubeNotification({ disabled }: { disabled: boolean }) {
   const [isOpen, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(false);
-  const createNotification = useCreateNotification();
+  const createNotification = useCreateYoutubeNotification();
   const guildStore = useContext(GuildStoreContext);
 
   const form = useForm<AddUserForm>({
     initialValues: {
-      name: "",
+      youtubeUrl: "",
       channel: "",
     },
     validate: {
-      name: (value) => {
-        const result = TWITCH_REGEX.test(value);
+      youtubeUrl: (value) => {
+        const result = YOUTUBE_REGEX.test(value);
 
         return !result && "Name must be between 1 and 25 characters";
       },
@@ -45,13 +45,13 @@ function AddNotification({ disabled }: { disabled: boolean }) {
           <Button
             aria-describedby={"button-description"}
             className={"mt-2"}
-            color={"violet"}
+            color={"red"}
             disabled={disabled}
-            leftSection={<IconBrandTwitch />}
+            leftSection={<IconBrandYoutube />}
             onClick={open}
             variant={"light"}
           >
-            Add new twitch notification
+            Add new youtube notification
           </Button>
         </Tooltip>
       </div>
@@ -68,11 +68,8 @@ function AddNotification({ disabled }: { disabled: boolean }) {
           onSubmit={form.onSubmit((values) => {
             setLoading(true);
 
-            const regex = values.name.match(TWITCH_REGEX)!;
-            const name = regex[1];
-
             createNotification
-              .mutateAsync({ channel: values.channel, name })
+              .mutateAsync({ channel: values.channel, youtube_url: values.youtubeUrl })
               .then(() => {
                 setLoading(false);
                 close();
@@ -91,9 +88,9 @@ function AddNotification({ disabled }: { disabled: boolean }) {
           })}
         >
           <TextInput
-            {...form.getInputProps("name")}
-            description={"Enter Twitch Channel url or name"}
-            label={"Twitch Channel"}
+            {...form.getInputProps("youtubeUrl")}
+            description={"Enter Youtube Channel url"}
+            label={"Youtube Channel"}
           />
 
           <Select
@@ -119,4 +116,4 @@ function AddNotification({ disabled }: { disabled: boolean }) {
   );
 }
 
-export default AddNotification;
+export default AddYoutubeNotification;

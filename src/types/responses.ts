@@ -4,7 +4,6 @@ import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/
 import type { LevelRole } from "@/types/leveling";
 import type { LoggingConfig, LoggingSetting } from "@/types/logging";
 import type { ModerationConfig, ModerationRule } from "@/types/moderation";
-import type { TwitchNotificationResponse } from "@/types/notification";
 
 export interface GuildDataResponse {
   text: TextChannel[];
@@ -49,10 +48,6 @@ export interface LoggingResponse {
 
 export interface SettingsResponse {
   helper_permission: HelperPermission | null;
-}
-
-export interface NotificationResponse {
-  twitch: TwitchNotificationResponse;
 }
 
 export interface AuditLogResponse {

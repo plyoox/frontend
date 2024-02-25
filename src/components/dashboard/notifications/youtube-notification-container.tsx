@@ -1,43 +1,41 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
-import { useDeleteTwitchNotification } from "@/lib/hooks";
+import { useDeleteYoutubeNotification } from "@/lib/hooks";
 import { useState } from "react";
 import Image from "next/image";
-import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
+import type { YoutubeNotification } from "@/types/notification";
 
-function TwitchNotificationContainer({
+function YoutubeNotificationContainer({
   notification,
   setEditNotification,
 }: {
-  notification: TwitchNotification;
-  setEditNotification: UseState<TwitchNotification | null>;
+  notification: YoutubeNotification;
+  setEditNotification: UseState<YoutubeNotification | null>;
 }) {
-  const deleteNotification = useDeleteTwitchNotification();
+  const deleteNotification = useDeleteYoutubeNotification();
 
   const [deleting, setDeleting] = useState(false);
-
-  const { user } = notification;
 
   return (
     <div className={"mb-1 flex items-center justify-between rounded-md bg-mt-dark-5 p-1.5 px-2.5"}>
       <div className={"flex items-center gap-2"}>
         <Image
           unoptimized
-          alt={`${user.display_name} avatar`}
+          alt={`${notification.name} avatar`}
           className={"rounded-full"}
           height={40}
-          src={`https://static-cdn.jtvnw.net/${user.profile_image_url}`}
+          src={notification.profile_image_url}
           width={40}
         />
 
         <a
           className={"flex items-center gap-0.5 text-lg font-medium hover:underline"}
-          href={`https://twitch.tv/${user.login}`}
+          href={`https://www.youtube.com/channel/${notification.youtube_channel}`}
           target={"_blank"}
         >
-          {user.display_name}
+          {notification.name}
           <IconExternalLink className={"size-5"} />
         </a>
       </div>
@@ -64,7 +62,7 @@ function TwitchNotificationContainer({
               setDeleting(true);
 
               deleteNotification
-                .mutateAsync(user.user_id)
+                .mutateAsync(notification.youtube_channel)
                 .then(() => {
                   notifications.show({
                     color: "green",
@@ -96,4 +94,4 @@ function TwitchNotificationContainer({
   );
 }
 
-export default TwitchNotificationContainer;
+export default YoutubeNotificationContainer;

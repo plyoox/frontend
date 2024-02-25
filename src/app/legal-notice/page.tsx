@@ -12,7 +12,7 @@ function Page() {
     setIsClient(hasWindow);
   }, [hasWindow]);
 
-  if (!isClient) return <h1>Legal notice</h1>;
+  if (!isClient) return null;
 
   return (
     <div className={classes.legal} style={{ background: "white", color: "black", padding: "10px" }}>

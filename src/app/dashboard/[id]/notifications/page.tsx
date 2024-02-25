@@ -3,7 +3,7 @@ import NotificationsContainer from "@/components/dashboard/notifications/notific
 function Page() {
   return (
     <>
-      <h1 className={"text-2xl font-semibold"}>Twitch</h1>
+      <h1 className={"text-2xl font-semibold"}>Notifications</h1>
       <NotificationsContainer />
     </>
   );

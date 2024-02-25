@@ -2,23 +2,24 @@ import { Button, Modal, Select, Textarea } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { IconAlertCircle, IconBellCheck, IconCheck } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
-import { useEditNotification } from "@/lib/hooks";
+import { useEditYoutubeNotification } from "@/lib/hooks";
 import { useForm } from "@mantine/form";
-import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
+import type { YoutubeNotification } from "@/types/notification";
 
-function EditNotificationModal({
+function EditYoutubeNotificationModal({
   editNotification,
   setEditNotification,
 }: {
-  editNotification: TwitchNotification | null;
-  setEditNotification: UseState<TwitchNotification | null>;
+  editNotification: YoutubeNotification | null;
+  setEditNotification: UseState<YoutubeNotification | null>;
 }) {
   const guildStore = useContext(GuildStoreContext);
-  const editNotificationReq = useEditNotification();
+  const editNotificationReq = useEditYoutubeNotification();
 
-  const form = useForm<{ channel: string | null; message: string }>({
+  const form = useForm<{ channel: string; message: string }>({
     initialValues: {
       channel: "",
       message: "",
@@ -54,7 +55,7 @@ function EditNotificationModal({
         onSubmit={form.onSubmit(({ channel, message }) => {
           setLoading(true);
           editNotificationReq
-            .mutateAsync({ userId: editNotification!.user.user_id, channel, message })
+            .mutateAsync({ channelId: editNotification!.youtube_channel, channel, message })
             .then(() => {
               setLoading(false);
               setEditNotification(null);
@@ -115,4 +116,4 @@ function EditNotificationModal({
   );
 }
 
-export default EditNotificationModal;
+export default observer(EditYoutubeNotificationModal);
