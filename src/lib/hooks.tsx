@@ -21,6 +21,7 @@ import {
   fetchAutoModerationRules,
   fetchGuildData,
   fetchGuilds,
+  fetchLevelCard,
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
@@ -43,6 +44,7 @@ import type {
   TwitchUser,
   YoutubeNotificationResponse,
 } from "@/types/notification";
+import type { LevelCard } from "@/types/user";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -551,6 +553,27 @@ export function useAuditLogs() {
     queryKey: ["audit-logs", id],
     queryFn: () => fetchAuditLogs(id),
     refetchOnMount: "always",
+  });
+
+  return { data, error, isLoading };
+}
+
+interface RequestGuildData {
+  text?: boolean;
+  voice?: boolean;
+  category?: boolean;
+  roles?: boolean;
+  premium?: boolean;
+}
+
+export function useLevelCard() {
+  const userStore = useContext(UserStoreContext);
+
+  const { data, error, isLoading } = useQuery<LevelCard | null, AxiosError>({
+    queryKey: ["premium", userStore.user?.id],
+    queryFn: () => fetchLevelCard(),
+    refetchOnMount: "always",
+    enabled: !!userStore.user,
   });
 
   return { data, error, isLoading };

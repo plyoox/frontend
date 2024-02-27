@@ -4,4 +4,5 @@ export interface AuthUser {
   avatar: string | null;
   locale?: string;
   display_name?: string;
+  premium: boolean;
 }

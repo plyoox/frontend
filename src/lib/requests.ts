@@ -14,6 +14,7 @@ import { MaybeWebhook } from "@/types/webhook";
 import { ModerationConfig, Punishment } from "@/types/moderation";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
+import type { LevelCard } from "@/types/user";
 import type { TwitchNotificationResponse, YoutubeNotificationResponse } from "@/types/notification";
 
 export async function fetchGuildData(id: string, params: string, redirect: any) {
@@ -177,6 +178,20 @@ export async function fetchYoutubeNotifications(id: string) {
 
 export async function fetchAuditLogs(id: string) {
   const response = await axios.get<AuditLogResponse>(`${API_URL}/guild/${id}/settings/audit-logs`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+}
+
+export async function fetchLevelCard() {
+  const response = await axios.get<LevelCard | null>(`${API_URL}/user/level-card`, { withCredentials: true });
+
+  return response.data;
+}
+
+export async function saveLevelCard(progress: { from: string; to?: string }) {
+  const response = await axios.post<LevelCard | null>(`${API_URL}/user/level-card`, progress, {
     withCredentials: true,
   });
 

@@ -44,6 +44,14 @@ export class UserStore {
     this.authStatus = AuthStatus.Unauthenticated;
     this.user = null;
   }
+
+  get avatarUrl() {
+    if (!this.user) return null;
+
+    return this.user.avatar
+      ? `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.webp?size=256`
+      : `https://cdn.discordapp.com/embed/avatars/${(BigInt(this.user.id) << BigInt(22)) % BigInt(6)}.png`;
+  }
 }
 
 export const userStoreInstance = new UserStore();
