@@ -1,10 +1,12 @@
-import { type ComboboxItemGroup, Switch, TagsInput } from "@mantine/core";
-import { IconHash, IconLink } from "@tabler/icons-react";
-import { ModerationConfig } from "@/types/moderation";
-import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import CustomSwitch from "@/components/custom-switch";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
+import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
+import type { MarkdownActionEnum } from "@/lib/enums";
+import { LinkMarkdownAction } from "@/lib/select-values";
+import type { ModerationConfig } from "@/types/moderation";
 import type { RoleItem, SelectItem } from "@/types/utils";
+import { type ComboboxItemGroup, Select, Switch, TagsInput } from "@mantine/core";
+import { IconHash, IconLink, IconMarkdown } from "@tabler/icons-react";
 
 interface Props {
   channels: ComboboxItemGroup<SelectItem>[];
@@ -44,6 +46,16 @@ function LinkRule({ channels, roles, config, handleChange }: Props) {
         onChange={(val) => handleChange({ link_exempt_roles: val })}
         placeholder="Select roles to exempt..."
         value={config.link_exempt_roles}
+      />
+
+      <Select
+        data={LinkMarkdownAction}
+        value={config.link_markdown_action ?? ""}
+        leftSection={<IconMarkdown size={16} />}
+        placeholder="Markdown links"
+        label="Link Markdown"
+        onChange={(val) => handleChange({ link_markdown_action: (val || null) as MarkdownActionEnum | null })}
+        description={"How to handle Markdown links sent by users."}
       />
 
       <TagsInput

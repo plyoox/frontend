@@ -1,5 +1,5 @@
-import { ActionCheckKind, ActionPunishmentKind, HelperPermission } from "@/lib/enums";
-import { ComboboxItem } from "@mantine/core";
+import { ActionCheckKind, ActionPunishmentKind, HelperPermission, MarkdownActionEnum } from "@/lib/enums";
+import type { ComboboxItem } from "@mantine/core";
 
 export const TIME_CHECKS = [ActionCheckKind.JoinDate, ActionCheckKind.AccountAge];
 export const DURATION_PUNISHMENTS = [ActionPunishmentKind.TempBan, ActionPunishmentKind.TempMute];
@@ -34,6 +34,13 @@ export const PunishmentCheckItems: ComboboxItem[] = [
   { label: "Users with no avatar", value: ActionCheckKind.NoAvatar },
   { label: "Accounts younger than", value: ActionCheckKind.AccountAge },
   { label: "Joined the server before", value: ActionCheckKind.JoinDate },
+];
+
+export const LinkMarkdownAction: ComboboxItem[] = [
+  { label: "Handle the same way", value: "" },
+  { label: "Forbid markdown links", value: MarkdownActionEnum.DisallowAll },
+  { label: "Disallow different domain", value: MarkdownActionEnum.DisallowDifferentDomain },
+  { label: "Allow only same domain", value: MarkdownActionEnum.OnlySameDomain },
 ];
 
 export const TIME_MARKS = [

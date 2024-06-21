@@ -1,6 +1,6 @@
-import { ActionCheckKind, ActionPunishmentKind } from "@/lib/enums";
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { MaybeWebhook } from "@/types/webhook";
+import type { AutoModerationTriggerType } from "@/discord/enums";
+import { ActionCheckKind, ActionPunishmentKind, type MarkdownActionEnum } from "@/lib/enums";
+import type { MaybeWebhook } from "@/types/webhook";
 
 export interface ModerationConfig {
   active: boolean;
@@ -21,6 +21,7 @@ export interface ModerationConfig {
   link_exempt_roles: string[];
   link_allow_list: string[];
   link_actions: Action[];
+  link_markdown_action: MarkdownActionEnum | null;
   link_is_whitelist: boolean;
 
   caps_active: boolean;
