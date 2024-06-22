@@ -1,9 +1,9 @@
-import { Button, ComboboxItem, Select } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { LevelingResponse } from "@/types/responses";
+import type { LevelingResponse } from "@/types/responses";
+import { Button, type ComboboxItem, Select } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "@mantine/form";
 
 function AddLevelRoleForm({
   className,
@@ -32,10 +32,10 @@ function AddLevelRoleForm({
       const levels = Array.from(Array(101).keys()).map((l) => l.toString());
       levels.shift();
 
-      config.roles.forEach(({ level }) => {
+      for (const { level } of config.roles) {
         const index = levels.indexOf(level.toString());
         levels.splice(index, 1);
-      });
+      }
 
       return levels;
     });
@@ -43,10 +43,10 @@ function AddLevelRoleForm({
     setAvailableRoles(() => {
       const roles = guildStore.manageableRolesAsSelectable;
 
-      config.roles.forEach(({ role }) => {
+      for (const { role } of config.roles) {
         const index = roles.findIndex(({ value }) => value === role);
         roles.splice(index, 1);
-      });
+      }
 
       return roles;
     });
@@ -56,7 +56,11 @@ function AddLevelRoleForm({
     <form
       className={className}
       onSubmit={form.onSubmit(({ role, level }) => {
-        onSubmit({ level: parseInt(level!), role: role! });
+        if (!role || !level) {
+          return;
+        }
+
+        onSubmit({ level: Number.parseInt(level), role: role });
 
         form.reset();
       })}

@@ -1,9 +1,9 @@
-import { ActionIcon, Badge, Tooltip } from "@mantine/core";
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { DiscordModerationRule } from "@/discord/types";
+import type { DiscordModerationRule } from "@/discord/types";
+import { ActionIcon, Badge, Tooltip } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
-import KeywordRuleInfo from "./keyword-rule-info";
 import Link from "next/link";
+import KeywordRuleInfo from "./keyword-rule-info";
 import MentionRuleInfo from "./mention-rule-info";
 
 interface Props {

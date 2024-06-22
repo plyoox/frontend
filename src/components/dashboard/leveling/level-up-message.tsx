@@ -1,11 +1,11 @@
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconBlockquote, IconHash } from "@tabler/icons-react";
+import TextareaTemplate from "@/components/dashboard/welcome/textarea-template";
 import { LEVEL_TEMPLATES } from "@/lib/constants";
-import { LevelingResponse } from "@/types/responses";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { LevelingResponse } from "@/types/responses";
 import { Select, Textarea } from "@mantine/core";
+import { IconBlockquote, IconHash } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext, useRef } from "react";
-import TextareaTemplate from "@/components/dashboard/welcome/textarea-template";
 
 function LevelUpMessage({
   config,

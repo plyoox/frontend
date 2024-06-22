@@ -1,6 +1,6 @@
-import { AuthUser } from "@/types/authentication";
-import { Poppins } from "next/font/google";
+import type { AuthUser } from "@/types/authentication";
 import { clsx } from "clsx";
+import { Poppins } from "next/font/google";
 
 const font = Poppins({ weight: "400", style: "normal", subsets: ["latin"] });
 
@@ -44,7 +44,6 @@ function LevelCard({
           color: "white",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt="Nothing found"
           height={128}

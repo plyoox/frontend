@@ -1,6 +1,6 @@
+import InfoHeading from "@/components/dashboard/info-heading";
+import DurationPicker from "@/components/duration-picker";
 import { ActionCheckKind, ActionPunishmentKind } from "@/lib/enums";
-import { Button, NumberInput, Select, Slider } from "@mantine/core";
-import { ContextModalProps } from "@mantine/modals";
 import {
   DURATION_PUNISHMENTS,
   DiscordRulePunishmentItems,
@@ -9,12 +9,12 @@ import {
   TIME_CHECKS,
   TIME_MARKS,
 } from "@/lib/select-values";
-import { IconDatabasePlus } from "@tabler/icons-react";
 import { toAutomoderationAction } from "@/lib/utils";
-import { useForm } from "@mantine/form";
-import DurationPicker from "@/components/duration-picker";
-import InfoHeading from "@/components/dashboard/info-heading";
 import type { Action, PunishmentValues } from "@/types/moderation";
+import { Button, NumberInput, Select, Slider } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import type { ContextModalProps } from "@mantine/modals";
+import { IconDatabasePlus } from "@tabler/icons-react";
 
 function AddActionModal({
   innerProps,
@@ -106,6 +106,7 @@ function AddActionModal({
         {...form.getInputProps("check")}
       />
 
+      {/* biome-ignore lint/style/noNonNullAssertion: Must always be entry from 'TIME_CHECKS' */}
       {TIME_CHECKS.includes(form.values.check!) && (
         <DurationPicker
           allowDecimal={false}

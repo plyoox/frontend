@@ -1,19 +1,19 @@
-import { API_URL } from "@/environment";
-import { Action, ModerationRule } from "@/types/moderation";
-import { Button, Tooltip } from "@mantine/core";
-import { DiscordModerationRule } from "@/discord/types";
-import { IconAlertCircle, IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
-import { observer } from "mobx-react-lite";
-import { removeModerationRule } from "@/lib/requests";
-import { useContext, useMemo, useState } from "react";
-import { useDeleteDiscordRule } from "@/lib/hooks";
-import { useRouter } from "next/navigation";
 import AddPunishment from "@/components/dashboard/actions/add-actions";
 import ListActions from "@/components/dashboard/actions/list-actions";
+import type { DiscordModerationRule } from "@/discord/types";
+import { API_URL } from "@/environment";
+import { useDeleteDiscordRule } from "@/lib/hooks";
+import { removeModerationRule } from "@/lib/requests";
+import { RuleStoreContext } from "@/stores/rule-store";
+import type { Action, ModerationRule } from "@/types/moderation";
+import { Button, Tooltip } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
+import { IconAlertCircle, IconPlaylistAdd, IconPlaylistX } from "@tabler/icons-react";
 import axios from "axios";
+import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
+import { useContext, useMemo, useState } from "react";
 
 function EditActions({ rule: discordRule }: { rule: DiscordModerationRule }) {
   const { push } = useRouter();

@@ -1,11 +1,11 @@
-import { Badge, Collapse, ThemeIcon } from "@mantine/core";
-import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconPlus } from "@tabler/icons-react";
-import { LevelingResponse } from "@/types/responses";
-import { amountToColor } from "@/lib/utils";
-import { useContext, useState } from "react";
 import AddLevelRoleForm from "@/components/dashboard/leveling/add-level-role-form";
+import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
+import { amountToColor } from "@/lib/utils";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { LevelingResponse } from "@/types/responses";
+import { Badge, Collapse, ThemeIcon } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
+import { useContext, useState } from "react";
 
 function AddLevelRoleButton({
   className,
@@ -24,6 +24,7 @@ function AddLevelRoleButton({
   return (
     <div className={className}>
       <button
+        type={"button"}
         className={`flex h-[60px] w-full cursor-pointer items-center justify-between rounded-md bg-mt-dark-6 pl-2.5 pr-2
         disabled:cursor-not-allowed disabled:bg-mt-dark-7 disabled:hover:bg-mt-dark-7`}
         disabled={config.roles.length >= limit}

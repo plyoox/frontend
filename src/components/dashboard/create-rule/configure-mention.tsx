@@ -1,6 +1,6 @@
-import { CreateAutoModerationRule } from "@/types/moderation";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseRef } from "@/types/react";
 import { NumberInput } from "@mantine/core";
-import { UseRef } from "@/types/react";
 
 function ConfigureMention({ rule }: { rule: UseRef<Partial<CreateAutoModerationRule>> }) {
   return (

@@ -1,11 +1,11 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
-import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
-import { notifications } from "@mantine/notifications";
 import { useDeleteYoutubeNotification } from "@/lib/hooks";
-import { useState } from "react";
-import Image from "next/image";
-import type { UseState } from "@/types/react";
 import type { YoutubeNotification } from "@/types/notification";
+import type { UseState } from "@/types/react";
+import { ActionIcon, Tooltip } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
+import Image from "next/image";
+import { useState } from "react";
 
 function YoutubeNotificationContainer({
   notification,
@@ -34,6 +34,7 @@ function YoutubeNotificationContainer({
           className={"flex items-center gap-0.5 text-lg font-medium hover:underline"}
           href={`https://www.youtube.com/channel/${notification.youtube_channel}`}
           target={"_blank"}
+          rel="noreferrer"
         >
           {notification.name}
           <IconExternalLink className={"size-5"} />

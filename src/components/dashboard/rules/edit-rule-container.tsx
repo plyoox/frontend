@@ -1,13 +1,13 @@
 "use client";
 
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { Kbd, Tooltip } from "@mantine/core";
-import { clsx } from "clsx";
-import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
-import { useMemo } from "react";
-import { useParams } from "next/navigation";
 import EditPunishments from "@/components/dashboard/actions/edit-actions";
 import RequestError from "@/components/dashboard/request-error";
+import { AutoModerationTriggerType } from "@/discord/enums";
+import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
+import { Kbd, Tooltip } from "@mantine/core";
+import { clsx } from "clsx";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 
 export function EditRuleContainer() {
   const { ruleId } = useParams();
@@ -24,9 +24,11 @@ export function EditRuleContainer() {
   if (config.isLoading || config.isLoading || !rule) {
     return <>Loading...</>;
   }
-  if (rules.error || config.error) {
+
+  const error = rules.error || config.error;
+  if (error) {
     // One of them is always defined
-    return <RequestError error={(rules.error || config.error)!} />;
+    return <RequestError error={error} />;
   }
 
   return (

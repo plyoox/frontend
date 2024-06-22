@@ -1,7 +1,7 @@
-import { ACTION_PERMISSIONS } from "@/lib/defaults";
-import { DiscordPermission } from "@/discord/enums";
 import ModerationSettings from "@/components/dashboard/moderation/moderation-settings";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
+import { DiscordPermission } from "@/discord/enums";
+import { ACTION_PERMISSIONS } from "@/lib/defaults";
 
 const PERMISSION = [...ACTION_PERMISSIONS, DiscordPermission.ManageServer];
 

@@ -1,11 +1,11 @@
 import { AutoModerationTriggerType } from "@/discord/enums";
-import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
-import { Radio, Tooltip } from "@mantine/core";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { observer } from "mobx-react-lite";
-import { useContext, useEffect, useMemo } from "react";
 import { useGuildId } from "@/lib/hooks";
+import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
+import { RuleStoreContext } from "@/stores/rule-store";
+import { Radio, Tooltip } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
+import { useContext, useEffect, useMemo } from "react";
 
 function RuleTypeSelect({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const id = useGuildId();
@@ -18,6 +18,7 @@ function RuleTypeSelect({ value, onChange }: { value: string; onChange: (value: 
     [ruleStore.discordRulesArray],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 'push' never changes
   useEffect(() => {
     const keywordLimit =
       ruleStore.discordRulesArray.filter((r) => r.trigger_type === AutoModerationTriggerType.Keyword).length ===
@@ -27,8 +28,7 @@ function RuleTypeSelect({ value, onChange }: { value: string; onChange: (value: 
       push(`/dashboard/${id}/moderation`);
       return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMentionRule, ruleStore.discordRulesArray]);
+  }, [hasMentionRule, ruleStore.discordRulesArray, id]);
 
   return (
     <Radio.Group

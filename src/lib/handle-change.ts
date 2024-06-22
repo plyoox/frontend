@@ -1,4 +1,4 @@
-import { UseRef } from "@/types/react";
+import type { UseRef } from "@/types/react";
 
 export function handleChangeHelper<T extends Record<keyof T, unknown>>(
   config: T,

@@ -1,5 +1,5 @@
-import { Accordion, AccordionControlProps } from "@mantine/core";
 import CustomSwitch from "@/components/custom-switch";
+import { Accordion, type AccordionControlProps } from "@mantine/core";
 
 interface Props extends AccordionControlProps {
   state: boolean;

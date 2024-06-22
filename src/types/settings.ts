@@ -1,4 +1,4 @@
-export interface AuditLog {
+export interface AuditLogEntry {
   user_id: string;
   kind: number;
   created_at: string;

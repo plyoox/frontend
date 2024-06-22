@@ -1,25 +1,20 @@
-import { ActionIcon, Badge, Kbd, Tooltip } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
+import type { LevelRole } from "@/types/leveling";
+import { ActionIcon, Badge, Kbd, Tooltip } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import { LevelRole } from "@/types/leveling";
 import { useContext, useMemo } from "react";
 
 function LevelRoleItem({ levelRole, onRemove }: { levelRole: LevelRole; onRemove: (role: LevelRole) => void }) {
   const guildStore = useContext(GuildStoreContext);
 
-  const role = useMemo(
-    () => guildStore.roles.find((r) => r.id == levelRole.role),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [guildStore.roles],
-  );
+  const role = useMemo(() => guildStore.roles.find((r) => r.id === levelRole.role), [guildStore.roles, levelRole.role]);
 
   const showWarning = useMemo(() => {
     if (!role) return false;
-    let highestRole = guildStore.botHighestRole;
+    const highestRole = guildStore.botHighestRole;
     if (!highestRole) return true;
 
     return role.position > highestRole.position;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role, guildStore.botHighestRole]);
 
   const displayText = (

@@ -1,11 +1,11 @@
 "use client";
 
-import { AppShell } from "@mantine/core";
-import { ReactNode, useState } from "react";
-import BreadCrumbs from "@/components/dashboard/bread-crumbs";
 import Header from "@/components/app-shell/header/header";
-import Provider from "./_provider";
 import Sidenav from "@/components/app-shell/sidenav/sidenav";
+import BreadCrumbs from "@/components/dashboard/bread-crumbs";
+import { AppShell } from "@mantine/core";
+import { type ReactNode, useState } from "react";
+import Provider from "./_provider";
 
 function Layout({ docs, children }: { children: ReactNode; docs: ReactNode }) {
   const [open, setOpen] = useState(false);

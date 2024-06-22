@@ -1,6 +1,6 @@
-import { UseState } from "@/types/react";
 import Punishment from "@/components/dashboard/actions/action";
 import type { Action as PunishmentType } from "@/types/moderation";
+import type { UseState } from "@/types/react";
 
 interface Props {
   punishments: PunishmentType[];
@@ -14,7 +14,7 @@ function ListActions({ punishments, setPunishments }: Props) {
         <Punishment
           count={punishments.length}
           index={index}
-          key={index}
+          key={action.id}
           punishment={action}
           setPunishments={setPunishments}
         />

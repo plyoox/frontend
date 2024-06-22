@@ -1,4 +1,4 @@
-import { DiscordModerationRule } from "@/discord/types";
+import type { DiscordModerationRule } from "@/discord/types";
 
 function MentionRuleInfo({ rule }: { rule: DiscordModerationRule }) {
   return (

@@ -1,4 +1,4 @@
-import { AutoModerationRuleKeywordPresetKind, AutoModerationTriggerType } from "@/discord/enums";
+import type { AutoModerationRuleKeywordPresetKind, AutoModerationTriggerType } from "@/discord/enums";
 
 export interface Guild {
   id: string;

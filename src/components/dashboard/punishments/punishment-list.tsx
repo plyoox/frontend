@@ -1,9 +1,9 @@
+import { useDeletePunishment } from "@/lib/hooks";
+import type { PunishmentType } from "@/types/moderation";
+import { notifications } from "@mantine/notifications";
 import { IconCopyCheck, IconCopyX } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { notifications } from "@mantine/notifications";
-import { useDeletePunishment } from "@/lib/hooks";
 import Punishment from "./punishment";
-import type { Punishment as PunishmentType } from "@/types/moderation";
 
 function PunishmentList({
   punishments,

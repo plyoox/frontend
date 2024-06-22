@@ -1,13 +1,13 @@
 import { API_URL } from "@/environment";
+import { useGuildId, useRemoveTwitchUser, useUpdateConnectedTwitchAccount } from "@/lib/hooks";
+import type { TwitchUserType } from "@/types/notification";
 import { ActionIcon, Button, Tooltip } from "@mantine/core";
-import { IconAlertCircle, IconBrandTwitch, IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useGuildId, useRemoveTwitchUser, useUpdateConnectedTwitchAccount } from "@/lib/hooks";
+import { IconAlertCircle, IconBrandTwitch, IconCheck, IconX } from "@tabler/icons-react";
 import Image from "next/image";
-import type { TwitchUser } from "@/types/notification";
 
-function TwitchUser({ user }: { user: TwitchUser | null }) {
+function TwitchUser({ user }: { user: TwitchUserType | null }) {
   const guildId = useGuildId();
   const removeUser = useRemoveTwitchUser();
   const updateUser = useUpdateConnectedTwitchAccount();
@@ -51,7 +51,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
 
     const broadcastChannel = new BroadcastChannel("notifications-login");
     broadcastChannel.addEventListener("message", (event) => {
-      if (typeof event.data != "string") return;
+      if (typeof event.data !== "string") return;
 
       // Handle OAuth errors
       if (event.data.startsWith("error:")) {
@@ -68,7 +68,7 @@ function TwitchUser({ user }: { user: TwitchUser | null }) {
         return;
       }
 
-      const data: TwitchUser = JSON.parse(event.data);
+      const data: TwitchUserType = JSON.parse(event.data);
 
       updateUser.mutate(data);
     });

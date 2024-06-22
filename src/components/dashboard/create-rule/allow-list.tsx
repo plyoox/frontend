@@ -1,7 +1,7 @@
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { TagsInput } from "@mantine/core";
-import { UseRef, UseState } from "@/types/react";
 import { ensureUniqueness } from "@/lib/utils";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseRef, UseState } from "@/types/react";
+import { TagsInput } from "@mantine/core";
 import { useEffect } from "react";
 
 interface Props {
@@ -59,9 +59,9 @@ function AllowList({ rule, allowList, setAllowList }: Props) {
     }
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We do not care if the rule changes
   useEffect(() => {
     rule.current.allow_list = allowList;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allowList]);
 
   return (
@@ -76,8 +76,8 @@ function AllowList({ rule, allowList, setAllowList }: Props) {
         onChange={(val) => {
           if (val.length < allowList.length) setAllowList(val);
           else if (val.length === allowList.length + 1) {
-            // When pasting, onOptionSubmit is not called, so just check
-            // if it changed on one value
+            // When pasting, onOptionSubmit is not called, so just check if it changed on one value
+            // biome-ignore lint/style/noNonNullAssertion: 'val' must be at least 1 in length (must be equal to another array length + 1)
             handleOptionSubmit(val.at(-1)!);
           }
         }}

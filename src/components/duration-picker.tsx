@@ -1,5 +1,5 @@
-import { NumberInput, Select } from "@mantine/core";
 import InfoHeading from "@/components/dashboard/info-heading";
+import { NumberInput, Select } from "@mantine/core";
 import React, { useEffect, useMemo, useState } from "react";
 
 interface DurationPickerProps {
@@ -49,7 +49,7 @@ function DurationPicker({
   const duration_options: DurationOptions = useMemo(() => {
     const options = structuredClone(DURATION_OPTIONS);
 
-    Object.keys(options).forEach((key) => {
+    for (const key of Object.keys(options)) {
       const value = options[key as keyof DurationOptions];
 
       if (max && value.conversion > max) {
@@ -60,20 +60,19 @@ function DurationPicker({
       }
 
       options[key as keyof DurationOptions] = value;
-    });
+    }
 
     return options;
   }, [max, min]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (value == null) {
       setDuration(0);
       setDisabled(true);
-      setConversion(duration_options["Never"]);
+      setConversion(duration_options.Never);
       onChange(null);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
@@ -115,7 +114,7 @@ function DurationPicker({
             value: value.conversion.toString(),
             label: value.label,
           }))}
-          onChange={(cur: any) => {
+          onChange={(cur: string | null) => {
             if (cur === "0") {
               setDisabled(true);
               setDuration(0);

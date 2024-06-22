@@ -1,10 +1,10 @@
 "use client";
 
-import { GlobalGuildStore, GuildStoreContext } from "@/stores/guild-store";
-import { ModalsProvider } from "@mantine/modals";
 import AddActionModal from "@/components/modals/add-action-modal";
 import ChooseWebhookModal from "@/components/modals/choose-webhook-modal";
 import ChooseWebhookTargets from "@/components/modals/choose-webhook-targets";
+import { GlobalGuildStore, GuildStoreContext } from "@/stores/guild-store";
+import { ModalsProvider } from "@mantine/modals";
 import type { ReactNode } from "react";
 
 function Provider({ children }: { children: ReactNode }) {

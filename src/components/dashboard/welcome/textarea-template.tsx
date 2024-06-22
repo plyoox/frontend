@@ -1,7 +1,7 @@
+import type { TemplateString } from "@/types/welcome";
 import { ActionIcon, Button, Popover, Tooltip } from "@mantine/core";
 import { IconTemplate } from "@tabler/icons-react";
-import { RefObject, useState } from "react";
-import { TemplateString } from "@/types/welcome";
+import { type RefObject, useState } from "react";
 
 interface Props {
   textarea: RefObject<HTMLTextAreaElement>;
@@ -50,9 +50,9 @@ function TextareaTemplate({ textarea, template, onChange }: Props) {
                 {button}
               </Tooltip>
             );
-          } else {
-            return button;
           }
+
+          return button;
         })}
       </Popover.Dropdown>
     </Popover>

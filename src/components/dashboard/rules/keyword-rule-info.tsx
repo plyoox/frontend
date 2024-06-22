@@ -1,4 +1,4 @@
-import { DiscordModerationRule } from "@/discord/types";
+import type { DiscordModerationRule } from "@/discord/types";
 
 function KeywordRuleInfo({ rule }: { rule: DiscordModerationRule }) {
   const length = rule.trigger_metadata.keyword_filter?.length + rule.trigger_metadata.regex_patterns?.length;

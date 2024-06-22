@@ -1,6 +1,6 @@
+import type { AuditLogEntry as AuditLogKind } from "@/types/settings";
 import { Table } from "@mantine/core";
 import AuditLog from "./audit-log";
-import type { AuditLog as AuditLogKind } from "@/types/settings";
 
 function AuditLogList({ auditLogs, users }: { auditLogs: AuditLogKind[]; users: Map<string, string> }) {
   return (

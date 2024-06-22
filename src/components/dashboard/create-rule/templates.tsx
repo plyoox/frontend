@@ -1,8 +1,8 @@
-import { Alert, Chip } from "@mantine/core";
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { IconInfoCircle } from "@tabler/icons-react";
-import { UseRef, UseState } from "@/types/react";
 import { ensureUniqueness } from "@/lib/utils";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseRef, UseState } from "@/types/react";
+import { Alert, Chip } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 interface Props {
   rule: UseRef<Partial<CreateAutoModerationRule>>;
@@ -103,7 +103,7 @@ function Templates({ rule, allowList, setAllowList, regexPatterns, setRegexPatte
             Block Youtube Channels
           </Chip>
           <Chip
-            disabled={!(regexPatterns.length == 0 || hasLink)}
+            disabled={!(regexPatterns.length === 0 || hasLink)}
             value="\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\b"
             variant="light"
           >

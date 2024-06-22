@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 function Page() {
   const searchParams = useSearchParams();
@@ -9,11 +9,10 @@ function Page() {
   useEffect(() => {
     const channel = new BroadcastChannel("webhook-creation");
 
-    if (searchParams.has("channel_id") && searchParams.has("type") && searchParams.has("webhook_id")) {
-      const webhookType = searchParams.get("type")!;
-      const channelId = searchParams.get("channel_id")!;
-      const webhookId = searchParams.get("webhook_id")!;
-
+    const webhookType = searchParams.get("type");
+    const channelId = searchParams.get("channel_id");
+    const webhookId = searchParams.get("webhook_id");
+    if (channelId && webhookType && webhookId) {
       channel.postMessage(`${webhookType}:${channelId}:${webhookId}`);
       channel.close();
     } else {

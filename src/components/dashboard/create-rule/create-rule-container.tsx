@@ -1,15 +1,15 @@
 "use client";
 
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { CreateAutoModerationRule, RuleMigration } from "@/types/moderation";
-import { INVITE_REGEX, LINK_REGEX } from "@/components/dashboard/create-rule/templates";
-import { IconAdjustmentsMinus, IconCircleCheck, IconSettings, IconTool } from "@tabler/icons-react";
-import { Stepper } from "@mantine/core";
-import { useDiscordRules, useGuildData } from "@/lib/hooks";
-import { useState } from "react";
 import BasicRule from "@/components/dashboard/create-rule/basic-rule";
 import Configuration from "@/components/dashboard/create-rule/configuration";
 import Exemptions from "@/components/dashboard/create-rule/exemptions";
+import { INVITE_REGEX, LINK_REGEX } from "@/components/dashboard/create-rule/templates";
+import { AutoModerationTriggerType } from "@/discord/enums";
+import { useDiscordRules, useGuildData } from "@/lib/hooks";
+import type { CreateAutoModerationRule, RuleMigration } from "@/types/moderation";
+import { Stepper } from "@mantine/core";
+import { IconAdjustmentsMinus, IconCircleCheck, IconSettings, IconTool } from "@tabler/icons-react";
+import { useState } from "react";
 
 function CreateRuleContainer() {
   const [step, setStep] = useState(0);
@@ -33,7 +33,7 @@ function CreateRuleContainer() {
         exempt_roles: parsedRule.exemptRoles.slice(0, 20),
         trigger_type: AutoModerationTriggerType.Keyword,
         allow_list: parsedRule.allowList,
-        keyword_filter: parsedRule.type === "link-bl" ? parsedRule.allowList!.map((x) => `*${x}*`) : undefined,
+        keyword_filter: parsedRule.type === "link-bl" ? parsedRule.allowList?.map((x) => `*${x}*`) : undefined,
       };
     } catch {
       return {};

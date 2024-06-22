@@ -1,16 +1,16 @@
 "use client";
 
-import { Button, ColorInput, Slider } from "@mantine/core";
-import { IconFileDownload, IconRestore } from "@tabler/icons-react";
-import { UserStoreContext } from "@/stores/user-store";
-import { allowedContrast } from "@/app/(page)/user/premium/utils";
-import { notifications } from "@mantine/notifications";
-import { observer } from "mobx-react-lite";
-import { saveLevelCard } from "@/lib/requests";
-import { useContext, useEffect, useState } from "react";
-import { useLevelCard } from "@/lib/hooks";
-import InfoHeading from "@/components/dashboard/info-heading";
 import LevelCard from "@/app/(page)/user/premium/components/level-card";
+import { allowedContrast } from "@/app/(page)/user/premium/utils";
+import InfoHeading from "@/components/dashboard/info-heading";
+import { useLevelCard } from "@/lib/hooks";
+import { saveLevelCard } from "@/lib/requests";
+import { UserStoreContext } from "@/stores/user-store";
+import { Button, ColorInput, Slider } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconFileDownload, IconRestore } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
 
 function ConfigureCard() {
   const userStore = useContext(UserStoreContext);
@@ -37,7 +37,7 @@ function ConfigureCard() {
     <div>
       <div className={"flex flex-wrap gap-10"}>
         <div className={"max-w-fit rounded-sm p-5"} style={{ background: "#313338" }}>
-          <LevelCard avatarUrl={userStore.avatarUrl!} gradient={currentGradient} user={userStore.user} xp={currentXp} />
+          <LevelCard avatarUrl={userStore.avatarUrl} gradient={currentGradient} user={userStore.user} xp={currentXp} />
         </div>
 
         <div className={"w-full max-w-[540px]"}>

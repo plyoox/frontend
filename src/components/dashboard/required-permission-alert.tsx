@@ -1,7 +1,7 @@
 "use client";
 
-import { Alert, List } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
+import { Alert, List } from "@mantine/core";
 import { IconAlertTriangle, IconX } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";

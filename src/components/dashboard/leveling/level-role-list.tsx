@@ -1,5 +1,5 @@
-import { LevelingResponse } from "@/types/responses";
 import LevelRoleItem from "@/components/dashboard/leveling/level-role-item";
+import type { LevelingResponse } from "@/types/responses";
 
 function LevelRoleList({
   config,

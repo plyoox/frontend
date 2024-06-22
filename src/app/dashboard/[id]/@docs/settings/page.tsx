@@ -1,8 +1,8 @@
-import { Blockquote, Kbd } from "@mantine/core";
 import Divider from "@/components/divider";
 import DocsBox from "@/components/docs/docs-box";
 import DocsContainer from "@/components/docs/docs-container";
 import ExternalLink from "@/components/docs/external-link";
+import { Blockquote, Kbd } from "@mantine/core";
 
 function Page() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import { useGuildData } from "@/lib/hooks";
 import TwitchContainer from "@/components/dashboard/notifications/twitch-container";
 import YoutubeContainer from "@/components/dashboard/notifications/youtube-container";
+import { useGuildData } from "@/lib/hooks";
 
 function NotificationsContainer() {
   useGuildData({ text: true, premium: true });

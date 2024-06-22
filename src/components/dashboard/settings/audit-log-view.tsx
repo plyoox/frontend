@@ -1,16 +1,16 @@
 "use client";
 
-import { ScrollArea, Skeleton, Table } from "@mantine/core";
-import { useAuditLogs } from "@/lib/hooks";
-import { useEffect, useState } from "react";
-import AuditLogList from "@/components/dashboard/settings/audit-log-list";
 import RequestError from "@/components/dashboard/request-error";
-import type { AuditLog } from "@/types/settings";
+import AuditLogList from "@/components/dashboard/settings/audit-log-list";
+import { useAuditLogs } from "@/lib/hooks";
+import type { AuditLogEntry } from "@/types/settings";
+import { ScrollArea, Skeleton, Table } from "@mantine/core";
+import { useEffect, useState } from "react";
 
 function AuditLogView() {
   const auditLogResponse = useAuditLogs();
 
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
   const [users, setUsers] = useState<Map<string, string>>(new Map());
 
   useEffect(() => {

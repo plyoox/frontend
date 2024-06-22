@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+
+function SiteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -10,6 +11,7 @@ function Error({ error, reset }: { error: Error & { digest?: string }; reset: ()
   return (
     <div>
       <h2>Something went wrong!</h2>
+      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
@@ -22,4 +24,4 @@ function Error({ error, reset }: { error: Error & { digest?: string }; reset: ()
   );
 }
 
-export default Error;
+export default SiteError;

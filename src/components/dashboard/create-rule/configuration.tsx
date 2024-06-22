@@ -1,18 +1,18 @@
-import { API_URL } from "@/environment";
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { Button } from "@mantine/core";
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { DiscordModerationRule } from "@/discord/types";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { UseState } from "@/types/react";
-import { showNotification } from "@mantine/notifications";
-import { useContext, useRef } from "react";
-import { useGuildId } from "@/lib/hooks";
-import { useRouter } from "next/navigation";
-import ConfigureMention from "@/components/dashboard/create-rule/configure-mention";
 import KeywordConfig from "@/components/dashboard/create-rule/configure-keyword";
+import ConfigureMention from "@/components/dashboard/create-rule/configure-mention";
+import { AutoModerationTriggerType } from "@/discord/enums";
+import type { DiscordModerationRule } from "@/discord/types";
+import { API_URL } from "@/environment";
+import { useGuildId } from "@/lib/hooks";
+import { RuleStoreContext } from "@/stores/rule-store";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseState } from "@/types/react";
+import { Button } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useContext, useRef } from "react";
 
 interface Props {
   rule: Partial<CreateAutoModerationRule>;
@@ -77,7 +77,7 @@ function Configuration({ rule, setRule, setStep }: Props) {
             setRule(fullRule);
             setStep(3);
 
-            createAutoModerationRule(id!, fullRule)
+            createAutoModerationRule(id, fullRule)
               .then((r) => {
                 push(`/dashboard/${id}/moderation`);
                 ruleStore.addDiscordRule(r);

@@ -1,13 +1,13 @@
 import { API_URL } from "@/environment";
-import { AuthUser } from "@/types/authentication";
-import { createContext } from "react";
+import type { AuthUser } from "@/types/authentication";
+import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { flow, makeAutoObservable } from "mobx";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { createContext } from "react";
 
 export enum AuthStatus {
-  Authenticated,
-  Unauthenticated,
-  Pending,
+  Authenticated = 0,
+  Unauthenticated = 1,
+  Pending = 2,
 }
 
 export class UserStore {
@@ -45,8 +45,10 @@ export class UserStore {
     this.user = null;
   }
 
-  get avatarUrl() {
-    if (!this.user) return null;
+  get avatarUrl(): string {
+    if (!this.user) {
+      return "https://cdn.discordapp.com/embed/avatars/1.png";
+    }
 
     return this.user.avatar
       ? `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.webp?size=256`

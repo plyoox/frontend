@@ -1,12 +1,12 @@
+import CustomSwitch from "@/components/custom-switch";
 import { API_URL } from "@/environment";
-import { ComboboxItemGroup, Select } from "@mantine/core";
+import { useGuildId } from "@/lib/hooks";
 import { GuildStoreContext } from "@/stores/guild-store";
+import type { ModerationConfig } from "@/types/moderation";
+import { type ComboboxItemGroup, Select } from "@mantine/core";
 import { IconHash } from "@tabler/icons-react";
-import { ModerationConfig } from "@/types/moderation";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
-import { useGuildId } from "@/lib/hooks";
-import CustomSwitch from "@/components/custom-switch";
 
 interface Props {
   config: ModerationConfig;
@@ -55,7 +55,7 @@ function LogConfig({ config, handleChange }: Props) {
       }
 
       const webhook = {
-        label: channel.name + " (Webhook)",
+        label: `${channel.name} (Webhook)`,
         value: config.logging_channel.id,
         disabled: true,
       };

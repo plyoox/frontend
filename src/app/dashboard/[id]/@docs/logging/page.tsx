@@ -1,9 +1,9 @@
-import { Alert } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons-react";
 import Divider from "@/components/divider";
 import DocsBox from "@/components/docs/docs-box";
 import DocsContainer from "@/components/docs/docs-container";
 import InternalLink from "@/components/docs/internal-link";
+import { Alert } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 function LoggingDocs() {
   return (

@@ -1,11 +1,11 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
-import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
-import { notifications } from "@mantine/notifications";
 import { useDeleteTwitchNotification } from "@/lib/hooks";
-import { useState } from "react";
-import Image from "next/image";
 import type { TwitchNotification } from "@/types/notification";
 import type { UseState } from "@/types/react";
+import { ActionIcon, Tooltip } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconEdit, IconExternalLink, IconTrash } from "@tabler/icons-react";
+import Image from "next/image";
+import { useState } from "react";
 
 function TwitchNotificationContainer({
   notification,
@@ -36,6 +36,7 @@ function TwitchNotificationContainer({
           className={"flex items-center gap-0.5 text-lg font-medium hover:underline"}
           href={`https://twitch.tv/${user.login}`}
           target={"_blank"}
+          rel="noreferrer"
         >
           {user.display_name}
           <IconExternalLink className={"size-5"} />

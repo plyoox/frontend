@@ -1,18 +1,18 @@
-import {
+import type { Guild } from "@/discord/types";
+import { ActionCheckKind, ActionPunishmentKind, type LoggingKind } from "@/lib/enums";
+import { DURATION_PUNISHMENTS, LegacyPunishmentItems, TIME_MARKS } from "@/lib/select-values";
+import type { GuildStore } from "@/stores/guild-store";
+import type { LoggingSetting } from "@/types/logging";
+import type {
   AccountAgeCheck,
   Action,
   JoinDateCheck,
   PointAction,
-  type PunishmentValues,
+  PunishmentValues,
   TempActionValue,
 } from "@/types/moderation";
-import { ActionCheckKind, ActionPunishmentKind, LoggingKind } from "@/lib/enums";
-import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
-import { DURATION_PUNISHMENTS, LegacyPunishmentItems, TIME_MARKS } from "@/lib/select-values";
-import { Guild } from "@/discord/types";
-import { GuildStore } from "@/stores/guild-store";
-import { LoggingSetting } from "@/types/logging";
-import { UseState } from "@/types/react";
+import type { UseState } from "@/types/react";
+import type { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 
 export function getPunishmentKind(data: Action): ActionPunishmentKind {
   const value = data.punishment;
@@ -45,19 +45,20 @@ export function actionToText(punishment: Action): string {
   const checkKind = getCheckKind(punishment);
 
   const action = punishment.punishment as never;
-  const check = punishment.check as any;
+  const check = punishment.check;
 
   switch (punishmentKind) {
-    case ActionPunishmentKind.Point:
-      let data = (action as PointAction)[ActionPunishmentKind.Point];
+    case ActionPunishmentKind.Point: {
+      const data = (action as PointAction)[ActionPunishmentKind.Point];
 
       str += `Add ${data.points} point${data.points === 1 ? "" : "s"} to`;
       break;
+    }
     case ActionPunishmentKind.Delete:
       str += "Delete message from";
       break;
     default:
-      str += LegacyPunishmentItems.find((a) => a.value === punishmentKind)!.label;
+      str += LegacyPunishmentItems.find((a) => a.value === punishmentKind)?.label;
       break;
   }
 
@@ -72,16 +73,18 @@ export function actionToText(punishment: Action): string {
     case ActionCheckKind.NoAvatar:
       str += " users without an avatar";
       break;
-    case ActionCheckKind.AccountAge:
+    case ActionCheckKind.AccountAge: {
       const account_data = (check as AccountAgeCheck)[ActionCheckKind.AccountAge];
 
       str += ` users with an account younger than ${formatSeconds(account_data.time, true)}`;
       break;
-    case ActionCheckKind.JoinDate:
+    }
+    case ActionCheckKind.JoinDate: {
       const join_data = (check as JoinDateCheck)[ActionCheckKind.JoinDate];
 
       str += ` users who joined the server before ${formatSeconds(join_data.time, true)}`;
       break;
+    }
   }
 
   if (punishmentKind === ActionPunishmentKind.Point) {
@@ -105,10 +108,10 @@ export function actionToText(punishment: Action): string {
   return str;
 }
 
-function formatSeconds(seconds: number, cutPrefix: boolean = false): string {
+function formatSeconds(seconds: number, cutPrefix = false): string {
   const formatter = new Intl.RelativeTimeFormat("en", { numeric: "always" });
 
-  let str;
+  let str: string;
 
   if (seconds < 60) {
     str = formatter.format(seconds, "second");
@@ -158,28 +161,28 @@ export function setLoggingTextChannels({
 }) {
   const webhookMap = new Map<string, ComboboxItem>();
 
-  Object.values(settings)
-    .filter((setting) => setting.channel?.webhook_channel)
-    .forEach((setting) => {
-      const channel = guildStore.textChannels.get(setting.channel!.webhook_channel! /* filtered above */);
+  for (const setting1 of Object.values(settings).filter((setting) => setting.channel?.webhook_channel)) {
+    // biome-ignore lint/style/noNonNullAssertion: webhook_channel must be set, see above
+    const channel = guildStore.textChannels.get(setting1.channel!.webhook_channel!);
 
-      webhookMap.set(setting.channel!.id, {
-        label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
-        value: setting.channel!.id ?? "unknown",
-        disabled: true,
-      });
+    // biome-ignore lint/style/noNonNullAssertion: Channel always has an id set
+    webhookMap.set(setting1.channel!.id, {
+      label: `${channel?.name ?? "Unknown Channel"} (Webhook)`,
+      value: setting1.channel?.id ?? "unknown",
+      disabled: true,
     });
+  }
 
   if (webhookMap.size > 0) {
     setTextChannels((channels) => {
       const webhookGroup = channels.find((group) => group.group === "Webhooks");
 
       if (webhookGroup) {
-        webhookGroup.items.forEach((item) => {
+        for (const item of webhookGroup.items) {
           const forcedTypeItem = item as ComboboxItem;
 
           webhookMap.set(forcedTypeItem.value, forcedTypeItem);
-        });
+        }
 
         webhookGroup.items = Array.from(webhookMap.values());
       } else {
@@ -209,14 +212,15 @@ export function addLoggingTextChannel({
   }
 
   setTextChannels((channels) => {
+    // biome-ignore lint/style/noNonNullAssertion: Map.get will not break when using null
     const channel = guildStore.textChannels.get(webhook.webhook_channel!);
     const webhookGroup = channels.find((group) => group.group === "Webhooks");
 
     if (webhookGroup) {
       // check if webhook already exists
-      if (!webhookGroup.items.some((item: any) => item.value === webhook.id)) {
+      if (!webhookGroup.items.some((item) => (item as ComboboxItem).value === webhook.id)) {
         webhookGroup.items.push({
-          label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+          label: `${channel?.name ?? "Unknown Channel"} (Webhook)`,
           value: webhook.id,
           disabled: true,
         });
@@ -226,7 +230,7 @@ export function addLoggingTextChannel({
         group: "Webhooks",
         items: [
           {
-            label: (channel?.name ?? "Unknown Channel") + " (Webhook)",
+            label: `${channel?.name ?? "Unknown Channel"} (Webhook)`,
             value: webhook.id,
             disabled: true,
           },
@@ -286,7 +290,7 @@ export function colorToHexString(color: number): string {
     return "#99AAB5";
   }
 
-  return "#" + color.toString(16).padStart(6, "0");
+  return `#${color.toString(16).padStart(6, "0")}`;
 }
 
 export function parseGuilds(data: string): Guild[] | null {
@@ -305,9 +309,10 @@ export function parseGuilds(data: string): Guild[] | null {
   }
 }
 
-export function toAutomoderationAction(value: PunishmentValues) {
-  const punishment: Action = {} as any;
+export function toAutomoderationAction(value: PunishmentValues): Action {
+  const punishment: Partial<Action> = {};
 
+  // biome-ignore lint/style/noNonNullAssertion: Seconds can only be one out of the TIME_MARKS object
   const duration = TIME_MARKS.find((t) => t.value === value.punishmentDuration)!.seconds;
 
   switch (value.punishment) {
@@ -347,7 +352,8 @@ export function toAutomoderationAction(value: PunishmentValues) {
       break;
   }
 
-  return punishment;
+  // Action is now completely filled
+  return punishment as Action;
 }
 
 function base64ToBytes(data: string) {

@@ -1,7 +1,7 @@
 "use client";
 
-import { IconCheck, IconX } from "@tabler/icons-react";
 import { Switch } from "@mantine/core";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 function CustomSwitch({
   checked,

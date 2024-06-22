@@ -1,7 +1,7 @@
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { TagsInput, Title } from "@mantine/core";
-import { UseRef } from "@/types/react";
 import { ensureUniqueness } from "@/lib/utils";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseRef } from "@/types/react";
+import { TagsInput, Title } from "@mantine/core";
 import { useState } from "react";
 
 function KeywordFilter({ rule }: { rule: UseRef<Partial<CreateAutoModerationRule>> }) {
@@ -20,13 +20,13 @@ function KeywordFilter({ rule }: { rule: UseRef<Partial<CreateAutoModerationRule
         maxTags={1000}
         onChange={setKeywordFilter}
         onOptionSubmit={(val) => {
-          val = val.trim();
-          if (val.length === 0 || val.length > 100) return;
+          const trimmedValue = val.trim();
+          if (trimmedValue.length === 0 || trimmedValue.length > 100) return;
 
-          const unique = ensureUniqueness([...keywordFilter, val]);
+          const unique = ensureUniqueness([...keywordFilter, trimmedValue]);
           if (unique.length === keywordFilter.length) return;
 
-          return val;
+          return trimmedValue;
         }}
         placeholder="Type to add new keyword"
         value={keywordFilter}

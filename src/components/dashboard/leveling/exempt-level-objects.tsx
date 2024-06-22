@@ -1,10 +1,10 @@
+import MultiChannelSelect from "@/components/selects/multi-channel-select";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAt, IconHash } from "@tabler/icons-react";
-import { LevelingResponse } from "@/types/responses";
+import type { LevelingResponse } from "@/types/responses";
 import { Select } from "@mantine/core";
+import { IconAt, IconHash } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
-import MultiChannelSelect from "@/components/selects/multi-channel-select";
 
 function ExemptLevelObjects({
   config,

@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@mantine/core";
-import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
-import { showNotification } from "@mantine/notifications";
 import { useGuildId } from "@/lib/hooks";
-
-import { useEffect, useRef, useState } from "react";
 import classes from "@/styles/save-notification.module.css";
+import { Button } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
+import { useEffect, useRef, useState } from "react";
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 interface Props<T = any> {
   onSave: () => void;
   fn: (id: string, data: T) => Promise<void>;
@@ -22,6 +22,7 @@ function SaveNotification({ data, fn, onSave, disabled }: Props) {
   const [className, setClassName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We don't care if the className changes, also it can currently only change in this effect.
   useEffect(() => {
     if (data) {
       setVisible(true);
@@ -40,7 +41,7 @@ function SaveNotification({ data, fn, onSave, disabled }: Props) {
 
   return (
     <div className={`${classes.notificationBarWrapper} ${className} pointer-events-none flex justify-center`} ref={ref}>
-      <div className={`pointer-events-auto relative z-50 w-10/12 rounded-md bg-black p-2.5 lg:w-1/2`}>
+      <div className={"pointer-events-auto relative z-50 w-10/12 rounded-md bg-black p-2.5 lg:w-1/2"}>
         <div className={"flex items-center justify-between"}>
           <span className={"pr-3"}>You have some unsaved settings. Save to keep them.</span>
           <Button

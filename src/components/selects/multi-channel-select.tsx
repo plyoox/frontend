@@ -1,18 +1,18 @@
+import type { SelectItem } from "@/types/utils";
 import {
   CheckIcon,
   CloseButton,
   Combobox,
-  ComboboxItemGroup,
+  type ComboboxItemGroup,
   Pill,
   PillsInput,
   ScrollArea,
   useCombobox,
 } from "@mantine/core";
 import { IconHash, IconListDetails, IconVolume } from "@tabler/icons-react";
-import { type ReactNode, useMemo, useState } from "react";
-import type { SelectItem } from "@/types/utils";
+import { type JSX, type ReactNode, useMemo, useState } from "react";
 
-const ICONS: Record<string, any> = {
+const ICONS: Record<string, JSX.ElementType> = {
   text: IconHash,
   voice: IconVolume,
   category: IconListDetails,

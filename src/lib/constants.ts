@@ -1,4 +1,4 @@
-import { TemplateString } from "@/types/welcome";
+import type { TemplateString } from "@/types/welcome";
 
 export const WELCOME_TEMPLATES: TemplateString[] = [
   { name: "Username with discriminator", value: "{user}" },

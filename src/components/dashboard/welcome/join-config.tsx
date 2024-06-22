@@ -1,10 +1,10 @@
-import { DiscordPermission } from "@/discord/enums";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconBlockquote, IconHash } from "@tabler/icons-react";
 import { MultiRoleSelect } from "@/components/selects";
+import { DiscordPermission } from "@/discord/enums";
 import { NO_CHANNELS_AVAILABLE, WELCOME_TEMPLATES } from "@/lib/constants";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { WelcomeResponse } from "@/types/responses";
 import { Select, Textarea } from "@mantine/core";
-import { WelcomeResponse } from "@/types/responses";
+import { IconBlockquote, IconHash } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext, useRef } from "react";
 import TextareaTemplate from "./textarea-template";

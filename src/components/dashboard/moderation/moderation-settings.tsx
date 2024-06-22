@@ -1,30 +1,32 @@
 "use client";
 
-import { Accordion } from "@mantine/core";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { ModerationConfig } from "@/types/moderation";
-import { MultiRoleSelect } from "@/components/selects";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { saveModerationData } from "@/lib/requests";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useGuildData, useModerationData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
-import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
-import LegacyRuleLink from "./legacy-rule-link";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
-import LogConfig from "./log-config";
-import RequestError from "@/components/dashboard/request-error";
 import RequirePointsHandlerLink from "@/components/dashboard/moderation/require-points-handler-link";
 import RequirePointsLink from "@/components/dashboard/moderation/require-points-link";
-import SaveNotification from "@/components/save-notification";
+import RequestError from "@/components/dashboard/request-error";
+import DiscordRuleOverview from "@/components/dashboard/rules/discord-rule-view";
 import ToggleActive from "@/components/dashboard/toggle-active";
+import SaveNotification from "@/components/save-notification";
+import { MultiRoleSelect } from "@/components/selects";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useGuildData, useModerationData } from "@/lib/hooks";
+import { saveModerationData } from "@/lib/requests";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { ModerationConfig } from "@/types/moderation";
+import { Accordion } from "@mantine/core";
+import { useContext, useEffect, useRef, useState } from "react";
+import LegacyRuleLink from "./legacy-rule-link";
+import LogConfig from "./log-config";
 
 type Config = ModerationConfig;
 
 function ModerationSettings() {
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }

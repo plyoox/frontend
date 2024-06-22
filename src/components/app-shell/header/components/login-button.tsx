@@ -6,6 +6,7 @@ function LoginButton() {
   return (
     <Link href={`${API_URL}/discord/login`}>
       <button
+        type={"button"}
         className={
           "flex h-12 items-center justify-center gap-4 rounded-lg bg-pl-accent-dark px-4 text-white duration-200 hover:bg-pl-accent hover:shadow-ring hover:shadow-pl-accent/80 sm:w-40"
         }

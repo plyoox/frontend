@@ -1,5 +1,5 @@
+import type { ILink } from "@/types/utils";
 import { AppShell } from "@mantine/core";
-import { ILink } from "@/types/utils";
 import {
   IconBrandTwitch,
   IconMessages,

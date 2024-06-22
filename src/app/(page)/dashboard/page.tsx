@@ -1,17 +1,19 @@
 import "../../../styles/Scrollbar.css";
-import { Guild } from "@/discord/types";
-import { Suspense } from "react";
+import type { Guild } from "@/discord/types";
 import { parseGuilds } from "@/lib/utils";
+import { Suspense } from "react";
 import ServerList from "./components/server-list";
 import ServerLoading from "./components/server-loading";
 
 function Page({ searchParams }: { searchParams: { data?: string } }) {
-  let guilds: Guild[] | null;
+  let guilds: Guild[] | null = null;
 
   try {
-    guilds = parseGuilds(searchParams.data!);
+    if (searchParams.data !== undefined) {
+      guilds = parseGuilds(searchParams.data);
+    }
   } catch (e) {
-    guilds = null;
+    console.log(e);
   }
 
   return (

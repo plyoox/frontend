@@ -1,26 +1,28 @@
 "use client";
 
-import { Accordion } from "@mantine/core";
-import { WelcomeResponse } from "@/types/responses";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { saveWelcomeData } from "@/lib/requests";
-import { useEffect, useRef, useState } from "react";
-import { useGuildData, useWelcomeData } from "@/lib/hooks";
-import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
-import JoinConfig from "@/components/dashboard/welcome/join-config";
-import LeaveConfig from "@/components/dashboard/welcome/leave-config";
+import AccordionLabel from "@/components/dashboard/accordion-label";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
-import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
+import JoinConfig from "@/components/dashboard/welcome/join-config";
+import LeaveConfig from "@/components/dashboard/welcome/leave-config";
+import SaveNotification from "@/components/save-notification";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useGuildData, useWelcomeData } from "@/lib/hooks";
+import { saveWelcomeData } from "@/lib/requests";
+import type { WelcomeResponse } from "@/types/responses";
+import { Accordion } from "@mantine/core";
+import { useEffect, useRef, useState } from "react";
 
 type Config = WelcomeResponse;
 
 function WelcomeContainer() {
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: Config is never null here
     const updatedKeys = handleChangeHelper(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: Config is never null here
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }

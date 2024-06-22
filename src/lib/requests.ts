@@ -1,6 +1,11 @@
+import type { DiscordModerationRule, Guild } from "@/discord/types";
 import { API_URL } from "@/environment";
-import {
-  type AuditLogResponse,
+import { addIdToActions } from "@/lib/request-utils";
+import type { LoggingData } from "@/types/logging";
+import type { ActionWithoutId, ModerationConfig, ModerationRule, PunishmentType } from "@/types/moderation";
+import type { TwitchNotificationResponse, YoutubeNotificationResponse } from "@/types/notification";
+import type {
+  AuditLogResponse,
   GuildDataResponse,
   LevelingResponse,
   LoggingResponse,
@@ -8,16 +13,12 @@ import {
   SettingsResponse,
   WelcomeResponse,
 } from "@/types/responses";
-import { DiscordModerationRule, Guild } from "@/discord/types";
-import { LoggingData } from "@/types/logging";
-import { MaybeWebhook } from "@/types/webhook";
-import { ModerationConfig, Punishment } from "@/types/moderation";
+import type { LevelCard } from "@/types/user";
+import type { MaybeWebhook } from "@/types/webhook";
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosError } from "axios";
-import type { LevelCard } from "@/types/user";
-import type { TwitchNotificationResponse, YoutubeNotificationResponse } from "@/types/notification";
 
-export async function fetchGuildData(id: string, params: string, redirect: any) {
+export async function fetchGuildData(id: string, params: string, redirect: (url: string) => void) {
   try {
     const response = await axios.get<GuildDataResponse>(`${API_URL}/guild/${id}/data?${params}`, {
       withCredentials: true,
@@ -50,14 +51,30 @@ export async function fetchGuildData(id: string, params: string, redirect: any) 
   }
 }
 
-export async function fetchModerationData(id: string) {
-  const response = await axios.get<ModerationResponse>(`${API_URL}/guild/${id}/moderation`, { withCredentials: true });
+export async function fetchModerationData(id: string): Promise<ModerationResponse> {
+  const response = await axios.get<ModerationResponse<ActionWithoutId>>(`${API_URL}/guild/${id}/moderation`, {
+    withCredentials: true,
+  });
 
-  return response.data;
+  return {
+    rules: response.data.rules.map(
+      (rule): ModerationRule => ({
+        ...rule,
+        actions: addIdToActions(rule.actions),
+      }),
+    ),
+    config: {
+      ...response.data.config,
+      caps_actions: addIdToActions(response.data.config.caps_actions),
+      invite_actions: addIdToActions(response.data.config.invite_actions),
+      link_actions: addIdToActions(response.data.config.link_actions),
+      point_actions: addIdToActions(response.data.config.point_actions),
+    },
+  };
 }
 
 export async function fetchPunishments(id: string) {
-  const response = await axios.get<Punishment[]>(`${API_URL}/guild/${id}/moderation/punishments`, {
+  const response = await axios.get<PunishmentType[]>(`${API_URL}/guild/${id}/moderation/punishments`, {
     withCredentials: true,
   });
 
@@ -106,7 +123,7 @@ export async function removeModerationRule(guildId: string, ruleId: string): Pro
   });
 }
 
-export async function fetchAutoModerationRules(id: String): Promise<DiscordModerationRule[]> {
+export async function fetchAutoModerationRules(id: string): Promise<DiscordModerationRule[]> {
   const response = await axios.get(`${API_URL}/guild/${id}/data/automod`, { withCredentials: true });
 
   return response.data;

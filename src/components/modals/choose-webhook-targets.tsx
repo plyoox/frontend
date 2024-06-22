@@ -1,8 +1,8 @@
 import { API_URL } from "@/environment";
-import { Button, Tooltip } from "@mantine/core";
-import { ContextModalProps } from "@mantine/modals";
-import { MassWebhookKind } from "@/types/logging";
 import { useGuildId } from "@/lib/hooks";
+import type { MassWebhookKind } from "@/types/logging";
+import { Button, Tooltip } from "@mantine/core";
+import type { ContextModalProps } from "@mantine/modals";
 
 function ChooseWebhookModal({
   innerProps,

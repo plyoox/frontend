@@ -1,7 +1,7 @@
+import type { ModerationConfig } from "@/types/moderation";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconAlertTriangle, IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
-import type { ModerationConfig } from "@/types/moderation";
 
 function RequirePointsLink({
   link,

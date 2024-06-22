@@ -1,3 +1,5 @@
+import FullView from "@/components/dashboard/full-view";
+import InfoBox from "@/components/dashboard/home/info-box";
 import {
   IconBrandTwitch,
   IconMessages,
@@ -6,8 +8,6 @@ import {
   IconUserPlus,
   IconUserUp,
 } from "@tabler/icons-react";
-import FullView from "@/components/dashboard/full-view";
-import InfoBox from "@/components/dashboard/home/info-box";
 
 function Page() {
   return (

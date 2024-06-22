@@ -1,8 +1,8 @@
+import { NO_ROLES_AVAILABLE } from "@/lib/constants";
+import type { RoleItem } from "@/types/utils";
 import { CheckIcon, CloseButton, Combobox, Pill, PillsInput, useCombobox } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
-import { NO_ROLES_AVAILABLE } from "@/lib/constants";
 import { useState } from "react";
-import type { RoleItem } from "@/types/utils";
 
 interface Props {
   data: RoleItem[];
@@ -104,7 +104,11 @@ function MultiRoleSelect({
                 onKeyDown={(event) => {
                   if (event.key === "Backspace" && search.length === 0) {
                     event.preventDefault();
-                    handleValueRemove(value.at(-1)!);
+
+                    const valueToRemove = value.at(-1);
+                    if (valueToRemove !== undefined) {
+                      handleValueRemove(valueToRemove);
+                    }
                   }
                 }}
                 placeholder={missingPermission ? "Missing *Manage Role* permission" : placeholder}

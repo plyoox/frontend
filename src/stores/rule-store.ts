@@ -1,8 +1,8 @@
-import { DiscordModerationRule } from "@/discord/types";
-import { ModerationRule } from "@/types/moderation";
-import { createContext } from "react";
-import { makeAutoObservable, observable } from "mobx";
+import type { DiscordModerationRule } from "@/discord/types";
 import { removeModerationRule } from "@/lib/requests";
+import type { ModerationRule } from "@/types/moderation";
+import { makeAutoObservable, observable } from "mobx";
+import { createContext } from "react";
 
 class RuleStore {
   #discordRules: Map<string, DiscordModerationRule> = observable.map();

@@ -1,11 +1,11 @@
 "use client";
 
+import { useGuildId } from "@/lib/hooks";
 import { GuildStoreContext } from "@/stores/guild-store";
 import { observer } from "mobx-react-lite";
-import { useContext, useMemo } from "react";
-import { useGuildId } from "@/lib/hooks";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useContext, useMemo } from "react";
 
 function DynamicCrumbs() {
   const guildStore = useContext(GuildStoreContext);

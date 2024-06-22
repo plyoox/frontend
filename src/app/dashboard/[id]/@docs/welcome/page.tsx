@@ -1,7 +1,7 @@
-import { IconTemplate } from "@tabler/icons-react";
-import { Kbd, ThemeIcon } from "@mantine/core";
 import DocsContainer from "@/components/docs/docs-container";
 import ExternalLink from "@/components/docs/external-link";
+import { Kbd, ThemeIcon } from "@mantine/core";
+import { IconTemplate } from "@tabler/icons-react";
 
 import Divider from "@/components/divider";
 import DocsBox from "@/components/docs/docs-box";

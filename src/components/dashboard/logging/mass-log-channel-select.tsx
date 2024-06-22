@@ -23,7 +23,7 @@ function MassLogChannelSelect({ openModal }: { openModal: (id: string) => void }
 
           // This removes the focus from the input field.
           // Without this, the dropdown will open again, after the webhook window closes.
-          ref.current!.blur();
+          ref.current?.blur();
         }
       }}
       ref={ref}

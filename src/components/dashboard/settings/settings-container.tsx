@@ -1,22 +1,24 @@
 "use client";
 
-import { HELPER_PERMISSION_ITEMS } from "@/lib/select-values";
-import { HelperPermission } from "@/lib/enums";
-import { Select, Skeleton } from "@mantine/core";
-import { SettingsResponse } from "@/types/responses";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { saveSettingsData } from "@/lib/requests";
-import { useEffect, useRef, useState } from "react";
-import { useGuildData, useSettingsData } from "@/lib/hooks";
 import RequestError from "@/components/dashboard/request-error";
 import SaveNotification from "@/components/save-notification";
+import type { HelperPermission } from "@/lib/enums";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useGuildData, useSettingsData } from "@/lib/hooks";
+import { saveSettingsData } from "@/lib/requests";
+import { HELPER_PERMISSION_ITEMS } from "@/lib/select-values";
+import type { SettingsResponse } from "@/types/responses";
+import { Select, Skeleton } from "@mantine/core";
+import { useEffect, useRef, useState } from "react";
 
 type Config = SettingsResponse;
 
 function SettingsContainer() {
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
@@ -58,11 +60,10 @@ function SettingsContainer() {
             return handleChange({
               helper_permission: null,
             });
-          else {
-            handleChange({
-              helper_permission: value as HelperPermission | null,
-            });
-          }
+
+          handleChange({
+            helper_permission: value as HelperPermission | null,
+          });
         }}
         value={config.helper_permission ?? ""}
       />

@@ -1,5 +1,5 @@
-import { LoggingKind } from "@/lib/enums";
-import { MaybeWebhook } from "@/types/webhook";
+import type { LoggingKind } from "@/lib/enums";
+import type { MaybeWebhook } from "@/types/webhook";
 
 export type MassWebhookKind = "all" | "empty";
 

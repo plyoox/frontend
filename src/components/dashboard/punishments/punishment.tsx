@@ -1,13 +1,13 @@
+import type { PunishmentType } from "@/types/moderation";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconEdit, IconX } from "@tabler/icons-react";
-import type { Punishment } from "@/types/moderation";
 
 function Punishment({
   punishment,
   onDelete,
   onEdit,
 }: {
-  punishment: Punishment;
+  punishment: PunishmentType;
   onDelete: () => void;
   onEdit: () => void;
 }) {

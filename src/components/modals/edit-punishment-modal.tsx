@@ -1,13 +1,13 @@
-import { Button, Modal, Switch, TextInput } from "@mantine/core";
-import { IconAlertCircle, IconCheck, IconCopyCheck, IconX } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
-import { notifications } from "@mantine/notifications";
-import { useEffect, useState } from "react";
-import { useForm } from "@mantine/form";
-import { useUpdatePunishment } from "@/lib/hooks";
-import AddActions from "../dashboard/actions/add-actions";
 import ListActions from "@/components/dashboard/actions/list-actions";
+import { useUpdatePunishment } from "@/lib/hooks";
 import type { UpsertPunishment } from "@/types/moderation";
+import type { UseState } from "@/types/react";
+import { Button, Modal, Switch, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import { IconAlertCircle, IconCheck, IconCopyCheck, IconX } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import AddActions from "../dashboard/actions/add-actions";
 
 interface Props {
   open: Partial<UpsertPunishment> | null;
@@ -66,6 +66,7 @@ function EditPunishmentModal({ open, setOpen }: Props) {
     }
   }, [actions]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Form never changes
   useEffect(() => {
     if (!open) return;
 
@@ -80,7 +81,6 @@ function EditPunishmentModal({ open, setOpen }: Props) {
     });
 
     // Infinity loop when adding form as dependency
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (

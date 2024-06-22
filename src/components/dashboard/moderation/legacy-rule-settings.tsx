@@ -1,7 +1,7 @@
-import { GuildStoreContext } from "@/stores/guild-store";
 import { MultiRoleSelect } from "@/components/selects";
-import { useContext } from "react";
+import { GuildStoreContext } from "@/stores/guild-store";
 import type { ModerationConfig } from "@/types/moderation";
+import { useContext } from "react";
 
 function LegacyRuleSettings({
   config,

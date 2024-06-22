@@ -1,11 +1,11 @@
-import { Action } from "@/types/moderation";
-import { Badge, ThemeIcon } from "@mantine/core";
 import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconPlus } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
 import { amountToColor } from "@/lib/utils";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { Action } from "@/types/moderation";
+import type { UseState } from "@/types/react";
+import { Badge, ThemeIcon } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { IconPlus } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 
@@ -39,6 +39,7 @@ function AddActions({ punishments, setPunishments, isFinal, className }: Props) 
   return (
     <div className={className}>
       <button
+        type={"button"}
         className={`flex h-[60px] w-full cursor-pointer items-center justify-between rounded-md bg-mt-dark-6 pl-2.5 pr-2 hover:bg-mt-dark-5
         disabled:cursor-not-allowed disabled:bg-mt-dark-7 disabled:hover:bg-mt-dark-7`}
         disabled={punishments.length >= limit}

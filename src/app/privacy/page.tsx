@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import classes from "@/styles/legal.module.css";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function Page() {
   const hasWindow = typeof window !== "undefined";

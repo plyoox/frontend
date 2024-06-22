@@ -1,6 +1,6 @@
-import { DiscordPermission } from "@/discord/enums";
 import LevelContainer from "@/components/dashboard/leveling/level-container";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
+import { DiscordPermission } from "@/discord/enums";
 
 const PERMISSION = [DiscordPermission.ManageRoles, DiscordPermission.SendMessages];
 

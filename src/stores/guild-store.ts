@@ -1,11 +1,11 @@
-import { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
-import { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
 import { DiscordPermission } from "@/discord/enums";
-import { GuildDataResponse } from "@/types/responses";
-import { action, makeAutoObservable, observable } from "mobx";
+import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
 import { colorToHexString } from "@/lib/utils";
-import { createContext } from "react";
+import type { GuildDataResponse } from "@/types/responses";
 import type { RoleItem, SelectItem } from "@/types/utils";
+import type { ComboboxItem, ComboboxItemGroup } from "@mantine/core";
+import { action, makeAutoObservable, observable } from "mobx";
+import { createContext } from "react";
 
 export class GuildStore {
   guild: Guild | null = null;
@@ -13,7 +13,7 @@ export class GuildStore {
   #voiceChannels: Map<string, VoiceChannel> = observable.map();
   #categories: Map<string, CategoryChannel> = observable.map();
   #roles: Role[] = observable.array();
-  #premium: boolean = false;
+  #premium = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -38,7 +38,7 @@ export class GuildStore {
   get writeableAsSelectable(): ComboboxItemGroup[] {
     if (this.guild === null) return [];
 
-    const isAdmin = (BigInt(this.guild!.permissions) & BigInt(0x8)) === BigInt(0x8);
+    const isAdmin = (BigInt(this.guild?.permissions) & BigInt(0x8)) === BigInt(0x8);
 
     const data: Record<string, ComboboxItem[]> = { "": [] };
     for (const channel of this.#textChannels.values()) {
@@ -49,7 +49,10 @@ export class GuildStore {
         continue;
       }
 
-      const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+      let group = "";
+      if (channel.parent_id !== null) {
+        group = this.#categories.get(channel.parent_id)?.name ?? "";
+      }
 
       if (!data[group]) data[group] = [{ label: channel.name, value: channel.id }];
       else data[group].push({ label: channel.name, value: channel.id });
@@ -61,7 +64,10 @@ export class GuildStore {
   get textAsSelectable(): ComboboxItemGroup[] {
     const data: Record<string, ComboboxItem[]> = { "": [] };
     for (const channel of this.#textChannels.values()) {
-      const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+      let group = "";
+      if (channel.parent_id !== null) {
+        group = this.#categories.get(channel.parent_id)?.name ?? "";
+      }
 
       if (!data[group]) data[group] = [{ label: channel.name, value: channel.id }];
       else data[group].push({ label: channel.name, value: channel.id });
@@ -73,14 +79,17 @@ export class GuildStore {
   get textWithCategories(): ComboboxItemGroup<SelectItem>[] {
     const data: Record<string, SelectItem[]> = { "": [], Categories: [] };
     for (const channel of this.#textChannels.values()) {
-      const group = this.#categories.get(channel.parent_id!)?.name ?? "";
+      let group = "";
+      if (channel.parent_id !== null) {
+        group = this.#categories.get(channel.parent_id)?.name ?? "";
+      }
 
       if (!data[group]) data[group] = [{ label: channel.name, value: channel.id, type: "text" }];
       else data[group].push({ label: channel.name, value: channel.id, type: "text" });
     }
 
     for (const category of this.#categories.values()) {
-      data["Categories"].push({ label: category.name, value: category.id, type: "category" });
+      data.Categories.push({ label: category.name, value: category.id, type: "category" });
     }
 
     return Object.entries(data).map(([group, items]) => ({ group: group, items }));
@@ -123,7 +132,7 @@ export class GuildStore {
   }
 
   get botHighestRole(): Role | undefined {
-    return this.#roles.find((r) => r.id === this.guild!.highest_role);
+    return this.#roles.find((r) => r.id === this.guild?.highest_role);
   }
 
   get manageableRolesAsSelectable(): RoleItem[] {

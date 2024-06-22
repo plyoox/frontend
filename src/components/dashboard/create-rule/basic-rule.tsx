@@ -1,10 +1,10 @@
-import { Button, Switch, TextInput } from "@mantine/core";
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { IconCheck, IconChevronRight, IconX } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
-import { useEffect } from "react";
-import { useForm } from "@mantine/form";
 import RuleTypeSelect from "@/components/dashboard/create-rule/select-rule-type";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseState } from "@/types/react";
+import { Button, Switch, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { IconCheck, IconChevronRight, IconX } from "@tabler/icons-react";
+import { useEffect } from "react";
 
 interface Props {
   setStep: UseState<number>;
@@ -35,14 +35,13 @@ function BasicRule({ setStep, setRule, rule }: Props) {
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Form never changes
   useEffect(() => {
     form.setValues({
       enabled: rule.enabled ?? false,
       name: rule.name ?? "",
       kind: rule.trigger_type?.toString() ?? "1",
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rule]);
 
   return (
@@ -52,7 +51,7 @@ function BasicRule({ setStep, setRule, rule }: Props) {
           ...r,
           enabled: values.enabled,
           name: values.name,
-          trigger_type: parseInt(values.kind),
+          trigger_type: Number.parseInt(values.kind),
         }));
 
         setStep(1);

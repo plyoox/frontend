@@ -6,7 +6,16 @@ function FullView() {
   const isClient = typeof window !== "undefined";
 
   useEffect(() => {
-    const el = document.getElementById("main-content")!;
+    // If it is rendered on the server, return
+    if (!isClient) {
+      return;
+    }
+
+    const el = document.getElementById("main-content");
+    if (el === null) {
+      return;
+    }
+
     el.classList.remove("lg:col-span-3");
 
     return () => {

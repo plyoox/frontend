@@ -1,15 +1,5 @@
 "use client";
 
-import { Accordion } from "@mantine/core";
-import { DiscordPermission } from "@/discord/enums";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAlertTriangle } from "@tabler/icons-react";
-import { LevelingResponse } from "@/types/responses";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { observer } from "mobx-react-lite";
-import { saveLevelingData } from "@/lib/requests";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useGuildData, useLevelingData } from "@/lib/hooks";
 import AccordionLabel from "@/components/dashboard/accordion-label";
 import ExemptLevelObjects from "@/components/dashboard/leveling/exempt-level-objects";
 import LevelGainMultiplier from "@/components/dashboard/leveling/level-gain-multiplier";
@@ -17,15 +7,27 @@ import LevelRoleManager from "@/components/dashboard/leveling/level-role-manager
 import LevelUpMessage from "@/components/dashboard/leveling/level-up-message";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import RequestError from "@/components/dashboard/request-error";
-import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
+import SaveNotification from "@/components/save-notification";
+import { DiscordPermission } from "@/discord/enums";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useGuildData, useLevelingData } from "@/lib/hooks";
+import { saveLevelingData } from "@/lib/requests";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { LevelingResponse } from "@/types/responses";
+import { Accordion } from "@mantine/core";
+import { IconAlertTriangle } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useRef, useState } from "react";
 
 type Config = LevelingResponse;
 
 function LevelContainer() {
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: 'config' is never null here
     const updatedKeys = handleChangeHelper(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: 'config' is never null here
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }

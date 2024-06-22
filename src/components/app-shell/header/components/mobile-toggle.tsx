@@ -1,7 +1,7 @@
 "use client";
 
+import type { UseState } from "@/types/react";
 import { Burger } from "@mantine/core";
-import { UseState } from "@/types/react";
 
 function MobileToggle({ open, setOpen }: { open?: boolean; setOpen?: UseState<boolean> }) {
   if (open === undefined || setOpen === undefined) {

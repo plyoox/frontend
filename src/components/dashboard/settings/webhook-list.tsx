@@ -1,6 +1,6 @@
-import { MaybeWebhook } from "@/types/webhook";
 import Webhook from "@/components/dashboard/settings/webhook";
 import type { UseState } from "@/types/react";
+import type { MaybeWebhook } from "@/types/webhook";
 
 function WebhookList({ webhooks, setWebhooks }: { webhooks: MaybeWebhook[]; setWebhooks: UseState<MaybeWebhook[]> }) {
   if (webhooks.length === 0) {

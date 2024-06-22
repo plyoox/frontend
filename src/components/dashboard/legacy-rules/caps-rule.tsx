@@ -1,10 +1,10 @@
-import { Alert, type ComboboxItemGroup, List, ThemeIcon } from "@mantine/core";
-import { IconChevronRight, IconHash, IconInfoCircle } from "@tabler/icons-react";
-import { ModerationConfig } from "@/types/moderation";
-import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import CustomSwitch from "@/components/custom-switch";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
+import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
+import type { ModerationConfig } from "@/types/moderation";
 import type { RoleItem, SelectItem } from "@/types/utils";
+import { Alert, type ComboboxItemGroup, List, ThemeIcon } from "@mantine/core";
+import { IconChevronRight, IconHash, IconInfoCircle } from "@tabler/icons-react";
 
 interface Props {
   channels: ComboboxItemGroup<SelectItem>[];

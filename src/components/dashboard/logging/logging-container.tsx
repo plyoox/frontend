@@ -1,32 +1,35 @@
 "use client";
 
-import { Accordion, ComboboxItemGroup } from "@mantine/core";
-import { DEFAULT_LOGGING_SETTING } from "@/lib/defaults";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingData, LoggingSetting, MassWebhookKind } from "@/types/logging";
-import { LoggingKind } from "@/lib/enums";
-import { capitalize, setLoggingTextChannels } from "@/lib/utils";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { modals } from "@mantine/modals";
-import { observer } from "mobx-react-lite";
-import { saveLoggingConfig } from "@/lib/requests";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
-import AccordionLabel from "@/components/dashboard/accordion-label";
 import AccordionSwitchControl from "@/components/accordion-switch-control";
+import AccordionLabel from "@/components/dashboard/accordion-label";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
 import LoggingSettingContainer from "@/components/dashboard/logging/logging-setting-container";
 import MassLogChannelSelect from "@/components/dashboard/logging/mass-log-channel-select";
 import RequestError from "@/components/dashboard/request-error";
-import SaveNotification from "@/components/save-notification";
 import ToggleActive from "@/components/dashboard/toggle-active";
+import SaveNotification from "@/components/save-notification";
+import { DEFAULT_LOGGING_SETTING } from "@/lib/defaults";
+import { LoggingKind } from "@/lib/enums";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useGuildData, useGuildId, useLoggingData } from "@/lib/hooks";
+import { saveLoggingConfig } from "@/lib/requests";
+import { capitalize, setLoggingTextChannels } from "@/lib/utils";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { LoggingData, LoggingSetting, MassWebhookKind } from "@/types/logging";
+import type { MaybeWebhook } from "@/types/webhook";
+import { Accordion, type ComboboxItemGroup } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useRef, useState } from "react";
 
 type Config = LoggingData;
 
 function LoggingContainer() {
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: 'config' must nut be null at this point
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
@@ -47,7 +50,10 @@ function LoggingContainer() {
     if (loggingResponse.data) {
       const loggingData = {
         config: loggingResponse.data.config,
-        settings: Object.fromEntries(loggingResponse.data.settings.map((setting) => [setting.kind as any, setting])),
+        settings: Object.fromEntries(loggingResponse.data.settings.map((setting) => [setting.kind, setting])) as Record<
+          LoggingKind,
+          LoggingSetting
+        >,
       };
 
       setLoggingTextChannels({ settings: loggingData.settings, guildStore, setTextChannels });
@@ -57,6 +63,7 @@ function LoggingContainer() {
   }, [guildStore, loggingResponse.data]);
 
   // Keep a list of text channels with the webhooks that are being used
+  // biome-ignore lint/correctness/useExhaustiveDependencies: It is not relevant if textChannels changes
   useEffect(() => {
     if (guildStore.textAsSelectable) {
       const currentWebhooks = textChannels.find((channel) => channel.group === "Webhooks");
@@ -66,8 +73,6 @@ function LoggingContainer() {
 
       setTextChannels(newChannels);
     }
-    // It is not relevant if textChannels changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [guildStore.textAsSelectable]);
 
   const openModal = (channelId: string) => {
@@ -100,7 +105,7 @@ function LoggingContainer() {
 
       const settings: Record<string, LoggingSetting> = {};
 
-      let channel;
+      let channel: MaybeWebhook;
       if (webhookId) {
         channel = {
           id: webhookId,

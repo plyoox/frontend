@@ -1,11 +1,11 @@
 "use client";
 
-import { Skeleton } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { useGuildData, useWebhooks } from "@/lib/hooks";
 import RequestError from "@/components/dashboard/request-error";
 import WebhookList from "@/components/dashboard/settings/webhook-list";
+import { useGuildData, useWebhooks } from "@/lib/hooks";
 import type { MaybeWebhook } from "@/types/webhook";
+import { Skeleton } from "@mantine/core";
+import { useEffect, useState } from "react";
 
 export function WebhookView() {
   useGuildData({ text: true });

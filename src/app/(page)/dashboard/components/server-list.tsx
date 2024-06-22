@@ -1,12 +1,12 @@
 "use client";
 
-import { Guild } from "@/discord/types";
-import { IconBrandTwitch } from "@tabler/icons-react";
-import { notifications } from "@mantine/notifications";
-import { parseGuilds } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import type { Guild } from "@/discord/types";
 import { useUserGuilds } from "@/lib/hooks";
+import { parseGuilds } from "@/lib/utils";
+import { notifications } from "@mantine/notifications";
+import { IconBrandTwitch } from "@tabler/icons-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import ServerCard from "./server-card";
 import ServerLoading from "./server-loading";
 
@@ -36,10 +36,11 @@ function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
     }
   }, [searchParams, replace, previousPage]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const channel = new BroadcastChannel("bot-invite");
     channel.addEventListener("message", (event) => {
-      if (typeof event.data != "string") return;
+      if (typeof event.data !== "string") return;
 
       if (event.data.startsWith("error:")) {
         const errorMessage = event.data.replace("error:", "");
@@ -51,24 +52,21 @@ function ServerList({ guilds: parsedGuilds }: { guilds: Guild[] | null }) {
           message: errorMessage,
         });
         return;
-      } else {
-        setGuilds((currentGuilds) => {
-          const newGuilds = parseGuilds(event.data);
-          if (!newGuilds) return guilds;
-          if (!currentGuilds) return currentGuilds;
-
-          return newGuilds.map((g) => {
-            return { ...g, is_new: !currentGuilds.find((og) => og.id === g.id)?.has_bot && g.has_bot };
-          });
-        });
       }
+      setGuilds((currentGuilds) => {
+        const newGuilds = parseGuilds(event.data);
+        if (!newGuilds) return guilds;
+        if (!currentGuilds) return currentGuilds;
+
+        return newGuilds.map((g) => {
+          return { ...g, is_new: !currentGuilds.find((og) => og.id === g.id)?.has_bot && g.has_bot };
+        });
+      });
     });
 
     return () => {
       channel.close();
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

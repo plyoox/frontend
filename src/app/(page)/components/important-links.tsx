@@ -1,5 +1,5 @@
-import Link from "next/link";
 import classes from "@/styles/important-links.module.css";
+import Link from "next/link";
 
 interface Props {
   className?: string;

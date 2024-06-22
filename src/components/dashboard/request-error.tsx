@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
 import { IconAlertTriangle } from "@tabler/icons-react";
+import type { AxiosError } from "axios";
 
 interface Props {
   error: AxiosError;

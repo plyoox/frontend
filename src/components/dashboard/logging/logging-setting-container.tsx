@@ -1,10 +1,10 @@
-import { ComboboxItemGroup, Select } from "@mantine/core";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingSetting } from "@/types/logging";
-import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import { UNNECESSARY_ROLE_FIELD } from "@/components/dashboard/logging/available-fields";
-import { UseState } from "@/types/react";
+import { MultiChannelSelect, MultiRoleSelect } from "@/components/selects";
 import { addLoggingTextChannel } from "@/lib/utils";
+import { GuildStoreContext } from "@/stores/guild-store";
+import type { LoggingSetting } from "@/types/logging";
+import type { UseState } from "@/types/react";
+import { type ComboboxItemGroup, Select } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";

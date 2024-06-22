@@ -3,11 +3,11 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 
-import { MantineProvider, createTheme } from "@mantine/core";
-import { Poppins } from "next/font/google";
 import { Provider } from "@/app/_provider";
-import React from "react";
+import { MantineProvider, createTheme } from "@mantine/core";
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import type React from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],

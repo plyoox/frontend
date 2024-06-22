@@ -1,6 +1,6 @@
-import { Badge, ThemeIcon } from "@mantine/core";
-import { ILink } from "@/types/utils";
 import { useGuildId } from "@/lib/hooks";
+import type { ILink } from "@/types/utils";
+import { Badge, ThemeIcon } from "@mantine/core";
 import NextLink from "next/link";
 
 export interface LinkProps extends ILink {

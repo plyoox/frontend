@@ -1,11 +1,11 @@
-import { type ComboboxItemGroup, TagsInput } from "@mantine/core";
-import { IconFolderPlus, IconHash } from "@tabler/icons-react";
-import { ModerationConfig } from "@/types/moderation";
-import { MultiRoleSelect } from "@/components/selects";
 import CustomSwitch from "@/components/custom-switch";
 import EditLegacyActions from "@/components/dashboard/actions/edit-legacy-actions";
+import { MultiRoleSelect } from "@/components/selects";
 import MultiChannelSelect from "@/components/selects/multi-channel-select";
+import type { ModerationConfig } from "@/types/moderation";
 import type { RoleItem, SelectItem } from "@/types/utils";
+import { type ComboboxItemGroup, TagsInput } from "@mantine/core";
+import { IconFolderPlus, IconHash } from "@tabler/icons-react";
 
 interface Props {
   channels: ComboboxItemGroup<SelectItem>[];
@@ -56,6 +56,7 @@ function InviteRule({ channels, roles, config, handleChange }: Props) {
         onChange={(val) => {
           if (val.length < config.invite_exempt_guilds.length) handleChange({ invite_exempt_guilds: val });
           else if (val.length === config.invite_exempt_guilds.length + 1) {
+            // biome-ignore lint/style/noNonNullAssertion: 'val' must be at least 1 in length (must be equal to another array length + 1)
             const last = val.at(-1)!;
 
             try {

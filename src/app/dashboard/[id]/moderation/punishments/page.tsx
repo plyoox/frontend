@@ -1,6 +1,6 @@
-import { ACTION_PERMISSIONS } from "@/lib/defaults";
 import PunishmentContainer from "@/components/dashboard/punishments/punishment-container";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
+import { ACTION_PERMISSIONS } from "@/lib/defaults";
 
 function Page() {
   return (

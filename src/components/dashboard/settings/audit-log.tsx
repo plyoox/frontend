@@ -1,6 +1,6 @@
-import { Table } from "@mantine/core";
 import { logKindToMessage } from "@/lib/utils";
-import type { AuditLog } from "@/types/settings";
+import type { AuditLogEntry } from "@/types/settings";
+import { Table } from "@mantine/core";
 
 const intl = new Intl.DateTimeFormat(undefined, {
   // year: "numeric",
@@ -13,7 +13,7 @@ const intl = new Intl.DateTimeFormat(undefined, {
   timeStyle: "medium",
 });
 
-function AuditLog({ auditLog, user }: { auditLog: AuditLog; user: string | null }) {
+function AuditLog({ auditLog, user }: { auditLog: AuditLogEntry; user: string | null }) {
   const date = intl.format(new Date(auditLog.created_at));
 
   return (

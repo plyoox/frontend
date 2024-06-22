@@ -1,7 +1,7 @@
-import { LEVEL_GAIN_MULTIPLIER_MARKS } from "@/lib/constants";
-import { LevelingResponse } from "@/types/responses";
-import { Slider } from "@mantine/core";
 import InfoHeading from "@/components/dashboard/info-heading";
+import { LEVEL_GAIN_MULTIPLIER_MARKS } from "@/lib/constants";
+import type { LevelingResponse } from "@/types/responses";
+import { Slider } from "@mantine/core";
 
 function LevelGainMultiplier({
   config,

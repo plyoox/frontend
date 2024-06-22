@@ -1,9 +1,10 @@
+import MobileToggle from "@/components/app-shell/header/components/mobile-toggle";
+import type { UseState } from "@/types/react";
 import LoginView from "./components/login-view";
 import Logo from "./components/logo";
-import MobileToggle from "@/components/app-shell/header/components/mobile-toggle";
 
 interface NavbarProps {
-  setOpen?: (value: any) => void;
+  setOpen?: UseState<boolean>;
   open?: boolean;
 }
 

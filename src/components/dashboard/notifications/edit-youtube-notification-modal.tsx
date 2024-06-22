@@ -1,13 +1,13 @@
-import { Button, Modal, Select, Textarea } from "@mantine/core";
+import { useEditYoutubeNotification } from "@/lib/hooks";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAlertCircle, IconBellCheck, IconCheck } from "@tabler/icons-react";
+import type { YoutubeNotification } from "@/types/notification";
+import type { UseState } from "@/types/react";
+import { Button, Modal, Select, Textarea } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import { IconAlertCircle, IconBellCheck, IconCheck } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
-import { useEditYoutubeNotification } from "@/lib/hooks";
-import { useForm } from "@mantine/form";
-import type { UseState } from "@/types/react";
-import type { YoutubeNotification } from "@/types/notification";
 
 function EditYoutubeNotificationModal({
   editNotification,
@@ -32,13 +32,12 @@ function EditYoutubeNotificationModal({
 
   const [loading, setLoading] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 'form' never changes
   useEffect(() => {
     form.setValues({
       channel: editNotification?.channel,
       message: editNotification?.message ?? "",
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editNotification?.channel, editNotification?.message]);
 
   return (
@@ -55,6 +54,7 @@ function EditYoutubeNotificationModal({
         onSubmit={form.onSubmit(({ channel, message }) => {
           setLoading(true);
           editNotificationReq
+            // biome-ignore lint/style/noNonNullAssertion: editNotification is only null when the modal is closed
             .mutateAsync({ channelId: editNotification!.youtube_channel, channel, message })
             .then(() => {
               setLoading(false);

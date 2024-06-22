@@ -1,6 +1,6 @@
-import { DiscordPermission } from "@/discord/enums";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
 import WelcomeContainer from "@/components/dashboard/welcome/welcome-container";
+import { DiscordPermission } from "@/discord/enums";
 
 const PERMISSION = [DiscordPermission.ManageRoles, DiscordPermission.SendMessages];
 

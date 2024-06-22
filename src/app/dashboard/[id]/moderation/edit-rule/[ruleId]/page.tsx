@@ -1,7 +1,7 @@
-import { ACTION_PERMISSIONS } from "@/lib/defaults";
-import { DiscordPermission } from "@/discord/enums";
-import EditRuleContainer from "@/components/dashboard/rules/edit-rule-container";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
+import EditRuleContainer from "@/components/dashboard/rules/edit-rule-container";
+import { DiscordPermission } from "@/discord/enums";
+import { ACTION_PERMISSIONS } from "@/lib/defaults";
 
 const PERMISSION = [...ACTION_PERMISSIONS, DiscordPermission.ManageServer];
 

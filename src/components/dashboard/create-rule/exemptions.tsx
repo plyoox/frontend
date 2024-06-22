@@ -1,10 +1,10 @@
-import { Button, MultiSelect } from "@mantine/core";
-import { CreateAutoModerationRule } from "@/types/moderation";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
-import { useContext, useEffect, useRef } from "react";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseState } from "@/types/react";
+import { Button, MultiSelect } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { useContext, useEffect, useRef } from "react";
 
 interface Props {
   rule: Partial<CreateAutoModerationRule>;
@@ -28,12 +28,12 @@ function Exemptions({ rule, setRule, setStep }: Props) {
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Form never changes
   useEffect(() => {
     form.setValues({
       exemptRoles: rule.exempt_roles ?? [],
       exemptChannels: rule.exempt_channels ?? [],
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rule]);
 
   return (

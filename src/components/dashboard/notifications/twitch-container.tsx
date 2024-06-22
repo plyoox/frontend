@@ -1,16 +1,16 @@
-import { Badge, ThemeIcon } from "@mantine/core";
-import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconBrandTwitch } from "@tabler/icons-react";
-import { amountToColor } from "@/lib/utils";
-import { observer } from "mobx-react-lite";
-import { useContext, useEffect, useState } from "react";
-import { useTwitchNotifications } from "@/lib/hooks";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
-import RequestError from "@/components/dashboard/request-error";
 import TwitchNotificationList from "@/components/dashboard/notifications/twitch-notification-list";
 import TwitchUser from "@/components/dashboard/notifications/twitch-user";
+import RequestError from "@/components/dashboard/request-error";
+import { useTwitchNotifications } from "@/lib/hooks";
+import { DEFAULT_LIMITS, PREMIUM_LIMITS } from "@/lib/limits";
+import { amountToColor } from "@/lib/utils";
+import { GuildStoreContext } from "@/stores/guild-store";
 import type { TwitchNotificationResponse } from "@/types/notification";
+import { Badge, ThemeIcon } from "@mantine/core";
+import { IconBrandTwitch } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
 
 function TwitchContainer() {
   const guildContext = useContext(GuildStoreContext);

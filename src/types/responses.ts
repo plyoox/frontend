@@ -1,9 +1,9 @@
-import { HelperPermission } from "@/lib/enums";
-import type { AuditLog, SimpleUser } from "@/types/settings";
 import type { CategoryChannel, Guild, Role, TextChannel, VoiceChannel } from "@/discord/types";
+import type { HelperPermission } from "@/lib/enums";
 import type { LevelRole } from "@/types/leveling";
 import type { LoggingConfig, LoggingSetting } from "@/types/logging";
-import type { ModerationConfig, ModerationRule } from "@/types/moderation";
+import type { Action, ModerationConfig, ModerationRule } from "@/types/moderation";
+import type { AuditLogEntry, SimpleUser } from "@/types/settings";
 
 export interface GuildDataResponse {
   text: TextChannel[];
@@ -14,9 +14,9 @@ export interface GuildDataResponse {
   premium: boolean;
 }
 
-export interface ModerationResponse {
-  config: ModerationConfig;
-  rules: ModerationRule[];
+export interface ModerationResponse<TAction = Action> {
+  config: ModerationConfig<TAction>;
+  rules: ModerationRule<TAction>[];
 }
 
 export interface WelcomeResponse {
@@ -52,7 +52,7 @@ export interface SettingsResponse {
 
 export interface AuditLogResponse {
   users: SimpleUser[];
-  audit_logs: AuditLog[];
+  audit_logs: AuditLogEntry[];
 }
 
 export interface ErrorResponse {

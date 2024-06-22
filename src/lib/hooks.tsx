@@ -1,21 +1,5 @@
+import type { DiscordModerationRule, Guild } from "@/discord/types";
 import { API_URL } from "@/environment";
-import {
-  type AuditLogResponse,
-  type ErrorResponse,
-  GuildDataResponse,
-  LevelingResponse,
-  LoggingResponse,
-  ModerationResponse,
-  SettingsResponse,
-  WelcomeResponse,
-} from "@/types/responses";
-import { DiscordModerationRule, Guild } from "@/discord/types";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconAlertCircle } from "@tabler/icons-react";
-import { MaybeWebhook } from "@/types/webhook";
-import { Punishment, type UpsertPunishment } from "@/types/moderation";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { UserStoreContext } from "@/stores/user-store";
 import {
   fetchAuditLogs,
   fetchAutoModerationRules,
@@ -32,19 +16,35 @@ import {
   fetchWelcomeData,
   fetchYoutubeNotifications,
 } from "@/lib/requests";
-import { notifications } from "@mantine/notifications";
-import { useContext, useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
+import { GuildStoreContext } from "@/stores/guild-store";
+import { RuleStoreContext } from "@/stores/rule-store";
+import { UserStoreContext } from "@/stores/user-store";
+import type { PunishmentType, UpsertPunishment } from "@/types/moderation";
 import type {
   AddYoutubeNotification,
   TwitchNotification,
   TwitchNotificationResponse,
-  TwitchUser,
+  TwitchUserType,
   YoutubeNotificationResponse,
 } from "@/types/notification";
+import type {
+  AuditLogResponse,
+  ErrorResponse,
+  GuildDataResponse,
+  LevelingResponse,
+  LoggingResponse,
+  ModerationResponse,
+  SettingsResponse,
+  WelcomeResponse,
+} from "@/types/responses";
 import type { LevelCard } from "@/types/user";
+import type { MaybeWebhook } from "@/types/webhook";
+import { notifications } from "@mantine/notifications";
+import { IconAlertCircle } from "@tabler/icons-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios, { type AxiosError } from "axios";
+import { useParams, useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
 
 export function useGuildId() {
   const { id } = useParams();
@@ -90,11 +90,11 @@ export function useModerationData() {
     refetchOnMount: "always",
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 'rules' never changes
   useEffect(() => {
     if (data) {
       rules.setModerationRules(data.rules);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return { data, error, isLoading };
@@ -103,7 +103,7 @@ export function useModerationData() {
 export function useModerationPunishments() {
   const id = useGuildId();
 
-  const { data, error, isLoading } = useQuery<Punishment[], AxiosError>({
+  const { data, error, isLoading } = useQuery<PunishmentType[], AxiosError>({
     queryKey: ["moderation", id, "punishments"],
     queryFn: () => fetchPunishments(id),
     refetchOnMount: "always",
@@ -122,12 +122,11 @@ export function useDiscordRules() {
     refetchOnMount: "always",
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 'rules' never changes
   useEffect(() => {
     if (data) {
       rules.setDiscordRules(data);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return { data, error, isLoading };
@@ -236,7 +235,7 @@ export function useUserGuilds({ enabled }: { enabled: boolean }) {
 
   useEffect(() => {
     if (error?.response) {
-      let message = error.response.data?.message;
+      const message = error.response.data?.message;
 
       notifications.show({
         title: "Failed to fetch guilds",
@@ -261,12 +260,12 @@ export function useUpdatePunishment() {
 
   return useMutation({
     mutationFn: ({ punishmentId, payload }: { punishmentId: number; payload: UpsertPunishment }) => {
-      return axios.put<Punishment>(`${API_URL}/guild/${id}/moderation/punishments/${punishmentId}`, payload, {
+      return axios.put<PunishmentType>(`${API_URL}/guild/${id}/moderation/punishments/${punishmentId}`, payload, {
         withCredentials: true,
       });
     },
     onSuccess: (response, data) => {
-      queryClient.setQueryData<Punishment[]>(["moderation", id, "punishments"], (oldData) => {
+      queryClient.setQueryData<PunishmentType[]>(["moderation", id, "punishments"], (oldData) => {
         if (!oldData) return [response.data];
 
         if (data.punishmentId === 0) {
@@ -292,7 +291,7 @@ export function useDeletePunishment() {
       });
     },
     onSuccess: (_, punishmentId) => {
-      queryClient.setQueryData<Punishment[]>(["moderation", id, "punishments"], (oldData) => {
+      queryClient.setQueryData<PunishmentType[]>(["moderation", id, "punishments"], (oldData) => {
         if (!oldData) return oldData;
 
         return oldData.filter((punishment) => punishment.id !== punishmentId);
@@ -527,7 +526,7 @@ export function useUpdateConnectedTwitchAccount() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (user: TwitchUser) => {
+    mutationFn: (user: TwitchUserType) => {
       return Promise.resolve(user);
     },
     onSuccess: (user) => {

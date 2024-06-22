@@ -29,3 +29,9 @@ export enum HelperPermission {
   View = "view",
   Full = "full",
 }
+
+export enum MarkdownActionEnum {
+  DisallowAll = "disallow_all",
+  DisallowDifferentDomain = "disallow_different_domain",
+  OnlySameDomain = "only_same_domain",
+}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import classes from "@/styles/legal.module.css";
+import { useEffect, useState } from "react";
 
 function Page() {
   const hasWindow = typeof window !== "undefined";
@@ -107,7 +107,7 @@ function Page() {
           </p>
           <ul>
             <li>
-              <a href="https://ec.europa.eu/odr" target="_blank">
+              <a href="https://ec.europa.eu/odr" target="_blank" rel="noreferrer">
                 Online-Streitschlichtungsplattform nach Art 14 ODR-VO
               </a>
             </li>
@@ -186,7 +186,7 @@ function Page() {
           </p>
           <ul>
             <li>
-              <a href="https:///ec.europa.eu/odr" target="_blank">
+              <a href="https:///ec.europa.eu/odr" target="_blank" rel="noreferrer">
                 Online Dispute Resolution Platform according to Art 14 ODR-VO
               </a>
             </li>
@@ -198,7 +198,7 @@ function Page() {
         <p>
           <small>
             Generiert mit dem kostenlosen und einfachen{" "}
-            <a href="https://idigit.onl/" target="_blank">
+            <a href="https://idigit.onl/" target="_blank" rel="noreferrer">
               Impressum Generator von idigIT e.U.
             </a>
           </small>

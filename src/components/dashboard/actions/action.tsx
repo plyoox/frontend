@@ -1,8 +1,8 @@
-import { Action } from "@/types/moderation";
+import { actionToText } from "@/lib/utils";
+import type { Action } from "@/types/moderation";
+import type { UseState } from "@/types/react";
 import { ActionIcon, Badge, Tooltip } from "@mantine/core";
 import { IconChevronDown, IconChevronUp, IconX } from "@tabler/icons-react";
-import { UseState } from "@/types/react";
-import { actionToText } from "@/lib/utils";
 
 interface Props {
   index: number;
@@ -28,10 +28,10 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
               color="red"
               onClick={() => {
                 setPunishments((actions) => {
-                  actions = actions.filter((_, itemIndex) => itemIndex !== index);
-                  actions.push(punishment);
+                  const filteredActions = actions.filter((_, itemIndex) => itemIndex !== index);
+                  filteredActions.push(punishment);
 
-                  return actions;
+                  return filteredActions;
                 });
               }}
               variant="filled"
@@ -48,9 +48,7 @@ function ActionView({ punishment, index, setPunishments, count }: Props) {
             color="red"
             onClick={() =>
               setPunishments((actions) => {
-                actions = actions.filter((_, itemIndex) => itemIndex !== index);
-
-                return actions;
+                return actions.filter((_, itemIndex) => itemIndex !== index);
               })
             }
             variant="light"

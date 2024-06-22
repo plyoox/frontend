@@ -1,12 +1,12 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
 import { ActionPunishmentKind } from "@/lib/enums";
-import { IconAlertTriangle, IconChevronRight } from "@tabler/icons-react";
-import { RuleStoreContext } from "@/stores/rule-store";
 import { getPunishmentKind } from "@/lib/utils";
-import { observer } from "mobx-react-lite";
-import { useContext, useMemo } from "react";
-import Link from "next/link";
+import { RuleStoreContext } from "@/stores/rule-store";
 import type { ModerationConfig } from "@/types/moderation";
+import { ActionIcon, Tooltip } from "@mantine/core";
+import { IconAlertTriangle, IconChevronRight } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
+import Link from "next/link";
+import { useContext, useMemo } from "react";
 
 function RequirePointsHandlerLink({
   link,

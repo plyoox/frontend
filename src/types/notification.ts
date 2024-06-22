@@ -1,6 +1,6 @@
 export interface TwitchNotification {
   guild_id: string;
-  user: TwitchUser;
+  user: TwitchUserType;
   channel: string;
   message: string | null;
 }
@@ -13,7 +13,7 @@ export interface YoutubeNotification {
   profile_image_url: string;
 }
 
-export interface TwitchUser {
+export interface TwitchUserType {
   login: string;
   display_name: string;
   profile_image_url: string;
@@ -21,7 +21,7 @@ export interface TwitchUser {
 }
 
 export interface TwitchNotificationResponse {
-  user: TwitchUser | null;
+  user: TwitchUserType | null;
   notifications: TwitchNotification[];
 }
 

@@ -1,16 +1,16 @@
-import { AutoModerationTriggerType } from "@/discord/enums";
-import { Button } from "@mantine/core";
-import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
-import { IconPlaylistAdd } from "@tabler/icons-react";
-import { RuleStoreContext } from "@/stores/rule-store";
-import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { useDiscordRules } from "@/lib/hooks";
-import Link from "next/link";
+import RequestError from "@/components/dashboard/request-error";
 import ModerationRule from "@/components/dashboard/rules/moderation-rule";
 import NoRulesAvailable from "@/components/dashboard/rules/no-rules";
-import RequestError from "@/components/dashboard/request-error";
 import RulesLoading from "@/components/dashboard/rules/rules-loading";
+import { AutoModerationTriggerType } from "@/discord/enums";
+import { useDiscordRules } from "@/lib/hooks";
+import { DISCORD_KEYWORD_RULE_LIMIT } from "@/lib/limits";
+import { RuleStoreContext } from "@/stores/rule-store";
+import { Button } from "@mantine/core";
+import { IconPlaylistAdd } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
+import Link from "next/link";
+import { useContext } from "react";
 
 function DiscordRuleOverview() {
   const ruleStore = useContext(RuleStoreContext);
@@ -54,7 +54,7 @@ function DiscordRuleOverview() {
           // @ts-ignore
           component={disabled ? "button" : Link}
           disabled={disabled}
-          href={`moderation/create-rule`}
+          href={"moderation/create-rule"}
           leftSection={<IconPlaylistAdd />}
           title={disabled ? "Maximum rules reached" : undefined}
           variant="light"

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import AddTwitchNotification from "@/components/dashboard/notifications/add-twitch-notification";
 import EditTwitchNotificationModal from "@/components/dashboard/notifications/edit-twitch-notification-modal";
 import TwitchNotificationContainer from "@/components/dashboard/notifications/twitch-notification-container";
 import type { TwitchNotification } from "@/types/notification";
+import { useState } from "react";
 
 function TwitchNotificationList({
   notifications,

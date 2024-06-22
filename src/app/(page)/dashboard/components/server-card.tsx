@@ -1,9 +1,9 @@
+import type { Guild } from "@/discord/types";
 import { API_URL } from "@/environment";
 import { Avatar } from "@mantine/core";
 import { IconLayoutDashboard, IconUserPlus } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import Link from "next/link";
-import type { Guild } from "@/discord/types";
 
 interface Props {
   guild: Guild;
@@ -21,7 +21,7 @@ function ServerCard({ guild }: Props) {
 
   const iconUrl = guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=256` : null;
 
-  let textSize;
+  let textSize: string;
   switch (acronym.length) {
     case 1:
       textSize = "text-2xl";
@@ -51,7 +51,7 @@ function ServerCard({ guild }: Props) {
     return (
       <Link
         className={clsx(
-          `my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-button`,
+          "my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-button",
           guild.is_new && "shadow-ring-sm shadow-amber-300",
         )}
         href={`/dashboard/${guild.id}`}
@@ -63,7 +63,10 @@ function ServerCard({ guild }: Props) {
 
   return (
     <button
-      className={`my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-primary`}
+      type={"button"}
+      className={
+        "my-2 flex w-full items-center rounded-md bg-mt-dark-7 p-2.5 duration-200 hover:bg-mt-dark-6 hover:shadow-pl-primary"
+      }
       onClick={openInviteWindow}
     >
       {guildData}

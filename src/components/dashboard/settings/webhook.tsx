@@ -1,14 +1,14 @@
 "use client";
 
 import { API_URL } from "@/environment";
-import { ActionIcon, Tooltip } from "@mantine/core";
 import { GuildStoreContext } from "@/stores/guild-store";
+import type { UseState } from "@/types/react";
+import type { MaybeWebhook } from "@/types/webhook";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import { MaybeWebhook } from "@/types/webhook";
-import { UseState } from "@/types/react";
+import axios from "axios";
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
-import axios from "axios";
 
 interface Props extends MaybeWebhook {
   setWebhooks: UseState<MaybeWebhook[]>;
@@ -20,7 +20,7 @@ function Webhook({ id, webhook_channel, ref_count, single_use, setWebhooks }: Pr
   const [deleting, setDeleting] = useState(false);
 
   const isWebhook = !!webhook_channel;
-  const channel = isWebhook ? guildStore.textChannels.get(webhook_channel!) : guildStore.textChannels.get(id!);
+  const channel = isWebhook ? guildStore.textChannels.get(webhook_channel) : guildStore.textChannels.get(id);
 
   return (
     <div className="flex items-center gap-2 rounded-md bg-mt-dark-5 px-4 py-2">
@@ -45,8 +45,13 @@ function Webhook({ id, webhook_channel, ref_count, single_use, setWebhooks }: Pr
           color={"red"}
           loading={deleting}
           onClick={() => {
+            if (guildStore.guild === null) {
+              return;
+            }
+
             setDeleting(true);
-            deleteWebhook({ webhookId: id!, guildId: guildStore.guild?.id! })
+
+            deleteWebhook({ webhookId: id, guildId: guildStore.guild.id })
               .then(() => {
                 setWebhooks((webhooks) => webhooks?.filter((w) => w.id !== id));
                 setDeleting(false);

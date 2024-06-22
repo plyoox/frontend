@@ -1,10 +1,10 @@
+import InviteRule from "@/components/dashboard/legacy-rules/invite-rule";
+import LinkRule from "@/components/dashboard/legacy-rules/link-rule";
 import { GuildStoreContext } from "@/stores/guild-store";
-import { ModerationConfig } from "@/types/moderation";
+import type { ModerationConfig } from "@/types/moderation";
 import { Tabs } from "@mantine/core";
 import { useContext, useMemo } from "react";
 import CapsRule from "./caps-rule";
-import InviteRule from "@/components/dashboard/legacy-rules/invite-rule";
-import LinkRule from "@/components/dashboard/legacy-rules/link-rule";
 
 interface Props {
   data: ModerationConfig;

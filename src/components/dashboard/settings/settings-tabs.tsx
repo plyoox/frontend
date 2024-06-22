@@ -1,9 +1,9 @@
 "use client";
 
-import { IconVersions, IconWebhook } from "@tabler/icons-react";
-import { Tabs } from "@mantine/core";
 import AuditLogContainer from "@/components/dashboard/settings/audit-log-container";
 import WebhookContainer from "@/components/dashboard/settings/webhook-container";
+import { Tabs } from "@mantine/core";
+import { IconVersions, IconWebhook } from "@tabler/icons-react";
 
 function SettingsTabs({ className }: { className?: string }) {
   return (

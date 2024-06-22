@@ -1,9 +1,9 @@
-import { DiscordPermission } from "@/discord/enums";
-import { LevelingResponse } from "@/types/responses";
-import AddLevelRoleButton from "@/components/dashboard/leveling/add-level-role-button";
 import CustomSwitch from "@/components/custom-switch";
+import AddLevelRoleButton from "@/components/dashboard/leveling/add-level-role-button";
 import LevelRoleList from "@/components/dashboard/leveling/level-role-list";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
+import { DiscordPermission } from "@/discord/enums";
+import type { LevelingResponse } from "@/types/responses";
 
 const PERMISSIONS: bigint[] = [DiscordPermission.ManageRoles, DiscordPermission.SendMessages];
 

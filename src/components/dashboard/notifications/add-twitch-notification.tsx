@@ -1,11 +1,11 @@
-import { Button, Modal, Select, TextInput, Tooltip } from "@mantine/core";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
-import { notifications } from "@mantine/notifications";
-import { useContext, useState } from "react";
 import { useCreateTwitchNotification } from "@/lib/hooks";
-import { useDisclosure } from "@mantine/hooks";
+import { GuildStoreContext } from "@/stores/guild-store";
+import { Button, Modal, Select, TextInput, Tooltip } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconBellPlus, IconBrandTwitch, IconCopyX } from "@tabler/icons-react";
+import { useContext, useState } from "react";
 
 interface AddUserForm {
   name: string;
@@ -68,7 +68,12 @@ function AddTwitchNotification({ disabled }: { disabled: boolean }) {
           onSubmit={form.onSubmit((values) => {
             setLoading(true);
 
-            const regex = values.name.match(TWITCH_REGEX)!;
+            const regex = values.name.match(TWITCH_REGEX);
+            if (regex === null) {
+              setLoading(false);
+              return;
+            }
+
             const name = regex[1];
 
             createNotification

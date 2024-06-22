@@ -1,10 +1,10 @@
-import { IconChevronDown, IconCrown, IconListSearch, IconLogout } from "@tabler/icons-react";
-import { Menu } from "@mantine/core";
 import { UserStoreContext } from "@/stores/user-store";
+import { Menu } from "@mantine/core";
+import { IconChevronDown, IconCrown, IconListSearch, IconLogout } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext, useState } from "react";
 
 function UserView() {
   const store = useContext(UserStoreContext);
@@ -14,11 +14,12 @@ function UserView() {
     <Menu onChange={setOpen} opened={open}>
       <Menu.Target>
         <button
+          type="button"
           className={`flex items-center justify-center rounded-lg bg-transparent p-1.5 px-2 outline-none duration-200 hover:bg-mt-dark-7 hover:shadow-pl-button ${
             open ? "shadow-pl-button" : ""
           }`}
         >
-          <Image unoptimized alt="avatar" className="mr-2 rounded-full" height={36} src={store.avatarUrl!} width={36} />
+          <Image unoptimized alt="avatar" className="mr-2 rounded-full" height={36} src={store.avatarUrl} width={36} />
 
           <span className={"text-white"}>{store.user?.display_name ?? store.user?.username}</span>
 

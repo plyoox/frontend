@@ -1,6 +1,6 @@
-import { Action } from "@/types/moderation";
 import AddPunishment from "@/components/dashboard/actions/add-actions";
 import ListActions from "@/components/dashboard/actions/list-actions";
+import type { Action } from "@/types/moderation";
 import type { UseState } from "@/types/react";
 
 interface Props {

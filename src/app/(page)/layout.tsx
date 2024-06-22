@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import Header from "@/components/app-shell/header/header";
+import type { ReactNode } from "react";
 
 function Layout({ children }: { children: ReactNode }) {
   return (

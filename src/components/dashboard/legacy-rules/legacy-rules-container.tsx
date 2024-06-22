@@ -1,17 +1,17 @@
 "use client";
 
-import { ACTION_PERMISSIONS } from "@/lib/defaults";
-import { ModerationConfig } from "@/types/moderation";
-import { handleChangeHelper } from "@/lib/handle-change";
-import { saveModerationData } from "@/lib/requests";
-import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
-import { useEffect, useRef, useState } from "react";
-import LegacyRuleSettings from "@/components/dashboard/moderation/legacy-rule-settings";
 import LegacyRuleView from "@/components/dashboard/legacy-rules/legacy-rules-view";
 import LoadingSkeleton from "@/components/dashboard/loading-skeleton";
+import LegacyRuleSettings from "@/components/dashboard/moderation/legacy-rule-settings";
 import RequestError from "@/components/dashboard/request-error";
 import RequiredPermissionAlert from "@/components/dashboard/required-permission-alert";
 import SaveNotification from "@/components/save-notification";
+import { ACTION_PERMISSIONS } from "@/lib/defaults";
+import { handleChangeHelper } from "@/lib/handle-change";
+import { useDiscordRules, useGuildData, useModerationData } from "@/lib/hooks";
+import { saveModerationData } from "@/lib/requests";
+import type { ModerationConfig } from "@/types/moderation";
+import { useEffect, useRef, useState } from "react";
 
 type Config = ModerationConfig;
 
@@ -21,8 +21,10 @@ function LegacyRulesContainer() {
   const oldConfig = useRef<Config>({} as Config);
 
   function handleChange(data: Partial<Config>) {
+    // biome-ignore lint/style/noNonNullAssertion: Config is never null here
     const updatedKeys = handleChangeHelper<Config>(config!, data, oldConfig);
 
+    // biome-ignore lint/style/noNonNullAssertion: Config is never null here
     setConfig({ ...config!, ...data });
     setUpdatedConfig(updatedKeys);
   }
@@ -39,9 +41,9 @@ function LegacyRulesContainer() {
     }
   }, [moderationResponse.data]);
 
-  if (moderationResponse.error || guildData.error) {
-    // One must be defined
-    return <RequestError error={(moderationResponse.error || guildData.error)!} />;
+  const error = moderationResponse.error || guildData.error;
+  if (error) {
+    return <RequestError error={error} />;
   }
 
   if (!config || !guildData.data) {

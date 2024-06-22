@@ -1,11 +1,11 @@
-import { API_URL } from "@/environment";
-import { Button, Tooltip } from "@mantine/core";
-import { ContextModalProps } from "@mantine/modals";
 import { DiscordPermission } from "@/discord/enums";
-import { GuildStoreContext } from "@/stores/guild-store";
-import { LoggingKind } from "@/lib/enums";
-import { useContext, useMemo } from "react";
+import { API_URL } from "@/environment";
+import type { LoggingKind } from "@/lib/enums";
 import { useGuildId } from "@/lib/hooks";
+import { GuildStoreContext } from "@/stores/guild-store";
+import { Button, Tooltip } from "@mantine/core";
+import type { ContextModalProps } from "@mantine/modals";
+import { useContext, useMemo } from "react";
 
 function ChooseWebhookModal({
   innerProps,

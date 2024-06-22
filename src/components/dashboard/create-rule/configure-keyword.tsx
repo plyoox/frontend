@@ -1,5 +1,5 @@
-import { CreateAutoModerationRule } from "@/types/moderation";
-import { UseRef } from "@/types/react";
+import type { CreateAutoModerationRule } from "@/types/moderation";
+import type { UseRef } from "@/types/react";
 import { useState } from "react";
 import AllowList from "./allow-list";
 import KeywordFilter from "./keyword-filter";
