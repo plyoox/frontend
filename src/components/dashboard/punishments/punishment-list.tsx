@@ -12,7 +12,7 @@ function PunishmentList({
 }: {
   punishments: PunishmentType[];
   className?: string;
-  editPunishment: (punishment: Punishment) => void;
+  editPunishment: (punishment: PunishmentType) => void;
 }) {
   const deletePunishment = useDeletePunishment();
 

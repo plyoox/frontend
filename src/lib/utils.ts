@@ -293,7 +293,11 @@ export function colorToHexString(color: number): string {
   return `#${color.toString(16).padStart(6, "0")}`;
 }
 
-export function parseGuilds(data: string): Guild[] | null {
+export function parseGuilds(data: string | undefined): Guild[] | null {
+  if (data === undefined) {
+    return null;
+  }
+
   try {
     const decodedData = new TextDecoder().decode(base64ToBytes(data));
 

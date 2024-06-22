@@ -1,21 +1,10 @@
 import "../../../styles/Scrollbar.css";
-import type { Guild } from "@/discord/types";
 import { parseGuilds } from "@/lib/utils";
 import { Suspense } from "react";
 import ServerList from "./components/server-list";
 import ServerLoading from "./components/server-loading";
 
-function Page({ searchParams }: { searchParams: { data?: string } }) {
-  let guilds: Guild[] | null = null;
-
-  try {
-    if (searchParams.data !== undefined) {
-      guilds = parseGuilds(searchParams.data);
-    }
-  } catch (e) {
-    console.log(e);
-  }
-
+async function Page({ searchParams }: { searchParams: { data?: string } }) {
   return (
     <div>
       <h1 className={"my-5 text-center text-3xl "}>Select a server</h1>
@@ -26,7 +15,7 @@ function Page({ searchParams }: { searchParams: { data?: string } }) {
         }
       >
         <Suspense fallback={<ServerLoading />}>
-          <ServerList guilds={guilds} />
+          <ServerList guilds={parseGuilds(searchParams.data)} />
         </Suspense>
       </div>
     </div>
