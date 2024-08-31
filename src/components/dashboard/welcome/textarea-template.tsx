@@ -4,7 +4,7 @@ import { IconTemplate } from "@tabler/icons-react";
 import { type RefObject, useState } from "react";
 
 interface Props {
-  textarea: RefObject<HTMLTextAreaElement>;
+  textarea: RefObject<HTMLTextAreaElement | null>;
   template: TemplateString[];
   onChange: (value: string) => void;
 }

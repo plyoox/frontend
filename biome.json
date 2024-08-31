@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
@@ -8,7 +8,7 @@
     "lineEnding": "lf",
     "lineWidth": 120,
     "attributePosition": "auto",
-    "ignore": ["./node_modules", "**/.yarn", "**/.pnp.*"]
+    "ignore": ["./node_modules", "**/.yarn", "**/.pnp.*", "./.next"]
   },
   "organizeImports": {
     "enabled": true

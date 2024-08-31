@@ -4,7 +4,8 @@ import { Suspense } from "react";
 import ServerList from "./components/server-list";
 import ServerLoading from "./components/server-loading";
 
-async function Page({ searchParams }: { searchParams: { data?: string } }) {
+async function Page(props: { searchParams: Promise<{ data?: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div>
       <h1 className={"my-5 text-center text-3xl "}>Select a server</h1>
