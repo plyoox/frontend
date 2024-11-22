@@ -6,11 +6,11 @@ import InfoHeading from "@/components/dashboard/info-heading";
 import { useLevelCard } from "@/lib/hooks";
 import { saveLevelCard } from "@/lib/requests";
 import { UserStoreContext } from "@/stores/user-store";
-import { Button, ColorInput, Slider } from "@mantine/core";
+import { Button, ColorInput, FileButton, Slider } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconFileDownload, IconRestore } from "@tabler/icons-react";
+import { IconFileDownload, IconFileUpload, IconRestore } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 function ConfigureCard() {
   const userStore = useContext(UserStoreContext);
@@ -25,11 +25,44 @@ function ConfigureCard() {
     }
   }, [levelCard.data]);
 
-  const [currentXp, setCurrentXp] = useState(100);
+  const [currentXp, setCurrentXp] = useState(50);
   const [currentGradient, setCurrentGradient] = useState<{ to?: string; from: string }>({ from: "#24c689" });
 
   const [errorColor1, setErrorColor1] = useState<string | null>(null);
   const [errorColor2, setErrorColor2] = useState<string | null>(null);
+  const [imageData, setImageData] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+
+  const handleFileUpload = useCallback((file: File | null) => {
+    setImageError(null);
+
+    if (file === null) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = new Image();
+
+      image.onload = () => {
+        const { width, height } = image;
+
+        if (width !== 500 || height !== 170) {
+          setImageError("Image must be 500px * 170px");
+        } else {
+          setImageData(URL.createObjectURL(file));
+        }
+      };
+      image.src = reader.result as string;
+    };
+
+    reader.readAsDataURL(file);
+  }, []);
+  const resetCard = useCallback(() => {
+    setCurrentGradient({ from: "#24c689", to: "" });
+    setCurrentXp(50);
+    setImageError(null);
+  }, []);
 
   if (!userStore.user) return null;
 
@@ -37,14 +70,20 @@ function ConfigureCard() {
     <div>
       <div className={"flex flex-wrap gap-10"}>
         <div className={"max-w-fit rounded-sm p-5"} style={{ background: "#313338" }}>
-          <LevelCard avatarUrl={userStore.avatarUrl} gradient={currentGradient} user={userStore.user} xp={currentXp} />
+          <LevelCard
+            backgroundImage={imageData}
+            avatarUrl={userStore.avatarUrl}
+            gradient={currentGradient}
+            user={userStore.user}
+            xp={currentXp}
+          />
         </div>
 
         <div className={"w-full max-w-[540px]"}>
           <div className={"mb-6"}>
             <InfoHeading description={""} label={"Change XP"} />
             <Slider
-              defaultValue={100}
+              value={currentXp}
               marks={[
                 { value: 0, label: "0%" },
                 { value: 50, label: "50%" },
@@ -90,6 +129,13 @@ function ConfigureCard() {
       </div>
 
       <div className={"mt-2"}>
+        <FileButton accept={"image/png,image/jpeg"} onChange={handleFileUpload}>
+          {(props) => (
+            <Button {...props} className={"mr-2"} color={"plyoox"} variant={"outline"} leftSection={<IconFileUpload />}>
+              Background Image
+            </Button>
+          )}
+        </FileButton>
         <Button
           className={"mr-2"}
           color={"plyoox"}
@@ -113,17 +159,12 @@ function ConfigureCard() {
         >
           Save
         </Button>
-
-        <Button
-          leftSection={<IconRestore />}
-          onClick={() => {
-            setCurrentGradient({ from: "#24c689", to: "" });
-            setCurrentXp(100);
-          }}
-        >
+        <Button leftSection={<IconRestore />} onClick={resetCard}>
           Reset
         </Button>
       </div>
+
+      <span className={"text-red-300 text-sm"}>{imageError}</span>
     </div>
   );
 }

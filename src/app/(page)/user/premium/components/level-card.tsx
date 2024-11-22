@@ -9,8 +9,10 @@ function LevelCard({
   gradient,
   avatarUrl,
   user,
+  backgroundImage,
 }: {
   xp?: number;
+  backgroundImage: string | null;
   gradient?: { from?: string; to?: string };
   avatarUrl: string;
   user: AuthUser;
@@ -30,6 +32,7 @@ function LevelCard({
       style={{
         width: "500px",
         height: "170px",
+        position: "relative",
       }}
     >
       <div
@@ -44,6 +47,20 @@ function LevelCard({
           color: "white",
         }}
       >
+        {backgroundImage !== null && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "500px",
+              height: "170px",
+              backgroundImage: `url(${backgroundImage})`,
+              opacity: 0.5,
+            }}
+          />
+        )}
+
         <img
           alt="Nothing found"
           height={128}
@@ -64,6 +81,7 @@ function LevelCard({
                 height: "20px",
                 backgroundColor: "#3f3f46",
                 borderRadius: "10px",
+                opacity: backgroundImage !== null ? 0.6 : 1,
               }}
             />
 
