@@ -110,7 +110,7 @@ export function MultiChannelSelect({
               <CloseButton
                 aria-label="Clear value"
                 onClick={() => onChange([])}
-                onMouseDown={(event) => event.preventDefault()}
+                onMouseDown={(event: Event) => event.preventDefault()}
                 size="sm"
               />
             ) : (

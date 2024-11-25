@@ -11,7 +11,7 @@ function LoginView() {
 
   useEffect(() => {
     if (store.authStatus === AuthStatus.Unauthenticated) {
-      store.fetchUser().then();
+      store.fetchUser();
     }
   }, [store]);
 

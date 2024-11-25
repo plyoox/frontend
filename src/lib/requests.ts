@@ -131,8 +131,7 @@ export async function fetchAutoModerationRules(id: string): Promise<DiscordModer
 
 export async function saveModerationData(id: string, data: Partial<ModerationConfig>): Promise<void> {
   if (data.logging_channel) {
-    // Backend only accepts the channel/webhook id
-    // @ts-ignore
+    // @ts-expect-error Backend only accepts the channel/webhook id
     data.logging_channel = data.logging_channel.id;
   }
 
@@ -159,7 +158,7 @@ export async function saveLoggingConfig(id: string, data: Partial<LoggingData>):
     config: data.config,
     settings: data.settings
       ? Object.values(data.settings).map((s) => {
-          // @ts-ignore
+          // @ts-expect-error On the backend side this is a string
           s.channel = s.channel ? s.channel.id : null;
           return s;
         })
@@ -207,10 +206,31 @@ export async function fetchLevelCard() {
   return response.data;
 }
 
-export async function saveLevelCard(progress: { from: string; to?: string }) {
+export async function fetchLevelCardImage() {
+  const response = await axios.get<File>(`${API_URL}/user/level-card/image`, {
+    withCredentials: true,
+    responseType: "blob",
+  });
+
+  return response.data;
+}
+
+export async function saveLevelCard(progress: { from: string; to?: string; background_hash?: false }) {
   const response = await axios.post<LevelCard | null>(`${API_URL}/user/level-card`, progress, {
     withCredentials: true,
   });
 
   return response.data;
+}
+
+export async function saveLevelImage(file: File): Promise<void> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  await axios.put<LevelCard | null>(`${API_URL}/user/level-card/image`, formData, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }

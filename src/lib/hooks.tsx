@@ -6,6 +6,7 @@ import {
   fetchGuildData,
   fetchGuilds,
   fetchLevelCard,
+  fetchLevelCardImage,
   fetchLevelingData,
   fetchLoggingData,
   fetchModerationData,
@@ -569,8 +570,21 @@ export function useLevelCard() {
   const userStore = useContext(UserStoreContext);
 
   const { data, error, isLoading } = useQuery<LevelCard | null, AxiosError>({
-    queryKey: ["premium", userStore.user?.id],
+    queryKey: ["level-card", userStore.user?.id],
     queryFn: () => fetchLevelCard(),
+    refetchOnMount: "always",
+    enabled: !!userStore.user,
+  });
+
+  return { data, error, isLoading };
+}
+
+export function useLevelCardImage() {
+  const userStore = useContext(UserStoreContext);
+
+  const { data, error, isLoading } = useQuery<File, AxiosError>({
+    queryKey: ["level-card/image", userStore.user?.id],
+    queryFn: () => fetchLevelCardImage(),
     refetchOnMount: "always",
     enabled: !!userStore.user,
   });

@@ -3,19 +3,20 @@
 import LevelCard from "@/app/(page)/user/premium/components/level-card";
 import { allowedContrast } from "@/app/(page)/user/premium/utils";
 import InfoHeading from "@/components/dashboard/info-heading";
-import { useLevelCard } from "@/lib/hooks";
-import { saveLevelCard } from "@/lib/requests";
+import { useLevelCard, useLevelCardImage } from "@/lib/hooks";
+import { saveLevelCard, saveLevelImage } from "@/lib/requests";
 import { UserStoreContext } from "@/stores/user-store";
 import { Button, ColorInput, FileButton, Slider } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconFileDownload, IconFileUpload, IconRestore } from "@tabler/icons-react";
+import type { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 function ConfigureCard() {
   const userStore = useContext(UserStoreContext);
-
   const levelCard = useLevelCard();
+  const levelCardImage = useLevelCardImage();
 
   useEffect(() => {
     if (levelCard.data?.progress_color) {
@@ -25,12 +26,19 @@ function ConfigureCard() {
     }
   }, [levelCard.data]);
 
+  useEffect(() => {
+    if (levelCardImage.data !== undefined) {
+      setImageData(window.URL.createObjectURL(levelCardImage.data));
+    }
+  }, [levelCardImage.data]);
+
   const [currentXp, setCurrentXp] = useState(50);
   const [currentGradient, setCurrentGradient] = useState<{ to?: string; from: string }>({ from: "#24c689" });
 
   const [errorColor1, setErrorColor1] = useState<string | null>(null);
   const [errorColor2, setErrorColor2] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
 
   const handleFileUpload = useCallback((file: File | null) => {
@@ -50,7 +58,8 @@ function ConfigureCard() {
         if (width !== 500 || height !== 170) {
           setImageError("Image must be 500px * 170px");
         } else {
-          setImageData(URL.createObjectURL(file));
+          setImageData(window.URL.createObjectURL(file));
+          setImageFile(file);
         }
       };
       image.src = reader.result as string;
@@ -58,11 +67,37 @@ function ConfigureCard() {
 
     reader.readAsDataURL(file);
   }, []);
+
   const resetCard = useCallback(() => {
     setCurrentGradient({ from: "#24c689", to: "" });
     setCurrentXp(50);
     setImageError(null);
+    setImageData(null);
+    setImageFile(null);
   }, []);
+
+  const onLevelCardSave = useCallback(async () => {
+    try {
+      await saveLevelCard({
+        from: currentGradient.from,
+        to: currentGradient.to === "" ? undefined : currentGradient.to,
+        background_hash: imageFile === null && imageData === null ? false : undefined,
+      });
+
+      if (imageFile !== null) {
+        await saveLevelImage(imageFile);
+        setImageFile(null);
+      }
+
+      notifications.show({ title: "Level card saved", message: "Your level card has been saved" });
+    } catch (error: unknown) {
+      notifications.show({
+        title: "Failed to save level card",
+        message: ((error as AxiosError).response?.data as { message: string })?.message,
+        color: "red",
+      });
+    }
+  }, [currentGradient, imageFile, imageData]);
 
   if (!userStore.user) return null;
 
@@ -136,27 +171,7 @@ function ConfigureCard() {
             </Button>
           )}
         </FileButton>
-        <Button
-          className={"mr-2"}
-          color={"plyoox"}
-          leftSection={<IconFileDownload />}
-          onClick={() => {
-            saveLevelCard({
-              from: currentGradient.from,
-              to: currentGradient.to === "" ? undefined : currentGradient.to,
-            })
-              .then(() => {
-                notifications.show({ title: "Level card saved", message: "Your level card has been saved" });
-              })
-              .catch((e) => {
-                notifications.show({
-                  title: "Failed to save level card",
-                  message: e.response?.data?.message,
-                  color: "red",
-                });
-              });
-          }}
-        >
+        <Button className={"mr-2"} color={"plyoox"} leftSection={<IconFileDownload />} onClick={onLevelCardSave}>
           Save
         </Button>
         <Button leftSection={<IconRestore />} onClick={resetCard}>
