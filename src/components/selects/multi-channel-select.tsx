@@ -110,7 +110,8 @@ export function MultiChannelSelect({
               <CloseButton
                 aria-label="Clear value"
                 onClick={() => onChange([])}
-                onMouseDown={(event: Event) => event.preventDefault()}
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                onMouseDown={(event: any) => event.preventDefault()}
                 size="sm"
               />
             ) : (
